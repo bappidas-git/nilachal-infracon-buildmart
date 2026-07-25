@@ -8,7 +8,9 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Container, Typography, Button } from "@mui/material";
 import { Icon } from "@iconify/react";
 import { useModal } from "../../../context/ModalContext";
-import { featuresData } from "../../../data/featuresData";
+// Interim: consume the temporary category mirror until this section is
+// rebuilt in prompt 09 (featuresData is now a flat "why choose us" array).
+import { featuresCategories as featuresData } from "../../../data/featuresData";
 import styles from "./FeaturesSection.module.css";
 
 // Category icons keyed to featuresData ids

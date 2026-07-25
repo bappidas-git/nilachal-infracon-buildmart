@@ -88,3 +88,38 @@ the single unreleased version below as each prompt is merged.
   (+ semantic amber/red); full admin restyle is deferred to prompt 13.
 - Wired `useReveal` into `AboutSection` as a proof-of-life smoke test (GSAP now
   drives its scroll reveal; Framer Motion retained only for the image hover).
+
+### 04 — Content & data layer
+
+**Added**
+- Added `src/data/siteConfig.js` as the single source of business truth
+  (legal/brand names, tagline, CIN, phone/WhatsApp, email, address, site URL,
+  logos, maps query, social) plus derived helpers `telHref`, `waHref`,
+  `mailHref`, and `fullAddress`.
+- Added content data files: `productsData.js` (10 North East Buildmart
+  categories with `mdi:*` icons + blurbs), `brandsData.js` (12 partner brands
+  → `/images/brands/<slug>.png`, with text-wordmark fallback), `aboutData.js`
+  (welcome copy + Mission/Vision/Values/Commitment pillars), and `faqData.js`
+  (7 FAQs feeding both the FAQ section and FAQPage schema).
+- Created `public/images/brands/` with a `README.md` listing the expected logo
+  filenames and recommended format (transparent PNG, ~360×140).
+
+**Changed**
+- Rewrote `servicesData.js` from the 7 B.E. courses to the 5 Nilachal services
+  (Residential, Commercial, Institutional, Renovation & Maintenance, Project
+  Management); kept the object shape, renaming `duration` → `scope` and marking
+  only Residential as "Most Popular". Updated `generateServiceSchema` to read
+  `scope` (with a `duration` fallback).
+- Rewrote `statsData.js` to 5 Nilachal metrics (10+ years, 5000+ products,
+  5000+ customers, 7+ states, 100% quality) — each `stat` still starts with a
+  number for the counter parser.
+- Rewrote `featuresData.js` as a flat 5-point "why choose us" array
+  (`{id, icon, title, description}`), with a temporary `featuresCategories`
+  export mirroring the old 3-tab shape so `FeaturesSection` still builds
+  (marked `// TODO remove in prompt 09`); repointed its import to the mirror.
+- Rewrote `locationData.js` to the Nagaon office, deriving contact/address from
+  `siteConfig`; removed `warehouses`, the CIT map image, `nearbyAreas`, and
+  `audienceNote`. Guarded the now-removed map image in `LocationSection`.
+
+**Removed**
+- Deleted `src/data/serviceDetailsData.js` (verified dead — no imports).

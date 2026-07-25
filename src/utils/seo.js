@@ -326,12 +326,12 @@ export function generateServiceSchema(services) {
           '@type': 'Organization',
           name: seoConfig.organization.name,
         },
-        ...(service.duration && {
+        ...((service.scope || service.duration) && {
           offers: {
             '@type': 'Offer',
             price: '0',
             priceCurrency: 'INR',
-            description: service.duration,
+            description: service.scope || service.duration,
             availability: 'https://schema.org/InStock',
           },
         }),

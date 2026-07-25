@@ -202,12 +202,16 @@ const LocationSection = () => {
               <motion.div variants={itemVariants} className={styles.mapWrapper}>
                 <div className={styles.mapContainer}>
                   <div className={styles.mapPlaceholder}>
-                    <img
-                      src={locationData.mapUrl}
-                      alt={`Map showing ${locationData.name} campus in ${locationData.city}, ${locationData.state}`}
-                      className={styles.mapImage}
-                      loading="lazy"
-                    />
+                    {/* Static map image removed with the CIT data; the
+                        Location section is rebuilt in prompt 11. */}
+                    {locationData.mapUrl && (
+                      <img
+                        src={locationData.mapUrl}
+                        alt={`Map showing ${locationData.name} in ${locationData.city}, ${locationData.state}`}
+                        className={styles.mapImage}
+                        loading="lazy"
+                      />
+                    )}
                     <div className={styles.mapOverlay}>
                       <Icon
                         icon="mdi:map-marker"

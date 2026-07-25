@@ -1,65 +1,57 @@
+/* ============================================
+   statsData — Nilachal Infracon headline metrics
+   --------------------------------------------
+   Consumed by StatsSection. Each `stat` string MUST start with a
+   number so the ScrollTrigger counter (parseStatValue / useCountUp)
+   can animate it. Shape: { id, icon, title, description, stat, statLabel }.
+   ============================================ */
+
 export const statsData = [
   {
     id: 1,
-    icon: "mdi:calendar-star",
-    title: "25 Years of Academic Excellence",
+    icon: 'mdi:calendar-star',
+    title: 'A Decade of Building Experience',
     description:
-      "Building engineers and innovators since 2001 — a quarter-century of trusted academics in Karnataka.",
-    stat: "25+",
-    statLabel: "Years of Excellence",
+      'Over ten years serving Northeast India with dependable infrastructure and building materials.',
+    stat: '10+',
+    statLabel: 'Years of Experience',
   },
   {
     id: 2,
-    icon: "mdi:office-building",
-    title: "Top Recruiters on Campus",
+    icon: 'mdi:package-variant-closed',
+    title: 'A Wide Product Range',
     description:
-      "From TCS and Infosys to Bosch and Deloitte, 90+ reputed companies recruit from CIT every year.",
-    stat: "90+",
-    statLabel: "Companies Visit / Year",
+      'Thousands of products and solutions across doors, tiles, sanitaryware, cement, steel and more.',
+    stat: '5000+',
+    statLabel: 'Products & Solutions',
   },
   {
     id: 3,
-    icon: "mdi:briefcase-check",
-    title: "Strong Placement Track Record",
+    icon: 'mdi:account-group',
+    title: 'Trusted by Thousands',
     description:
-      "Consistent 85%+ placements for eligible B.E. students over the last 8 years.",
-    stat: "85%+",
-    statLabel: "Placement Rate",
+      'Homeowners, builders and businesses across the region rely on us for quality and service.',
+    stat: '5000+',
+    statLabel: 'Happy Customers',
   },
   {
     id: 4,
-    icon: "mdi:cash-multiple",
-    title: "Industry-Leading Salary Offers",
+    icon: 'mdi:map-marker-radius',
+    title: 'Serving the Northeast',
     description:
-      "Highest CTC of 15 LPA with a healthy median around 5 LPA across recent batches.",
-    stat: "15 LPA",
-    statLabel: "Highest CTC",
+      'A growing supply network reaching customers and projects across the Northeastern states.',
+    stat: '7+',
+    statLabel: 'States Served in Northeast India',
   },
   {
     id: 5,
-    icon: "mdi:star-circle",
-    title: "4-Star IIC Rated Institution",
+    icon: 'mdi:shield-check',
+    title: 'Assured Quality',
     description:
-      "Rated 4-Star by the Institution's Innovation Council, MHRD (AY 2024-25) for our innovation ecosystem.",
-    stat: "4★",
-    statLabel: "IIC Rating (MHRD)",
-  },
-  {
-    id: 6,
-    icon: "mdi:lightbulb-on-outline",
-    title: "Active R&D & Innovation",
-    description:
-      "21 patents filed and ₹2 Cr in research grants — students learn in a live, project-driven environment.",
-    stat: "21",
-    statLabel: "Patents Filed",
-  },
-  {
-    id: 7,
-    icon: "mdi:certificate",
-    title: "NAAC Accredited Institution",
-    description:
-      "NAAC-accredited, AICTE-approved, and affiliated to VTU, Belagavi — every credential parents look for.",
-    stat: "NAAC",
-    statLabel: "Accredited",
+      'Every product is genuine and quality-checked, so you build with complete confidence.',
+    stat: '100%',
+    statLabel: 'Quality Assurance',
   },
 ];
+
+export default statsData;

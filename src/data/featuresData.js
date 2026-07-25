@@ -1,86 +1,84 @@
+/* ============================================
+   featuresData — "Why choose us" points
+   --------------------------------------------
+   Flat array of the five reasons to choose Nilachal Infracon /
+   North East Buildmart. Shape: { id, icon, title, description }.
+   Consumed by the Why-Choose-Us section (prompt 09).
+   ============================================ */
+
 export const featuresData = [
   {
+    id: 'genuine-products',
+    icon: 'mdi:check-decagram-outline',
+    title: 'Genuine Products',
+    description: '100% authentic and original — only branded, warranty-backed products.',
+  },
+  {
+    id: 'competitive-pricing',
+    icon: 'mdi:tag-outline',
+    title: 'Competitive Pricing',
+    description: 'Best prices for best quality, with transparent, honest quotations.',
+  },
+  {
+    id: 'fast-safe-delivery',
+    icon: 'mdi:truck-fast-outline',
+    title: 'Fast & Safe Delivery',
+    description: 'Timely, secure delivery across Northeast India, right to your site.',
+  },
+  {
+    id: 'expert-support',
+    icon: 'mdi:account-hard-hat-outline',
+    title: 'Expert Support',
+    description: 'Professional guidance at every step, from selection to installation.',
+  },
+  {
+    id: 'strong-network',
+    icon: 'mdi:handshake-outline',
+    title: 'Strong Network',
+    description: 'A wide, dependable supply network reaching customers across the region.',
+  },
+];
+
+// TODO remove in prompt 09 — temporary mirror of the old 3-category-tab
+// shape so the legacy FeaturesSection keeps building until it is rebuilt.
+export const featuresCategories = [
+  {
     id: 1,
-    category: "Academics & Innovation",
+    category: 'Why Choose Us',
     items: [
       {
-        icon: "mdi:monitor-dashboard",
-        title: "ICT-Enabled Smart Classrooms",
-        description:
-          "State-of-the-art computing facilities and ICT-enabled classrooms designed for modern, project-based engineering learning.",
+        icon: 'mdi:check-decagram-outline',
+        title: 'Genuine Products',
+        description: '100% authentic and original — only branded, warranty-backed products.',
       },
       {
-        icon: "mdi:rocket-launch-outline",
-        title: "Centre for Creativity & Incubation",
-        description:
-          "Centre for Creativity in Engineering with start-up incubation, an in-house data centre, and private cloud infrastructure.",
+        icon: 'mdi:tag-outline',
+        title: 'Competitive Pricing',
+        description: 'Best prices for best quality, with transparent, honest quotations.',
       },
       {
-        icon: "mdi:flask-outline",
-        title: "Advanced R&D Labs",
-        description:
-          "IOS-MCN R&D Centre with Bharat 6G Labs, AICTE-sponsored Aero-vision Drone Lab CoE, plus BCI and IoT & Embedded Systems labs.",
-      },
-      {
-        icon: "mdi:certificate-outline",
-        title: "Recognised Research Output",
-        description:
-          "4-Star IIC (MHRD) rating, 21 patents filed, and ₹2 crore in research grants secured by the institution.",
+        icon: 'mdi:truck-fast-outline',
+        title: 'Fast & Safe Delivery',
+        description: 'Timely, secure delivery across Northeast India, right to your site.',
       },
     ],
   },
   {
     id: 2,
-    category: "Placements & Industry",
+    category: 'Support & Service',
     items: [
       {
-        icon: "mdi:briefcase-check-outline",
-        title: "90+ Recruiters, 85%+ Placement",
-        description:
-          "90+ companies visit campus every year with 85%+ placement; top recruiters include Accenture, Infosys, Deloitte and TCS.",
+        icon: 'mdi:account-hard-hat-outline',
+        title: 'Expert Support',
+        description: 'Professional guidance at every step, from selection to installation.',
       },
       {
-        icon: "mdi:handshake-outline",
-        title: "Institution–Industry Cell",
-        description:
-          "Active Institution–Industry Cell facilitates internships in cutting-edge tech and continuous industry exposure.",
-      },
-      {
-        icon: "mdi:trophy-outline",
-        title: "VTU Rank Holders Every Year",
-        description:
-          "Consistent VTU rank holders and gold medalists across branches, year after year.",
-      },
-    ],
-  },
-  {
-    id: 3,
-    category: "Campus Life & NE Student Support",
-    items: [
-      {
-        icon: "mdi:home-city-outline",
-        title: "Safe Hostel & Mess Facilities",
-        description:
-          "On-campus hostel and mess facilities offer a safe, supportive home away from home for North East students.",
-      },
-      {
-        icon: "mdi:account-tie-voice-outline",
-        title: "Guided Direct-Admission Support",
-        description:
-          "End-to-end direct-admission guidance from the CIT NE admission desk — no confusing counselling trips.",
-      },
-      {
-        icon: "mdi:hand-heart-outline",
-        title: "Inclusive, Welcoming Campus",
-        description:
-          "A supportive, inclusive campus community with help for travel planning and settling in at Tumakuru.",
-      },
-      {
-        icon: "mdi:shield-check-outline",
-        title: "Accredited Degree, Pan-India Value",
-        description:
-          "NAAC-accredited, AICTE-approved B.E. degree affiliated to VTU, Belagavi — recognised across India.",
+        icon: 'mdi:handshake-outline',
+        title: 'Strong Network',
+        description: 'A wide, dependable supply network reaching customers across the region.',
       },
     ],
   },
 ];
+
+export default featuresData;

@@ -40,7 +40,14 @@ _(Paths evolve across the rebuild series; update this list as later prompts move
 
 - `src/components/sections/` — Page sections (Hero, About, Services, etc.)
 - `src/components/common/` — Reusable components (Header, Footer, LeadForm, etc.)
-- `src/data/` — Content data files (services, features, stats, locations)
+- `src/data/` — Centralized content layer. `siteConfig.js` is the **single
+  source of business truth** (company/contact facts + `telHref` / `waHref` /
+  `mailHref` / `fullAddress` helpers) — never hardcode contact/company facts in
+  components; import them from here. Content files: `productsData.js` (North East
+  Buildmart categories), `servicesData.js` (construction services), `statsData.js`,
+  `brandsData.js` (partner brands), `featuresData.js` (why-choose-us points),
+  `aboutData.js` (welcome + Mission/Vision/Values/Commitment), `faqData.js`,
+  `locationData.js` (office + states served, derived from `siteConfig`).
 - `src/config/` — Site/SEO configuration
 - `src/context/` — React context providers (Modal, Theme)
 - `src/hooks/` — Custom hooks (useInView, useMediaQuery, etc.)
@@ -136,7 +143,7 @@ correctly, and **no-ops to the final state instantly** when
 
 1. **Content**: Update data files in `src/data/` and hard-coded text in section components
 2. **Branding**: Replace the logo URL in `Header.jsx`, `Footer.jsx`, `MobileDrawer.jsx`, and `public/index.html`
-3. **Contact Info**: Update the `.env` file and `src/data/locationData.js`
+3. **Contact Info**: Update `src/data/siteConfig.js` (the single source of truth — `locationData.js` derives from it) and the matching values in `.env`
 4. **SEO**: Update meta tags, JSON-LD schemas, `src/config/seo.js`, and `public/sitemap.xml`
 5. **Forms**: Leads POST to the server store (`/api/leads.php`) via `src/utils/webhookSubmit.js` — usually leave the default endpoint
 6. **Admin**: Update `REACT_APP_ADMIN_USERNAME` and `REACT_APP_ADMIN_PASSWORD` in `.env`

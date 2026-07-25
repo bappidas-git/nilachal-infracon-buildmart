@@ -1,32 +1,33 @@
+/* ============================================
+   locationData — Nilachal Infracon office & reach
+   --------------------------------------------
+   Contact/address facts are pulled from siteConfig (the single source of
+   truth); this file only shapes them for the Location/Contact sections and
+   lists the Northeast states served. Keys `name`, `address`, `phone`,
+   `phoneDisplay`, `whatsapp`, `servingStates` are bound by consumers.
+   ============================================ */
+
+import { siteConfig, fullAddress } from './siteConfig';
+
 export const locationData = {
-  name: "Channabasaveshwara Institute of Technology (CIT)",
-  address: "NH 206, B.H. Road, Gubbi, Tumakuru – 572 216, Karnataka",
-  city: "Tumakuru",
-  state: "Karnataka",
-  phone: "+918069645014",
-  phoneDisplay: "+91 8069645014",
-  whatsapp: "918069645014",
-  mapUrl:
-    "https://res.cloudinary.com/dn9gyaiik/image/upload/v1779671141/CIT-Map_jqtimx.png",
-  warehouses: [],
-  nearbyAreas: [
-    "Gubbi",
-    "Tumakuru City",
-    "Kyathsandra",
-    "NH-206 (B.H. Road)",
-    "Bengaluru (~70 km)",
-    "Kempegowda International Airport (~110 km)",
-    "Tumakuru Railway Station",
-  ],
+  name: siteConfig.legalName,
+  address: fullAddress,
+  city: siteConfig.address.city,
+  state: siteConfig.address.state,
+  phone: siteConfig.phone,
+  phoneDisplay: siteConfig.phoneDisplay,
+  whatsapp: siteConfig.whatsapp,
+  mapsQuery: siteConfig.mapsQuery,
   servingStates: [
-    "Assam",
-    "Arunachal Pradesh",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Tripura",
-    "Sikkim",
+    'Assam',
+    'Arunachal Pradesh',
+    'Meghalaya',
+    'Manipur',
+    'Mizoram',
+    'Nagaland',
+    'Tripura',
+    'Sikkim',
   ],
-  audienceNote: "Welcoming students from across North East India",
 };
+
+export default locationData;
