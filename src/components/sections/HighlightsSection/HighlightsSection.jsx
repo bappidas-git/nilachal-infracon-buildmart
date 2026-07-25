@@ -102,10 +102,10 @@ const HighlightsSection = () => {
               variant="h2"
               className={styles.sectionTitle}
               sx={{
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 700,
                 fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2.25rem" },
-                color: "#0C2D48",
+                color: "#16324F",
                 marginTop: "0.75rem",
                 textAlign: "center",
                 lineHeight: 1.2,

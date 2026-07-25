@@ -79,12 +79,58 @@ for auth (configure the endpoint with `REACT_APP_TELECALLS_API_URL`).
 
 ## Brand Color System
 
-> Brand tokens (palette, typography, MUI theme, CSS variables) are defined in
-> **prompt 03** (`prompts/03-design-system-and-gsap.md`). Until that runs, the
-> old palette is being phased out — do not treat any hard-coded colors as final.
+The Nilachal design system is **Apple-like minimalism**: vast whitespace, a
+1200px max content width, large headlines with `letter-spacing: -0.02em`, thin
+1px borders instead of heavy shadows (one soft elevation token
+`0 8px 30px rgba(16,28,41,.06)`), 16–20px card radii, and **green used sparingly**
+(primary CTAs + key highlights only). Typography is **Inter** everywhere
+(weights 300–800; Poppins is removed).
 
-To customize colors after prompt 03, update `src/styles/variables.css`,
-`src/theme/muiTheme.js`, and the CSS variables in `.module.css` files.
+Authoritative tokens (source of truth in `src/styles/variables.css`, mirrored in
+`src/theme/muiTheme.js`):
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-primary` | `#16324F` | Deep steel navy — headings, header, footer |
+| `--color-primary-dark` | `#0F2438` | Darkest navy — footer bg, hero scrim |
+| `--color-primary-light` | `#274B6E` | Lighter navy |
+| `--color-accent` | `#1E7B45` | Nilachal green — CTAs, highlights, links |
+| `--color-accent-dark` | `#176437` | CTA hover |
+| `--color-accent-tint` | `#E8F5EE` | Light green wash for chips/backgrounds |
+| `--color-ink` | `#101C29` | Body headings text |
+| `--color-slate` | `#4A5A6A` | Secondary text |
+| `--color-bg` | `#FFFFFF` | Page background |
+| `--color-bg-subtle` | `#F5F7FA` | Alternating section background |
+| `--color-border` | `#E5EAF0` | Thin 1px borders |
+
+To customize colors, update `src/styles/variables.css`, `src/theme/muiTheme.js`
+(keep the palette keys — `palette.orange`/`palette.accent`/`palette.navy` aliases
+are used via `sx`), and the CSS variables in `.module.css` files. The legacy
+alias names (`--accent-gold*` → navy, `--accent-orange*`/`--accent-amber*` →
+green) are kept so existing `.module.css` references stay valid. Admin `--admin-*`
+tokens keep their own block (restyled in prompt 13).
+
+## Animations
+
+All public page sections use the **GSAP + ScrollTrigger** foundation in
+`src/animations/` — this is the mandatory pattern (Framer Motion is retained only
+for existing drawer/modal mechanics and small hover micro-interactions).
+
+- `gsapSetup.js` — registers `ScrollTrigger` + `useGSAP`, exports `EASE`
+  (`power3.out`), `DURATION` tokens, `REVEAL_START`, and `prefersReducedMotion()`.
+- `useReveal` — fade-up reveal for a section (`y: 40 → 0` + opacity, once,
+  `start: 'top 80%'`).
+- `useStaggerReveal` — staggered children reveal for card/grid items
+  (`stagger: 0.08`).
+- `useCountUp` — ScrollTrigger-driven number counter with prefix/suffix
+  (e.g. `10+`, `100%`).
+- `useParallax` — subtle scrubbed background/image parallax (`yPercent` ±8).
+
+Each hook returns a `ref` to attach to the target element, is SSR-safe (guards
+`window`), calls `ScrollTrigger.refresh()` so lazy-mounted sections measure
+correctly, and **no-ops to the final state instantly** when
+`prefers-reduced-motion` is set. Import from the barrel:
+`import { useReveal } from '../../../animations'`.
 
 ## Customization Guide
 

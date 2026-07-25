@@ -167,7 +167,7 @@ const HeroSection = () => {
                   label="Direct B.E. Admission 2026 • Limited Seats"
                   className={styles.launchBadge}
                   sx={{
-                    backgroundColor: "#0C2D48",
+                    backgroundColor: "#16324F",
                     color: "#FFFFFF",
                     fontWeight: 600,
                     fontSize: "0.875rem",
@@ -187,7 +187,7 @@ const HeroSection = () => {
                   className={styles.heroTitle}
                   sx={{
                     color: "#FFFFFF",
-                    fontFamily: "'Poppins', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 700,
                     fontSize: {
                       xs: "2.25rem",
@@ -240,19 +240,19 @@ const HeroSection = () => {
                     openLeadDrawer("apply-now");
                   }}
                   sx={{
-                    backgroundColor: "#E0301E",
+                    backgroundColor: "#1E7B45",
                     color: "#FFFFFF",
                     fontWeight: 700,
                     fontSize: "1rem",
                     padding: "0.875rem 2rem",
                     borderRadius: "12px",
                     textTransform: "none",
-                    fontFamily: "'Poppins', sans-serif",
-                    boxShadow: "0 4px 20px rgba(224, 48, 30, 0.45)",
+                    fontFamily: "'Inter', sans-serif",
+                    boxShadow: "0 4px 20px rgba(30, 123, 69, 0.45)",
                     "&:hover": {
-                      backgroundColor: "#B71F12",
+                      backgroundColor: "#176437",
                       color: "#FFFFFF",
-                      boxShadow: "0 8px 28px rgba(224, 48, 30, 0.6)",
+                      boxShadow: "0 8px 28px rgba(30, 123, 69, 0.6)",
                       transform: "translateY(-2px)",
                     },
                     transition: "all 0.3s ease",
@@ -274,7 +274,7 @@ const HeroSection = () => {
                     padding: "0.875rem 2rem",
                     borderRadius: "12px",
                     textTransform: "none",
-                    fontFamily: "'Poppins', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     borderWidth: "2px",
                     "&:hover": {
                       borderColor: "#FFFFFF",
@@ -319,7 +319,7 @@ const HeroSection = () => {
                       sx={{
                         color: "#FFFFFF",
                         fontWeight: 700,
-                        fontFamily: "'Poppins', sans-serif",
+                        fontFamily: "'Inter', sans-serif",
                         textAlign: "center",
                         fontSize: "1.25rem",
                       }}

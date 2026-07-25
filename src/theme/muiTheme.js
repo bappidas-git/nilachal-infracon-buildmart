@@ -1,74 +1,74 @@
 /* ============================================
-   MUI Theme Configuration — CIT Brand System
-   Channabasaveshwara Institute of Technology
-   Direct B.E. Engineering Admissions 2026
+   MUI Theme Configuration — Nilachal Design System
+   Nilachal Infracon Private Limited
+   "Building Tomorrow, Together."
    ============================================ */
 
 import { createTheme, alpha } from '@mui/material/styles';
 
-// Color palette — CIT navy / red / gold (official cittumkur.org).
+// Color palette — Nilachal steel navy / green.
 // Matches the tokens in src/styles/variables.css.
 const colors = {
   primary: {
-    main: '#0C2D48',
-    light: '#1A5276',
-    dark: '#081F33',
+    main: '#16324F',
+    light: '#274B6E',
+    dark: '#0F2438',
     contrastText: '#FFFFFF',
   },
   secondary: {
-    main: '#D82618',
-    light: '#E8503D',
-    dark: '#A81B10',
+    main: '#1E7B45',
+    light: '#2E9A5C',
+    dark: '#176437',
     contrastText: '#FFFFFF',
   },
-  // CTA red — primary CTA buttons only.
+  // Nilachal green — primary CTA buttons and key highlights.
   accent: {
-    main: '#E0301E',
-    light: '#F0584A',
-    dark: '#B71F12',
+    main: '#1E7B45',
+    light: '#2E9A5C',
+    dark: '#176437',
     contrastText: '#FFFFFF',
-    50: '#FDEAE8',
-    100: '#F9C7C2',
-    200: '#F39C92',
-    300: '#ED7163',
-    400: '#F0584A',
-    500: '#E0301E',
-    600: '#B71F12',
-    700: '#A52015',
-    800: '#861910',
-    900: '#66120B',
+    50: '#E8F5EE',
+    100: '#C6E6D3',
+    200: '#9FD4B4',
+    300: '#6FBE90',
+    400: '#2E9A5C',
+    500: '#1E7B45',
+    600: '#176437',
+    700: '#124E2B',
+    800: '#0D3F23',
+    900: '#082A17',
   },
   // Legacy alias — many components still reference `palette.orange.*`.
-  // Mapped to amber so CTAs render correctly without sweeping renames.
+  // Mapped to Nilachal green so CTAs render correctly without sweeping renames.
   orange: {
-    main: '#E0301E',
-    light: '#F0584A',
-    dark: '#B71F12',
-    50: '#FDEAE8',
-    100: '#F9C7C2',
-    200: '#F39C92',
-    300: '#ED7163',
-    400: '#F0584A',
-    500: '#E0301E',
-    600: '#B71F12',
-    700: '#A52015',
-    800: '#861910',
-    900: '#66120B',
+    main: '#1E7B45',
+    light: '#2E9A5C',
+    dark: '#176437',
+    50: '#E8F5EE',
+    100: '#C6E6D3',
+    200: '#9FD4B4',
+    300: '#6FBE90',
+    400: '#2E9A5C',
+    500: '#1E7B45',
+    600: '#176437',
+    700: '#124E2B',
+    800: '#0D3F23',
+    900: '#082A17',
   },
   navy: {
-    main: '#0C2D48',
-    light: '#1A5276',
-    dark: '#081F33',
-    50: '#EAEFF3',
-    100: '#CBD8E1',
-    200: '#9DB0BF',
-    300: '#6E8699',
-    400: '#3F6178',
-    500: '#1A5276',
-    600: '#143F5C',
-    700: '#0C2D48',
-    800: '#081F33',
-    900: '#05131F',
+    main: '#16324F',
+    light: '#274B6E',
+    dark: '#0F2438',
+    50: '#EAEEF3',
+    100: '#C9D3DE',
+    200: '#9DAEC0',
+    300: '#6E86A0',
+    400: '#3F5E80',
+    500: '#274B6E',
+    600: '#1E3D5C',
+    700: '#16324F',
+    800: '#0F2438',
+    900: '#091725',
   },
   success: {
     main: '#1E8E5A',
@@ -77,21 +77,21 @@ const colors = {
     contrastText: '#FFFFFF',
   },
   warning: {
-    main: '#E0301E',
-    light: '#F0584A',
-    dark: '#B71F12',
-    contrastText: '#FFFFFF',
+    main: '#E0A100',
+    light: '#F0C24A',
+    dark: '#B07E00',
+    contrastText: '#101C29',
   },
   error: {
-    main: '#D82618',
-    light: '#E8503D',
-    dark: '#A81B10',
+    main: '#DC2626',
+    light: '#EF5350',
+    dark: '#B91C1C',
     contrastText: '#FFFFFF',
   },
   info: {
-    main: '#0C2D48',
-    light: '#1A5276',
-    dark: '#081F33',
+    main: '#16324F',
+    light: '#274B6E',
+    dark: '#0F2438',
     contrastText: '#FFFFFF',
   },
   grey: {
@@ -109,33 +109,33 @@ const colors = {
   background: {
     default: '#FFFFFF',
     paper: '#FFFFFF',
-    dark: '#0C2D48',
-    light: '#EAEFF3',
+    dark: '#16324F',
+    light: '#F5F7FA',
   },
   text: {
-    primary: '#11203A',
-    secondary: '#546E7A',
+    primary: '#101C29',
+    secondary: '#4A5A6A',
     disabled: '#90A4AE',
-    dark: '#11203A',
+    dark: '#101C29',
     light: '#FFFFFF',
   },
   iconColors: {
-    gold: '#0C2D48',
+    gold: '#16324F',
     green: '#1E8E5A',
     purple: '#6B3FA0',
-    orange: '#E0301E',
-    pink: '#D82618',
-    red: '#D82618',
-    teal: '#0C2D48',
-    blue: '#0C2D48',
+    orange: '#1E7B45',
+    pink: '#1E7B45',
+    red: '#1E7B45',
+    teal: '#16324F',
+    blue: '#16324F',
   },
   cardBg: {
-    yellow: '#FDEAE8',
+    yellow: '#E8F5EE',
     green: '#E5F5EC',
     pink: '#FCE4E8',
     purple: '#EFE7F7',
-    orange: '#FCEEEB',
-    blue: '#EAEFF3',
+    orange: '#E8F5EE',
+    blue: '#EAEEF3',
   },
 };
 
@@ -151,10 +151,10 @@ const breakpoints = {
   },
 };
 
-// Typography configuration
+// Typography configuration — Inter everywhere
 const typography = {
   fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif",
-  fontFamilyHeading: "'Poppins', sans-serif",
+  fontFamilyHeading: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   fontWeightLight: 300,
   fontWeightRegular: 400,
   fontWeightMedium: 500,
@@ -162,44 +162,45 @@ const typography = {
   fontWeightBold: 700,
   fontWeightExtraBold: 800,
   h1: {
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     fontWeight: 700,
     fontSize: 'clamp(2.5rem, 2rem + 2.5vw, 4.5rem)',
     lineHeight: 1.1,
-    letterSpacing: '-0.025em',
+    letterSpacing: '-0.02em',
     color: colors.primary.main,
   },
   h2: {
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     fontWeight: 700,
     fontSize: 'clamp(2rem, 1.5rem + 2.5vw, 3rem)',
     lineHeight: 1.1,
-    letterSpacing: '-0.025em',
+    letterSpacing: '-0.02em',
     color: colors.primary.main,
   },
   h3: {
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     fontWeight: 700,
     fontSize: 'clamp(1.75rem, 1.4rem + 1.75vw, 2.5rem)',
     lineHeight: 1.2,
+    letterSpacing: '-0.02em',
     color: colors.primary.main,
   },
   h4: {
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     fontWeight: 700,
     fontSize: 'clamp(1.5rem, 1.25rem + 1.25vw, 2rem)',
     lineHeight: 1.25,
     color: colors.primary.main,
   },
   h5: {
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     fontWeight: 600,
     fontSize: 'clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem)',
     lineHeight: 1.3,
     color: colors.primary.main,
   },
   h6: {
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     fontWeight: 600,
     fontSize: 'clamp(1.1rem, 1rem + 0.5vw, 1.25rem)',
     lineHeight: 1.4,
@@ -288,10 +289,10 @@ const shadows = [
   '0 40px 152px rgba(0, 0, 0, 0.28)',
 ];
 
-// Amber shadow for CTA buttons and highlights.
-// Legacy exports kept as `orangeShadow*` so existing imports keep working.
-const orangeShadow = '0 4px 14px rgba(224, 48, 30, 0.35)';
-const orangeShadowHover = '0 6px 20px rgba(224, 48, 30, 0.45)';
+// Green shadow for CTA buttons and highlights.
+// Legacy exports kept as `orangeShadow*` / `amberShadow*` so existing imports keep working.
+const orangeShadow = '0 4px 14px rgba(30, 123, 69, 0.30)';
+const orangeShadowHover = '0 6px 20px rgba(30, 123, 69, 0.40)';
 const amberShadow = orangeShadow;
 const amberShadowHover = orangeShadowHover;
 
@@ -423,7 +424,7 @@ const theme = createTheme({
             transform: 'translateY(-2px)',
           },
         },
-        // CTA button — amber gradient with dark text for contrast.
+        // CTA button — Nilachal green gradient with white text.
         containedPrimary: {
           background: `linear-gradient(135deg, ${colors.accent.main} 0%, ${colors.accent.light} 100%)`,
           color: colors.accent.contrastText,

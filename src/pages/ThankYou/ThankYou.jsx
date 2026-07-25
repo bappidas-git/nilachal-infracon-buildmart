@@ -18,7 +18,7 @@ const trustBadges = [
   {
     icon: "mdi:shield-check",
     label: "NAAC Accredited",
-    color: "#0C2D48",
+    color: "#16324F",
   },
   {
     icon: "mdi:school",
@@ -28,7 +28,7 @@ const trustBadges = [
   {
     icon: "mdi:headset",
     label: "100% Free Admission Guidance",
-    color: "#D82618",
+    color: "#1E7B45",
   },
 ];
 
@@ -112,7 +112,7 @@ const ThankYou = () => {
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-        colors: ["#0C2D48", "#1A5276", "#E0301E", "#D82618"],
+        colors: ["#16324F", "#274B6E", "#1E7B45", "#1E7B45"],
       });
 
       // Right side confetti
@@ -120,7 +120,7 @@ const ThankYou = () => {
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-        colors: ["#0C2D48", "#1A5276", "#E0301E", "#D82618"],
+        colors: ["#16324F", "#274B6E", "#1E7B45", "#1E7B45"],
       });
     }, 250);
 
@@ -129,7 +129,7 @@ const ThankYou = () => {
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ["#0C2D48", "#1A5276", "#E0301E", "#D82618", "#1E8E5A"],
+      colors: ["#16324F", "#274B6E", "#1E7B45", "#1E7B45", "#1E8E5A"],
     });
   }, []);
 

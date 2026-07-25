@@ -206,7 +206,7 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
                         py: 1.5,
                         transition: "all 0.2s ease",
                         "&:hover": {
-                          backgroundColor: "rgba(12, 45, 72, 0.08)",
+                          backgroundColor: "rgba(22, 50, 79, 0.08)",
                         },
                       }}
                     >
@@ -215,7 +215,7 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
                         sx={{
                           minWidth: 44,
                           color:
-                            activeSection === item.id ? "#0C2D48" : "#6B7280",
+                            activeSection === item.id ? "#16324F" : "#6B7280",
                         }}
                       >
                         <Icon icon={item.icon} style={{ fontSize: 22 }} />
@@ -227,7 +227,7 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
                           "& .MuiTypography-root": {
                             fontWeight: activeSection === item.id ? 600 : 500,
                             color:
-                              activeSection === item.id ? "#0C2D48" : "#374151",
+                              activeSection === item.id ? "#16324F" : "#374151",
                             fontSize: "0.95rem",
                           },
                         }}
@@ -268,7 +268,7 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
               <Box className={styles.unifiedContactHeader}>
                 <Icon
                   icon="mdi:phone-in-talk-outline"
-                  style={{ color: '#0C2D48', fontSize: 18 }}
+                  style={{ color: '#16324F', fontSize: 18 }}
                 />
                 <span className={styles.unifiedContactNumber}>
                   {PRIMARY_PHONE_DISPLAY}

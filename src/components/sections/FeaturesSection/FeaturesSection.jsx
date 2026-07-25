@@ -127,7 +127,7 @@ const FeaturesSection = () => {
                 fontFamily: "'Inter', sans-serif",
                 fontWeight: 600,
                 fontSize: { xs: "0.75rem", md: "0.85rem" },
-                color: "#D82618",
+                color: "#1E7B45",
                 textTransform: "uppercase",
                 letterSpacing: "0.1em",
                 textAlign: "center",
@@ -140,10 +140,10 @@ const FeaturesSection = () => {
               variant="h2"
               className={styles.sectionTitle}
               sx={{
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 700,
                 fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2.25rem" },
-                color: "#0C2D48",
+                color: "#16324F",
                 textAlign: "center",
                 lineHeight: 1.2,
               }}
@@ -208,7 +208,7 @@ const FeaturesSection = () => {
                   <Icon
                     icon={categoryAccentIcons[activeTab]}
                     className={styles.lottiePlayer}
-                    style={{ width: "100%", height: "100%", color: "#0C2D48" }}
+                    style={{ width: "100%", height: "100%", color: "#16324F" }}
                   />
                 </div>
 
@@ -252,7 +252,7 @@ const FeaturesSection = () => {
                       style={{
                         width: "100%",
                         height: "100%",
-                        color: "#0C2D48",
+                        color: "#16324F",
                       }}
                     />
                   </div>
@@ -328,10 +328,10 @@ const FeaturesSection = () => {
           <motion.div variants={itemVariants} className={styles.ctaWrapper}>
             <Typography
               sx={{
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 600,
                 fontSize: { xs: "1.1rem", md: "1.35rem" },
-                color: "#0C2D48",
+                color: "#16324F",
                 textAlign: "center",
                 marginBottom: "1rem",
               }}
@@ -344,20 +344,20 @@ const FeaturesSection = () => {
               onClick={handleApply}
               endIcon={<Icon icon="mdi:arrow-right" />}
               sx={{
-                background: "linear-gradient(135deg, #E0301E 0%, #B71F12 100%)",
+                background: "linear-gradient(135deg, #1E7B45 0%, #176437 100%)",
                 color: "#FFFFFF",
                 fontWeight: 700,
                 fontSize: { xs: "0.9rem", md: "1rem" },
                 padding: { xs: "12px 28px", md: "14px 36px" },
                 borderRadius: "50px",
                 textTransform: "none",
-                boxShadow: "0 8px 32px rgba(224, 48, 30, 0.3)",
+                boxShadow: "0 8px 32px rgba(30, 123, 69, 0.3)",
                 transition: "all 0.3s ease",
                 "&:hover": {
                   background:
-                    "linear-gradient(135deg, #F0584A 0%, #E0301E 100%)",
+                    "linear-gradient(135deg, #2E9A5C 0%, #1E7B45 100%)",
                   color: "#FFFFFF",
-                  boxShadow: "0 14px 40px rgba(224, 48, 30, 0.4)",
+                  boxShadow: "0 14px 40px rgba(30, 123, 69, 0.4)",
                   transform: "translateY(-2px)",
                 },
               }}
