@@ -38,7 +38,11 @@ Single source of truth for identity details used across the site, SEO, and docs:
 
 _(Paths evolve across the rebuild series; update this list as later prompts move things.)_
 
-- `src/components/sections/` — Page sections (Hero, About, Services, etc.)
+- `src/components/sections/` — Page sections. Currently mounted on the one-pager:
+  `HeroSection`, `AboutSection` (Welcome + Mission/Vision/Values/Commitment),
+  `ServicesSection`, `StatsSection`, `FeaturesSection`, `ContactSection`
+  (Products/Brands/WhyUs/FAQ arrive in prompts 08–09; Stats/Services/Contact are
+  rebuilt in 08–11)
 - `src/components/common/` — Reusable components (Header, Footer, LeadForm, etc.)
 - `src/data/` — Centralized content layer. `siteConfig.js` is the **single
   source of business truth** (company/contact facts + `telHref` / `waHref` /

@@ -1,446 +1,270 @@
 /* ============================================
-   AboutSection Styles - CIT Credibility Band
-   Intro copy, campus image & credibility cards
+   AboutSection Styles — "Welcome to Nilachal Infracon"
+   Apple-minimal: white background, 1200px content width,
+   large tight-tracked headline, thin hairlines, green used
+   only for the eyebrow bar and pillar icons.
    ============================================ */
 
-/* ========== Main Section ========== */
-.overviewSection {
+/* ========== Section ========== */
+.aboutSection {
   position: relative;
-  padding: 5rem 0;
-  background-color: #f5f7fa;
-  overflow: hidden;
+  padding: 6rem 0;
+  background-color: var(--color-bg, #ffffff);
 }
 
-/* ========== Background Elements ========== */
-.bgGradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, #f5f7fa 0%, #EAEFF3 50%, #f5f7fa 100%);
-  pointer-events: none;
-  z-index: 0;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-.bgPattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    rgba(22, 50, 79, 0.05) 1px,
-    transparent 0
-  );
-  background-size: 28px 28px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ========== Main Wrapper ========== */
-.mainWrapper {
-  position: relative;
-  z-index: 1;
-}
-
-/* ========== Section Header ========== */
-.sectionHeader {
-  text-align: center;
-  margin-bottom: 2.5rem;
-}
-
-.badge {
-  display: inline-block;
-  background: linear-gradient(135deg, #1E7B45 0%, #124E2B 100%);
-  color: #ffffff;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  padding: 8px 20px;
-  border-radius: 30px;
-  margin-bottom: 1rem;
-}
-
-.sectionTitle {
-  margin: 0;
-  line-height: 1.2;
-}
-
-.sectionSubtitle {
-  margin: 0;
-  line-height: 1.4;
-}
-
-/* ========== Content Grid ========== */
-.contentGrid {
+/* ========== Part A — Intro split ========== */
+.intro {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  max-width: 1100px;
-  margin: 0 auto 3rem;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 4rem;
   align-items: center;
 }
 
-/* Text Column */
-.textColumn {
+.introText {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
-.contentParagraph {
+/* Eyebrow — mirrors the Hero eyebrow pattern (bar + tracked uppercase) */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent, #1e7b45);
+}
+
+.eyebrowBar {
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-accent, #1e7b45);
+  flex-shrink: 0;
+}
+
+.headline {
+  margin: 0 0 1.5rem;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: var(--color-ink, #101c29);
+}
+
+.paragraph {
+  margin: 0 0 2rem;
+  font-family: "Inter", sans-serif;
   font-size: 1.0625rem;
   line-height: 1.75;
-  color: #374151;
-  font-family: "Inter", sans-serif;
-  margin-bottom: 1rem;
+  color: var(--color-slate, #4a5a6a);
 }
 
-.contentParagraph strong {
-  color: #16324F;
+.paragraph strong {
+  color: var(--color-ink, #101c29);
   font-weight: 700;
 }
 
-.ctaButton {
-  align-self: flex-start;
-  position: relative;
-  overflow: hidden;
+/* Quiet text-link CTA */
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-accent, #1e7b45);
+  text-decoration: none;
+  transition: gap 0.25s ease, color 0.25s ease;
 }
 
-.ctaButton::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  transition: left 0.5s ease;
+.textLinkIcon {
+  font-size: 1.15em;
+  transition: transform 0.25s ease;
 }
 
-.ctaButton:hover::before {
-  left: 100%;
+@media (hover: hover) {
+  .textLink:hover {
+    gap: 10px;
+    color: var(--color-accent-dark, #176437);
+  }
+
+  .textLink:hover .textLinkIcon {
+    transform: translateX(2px);
+  }
 }
 
-/* Image Column */
-.imageColumn {
+.textLink:focus-visible {
+  outline: 2px solid var(--color-accent, #1e7b45);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ========== Image (rounded 20px, subtle parallax) ========== */
+.introMedia {
   display: flex;
-  flex-direction: column;
 }
 
 .imageWrapper {
-  border-radius: 16px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(22, 50, 79, 0.12);
-  border: 1px solid rgba(22, 50, 79, 0.06);
+  border: 1px solid var(--color-border, #e5eaf0);
+  box-shadow: 0 8px 30px rgba(16, 28, 41, 0.06);
 }
 
-.gridImage {
+/* Overscan (taller than the frame) so the ±6% parallax drift never
+   reveals a gap at the top or bottom edge. */
+.image {
+  position: absolute;
+  top: -10%;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 120%;
   object-fit: cover;
   display: block;
+  will-change: transform;
 }
 
-/* ========== Credibility Points ========== */
-.differentiatorsRow {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.differentiatorsGrid {
+/* ========== Part B — Four pillars ========== */
+.pillars {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  gap: 2rem;
+  margin-top: 5.5rem;
 }
 
-.differentiatorCard {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 1.75rem 1.25rem;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(22, 50, 79, 0.05);
-  border: 1px solid rgba(22, 50, 79, 0.06);
-  transition: all 0.3s ease;
-}
-
-.differentiatorCard:hover {
-  box-shadow: 0 12px 36px rgba(22, 50, 79, 0.12);
-  border-color: rgba(22, 50, 79, 0.12);
-}
-
-.differentiatorIcon {
-  width: 52px;
-  height: 52px;
+/* Borderless card: thin top hairline, green icon, title, text */
+.pillar {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 1.5rem;
+}
+
+.pillarRule {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border, #e5eaf0);
+  margin-bottom: 1.5rem;
+}
+
+.pillarIcon {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #16324F 0%, #0F2438 100%);
-  color: #ffffff;
-  font-size: 24px;
-  margin: 0 auto 1rem;
+  font-size: 28px;
+  color: var(--color-accent, #1e7b45);
+  margin-bottom: 1rem;
 }
 
-.differentiatorTitle {
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: #16324F;
+.pillarTitle {
   margin: 0 0 0.5rem;
   font-family: "Inter", sans-serif;
-  line-height: 1.3;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-ink, #101c29);
 }
 
-.differentiatorDesc {
-  font-size: 0.8125rem;
-  color: #6b7280;
-  line-height: 1.6;
+.pillarText {
   margin: 0;
   font-family: "Inter", sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--color-slate, #4a5a6a);
 }
 
-/* ========== Responsive Styles ========== */
+/* ========== Responsive ========== */
 
-/* Large Desktop (1440px+) */
+/* Large desktop */
 @media (min-width: 1440px) {
-  .overviewSection {
-    padding: 6rem 0;
-  }
-
-  .contentGrid {
-    gap: 4rem;
-  }
-
-  .contentParagraph {
-    font-size: 1.125rem;
-  }
-
-  .differentiatorCard {
-    padding: 2rem 1.5rem;
-  }
-
-  .differentiatorIcon {
-    width: 56px;
-    height: 56px;
-    font-size: 26px;
+  .aboutSection {
+    padding: 7rem 0;
   }
 }
 
-/* Tablet (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .overviewSection {
-    padding: 3.5rem 0;
-  }
-
-  .sectionHeader {
-    margin-bottom: 2rem;
-  }
-
-  .contentGrid {
-    gap: 2rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .contentParagraph {
-    font-size: 0.9375rem;
-  }
-
-  .differentiatorsGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-
-  .differentiatorCard {
-    padding: 1.5rem 1rem;
-  }
-
-  .differentiatorIcon {
-    width: 44px;
-    height: 44px;
-    font-size: 20px;
-  }
-
-  .differentiatorTitle {
-    font-size: 0.875rem;
-  }
-
-  .differentiatorDesc {
-    font-size: 0.75rem;
-  }
-}
-
-/* Mobile (max-width: 767px) */
-@media (max-width: 767px) {
-  .overviewSection {
-    padding: 2.5rem 0;
-  }
-
-  .sectionHeader {
-    margin-bottom: 1.5rem;
-  }
-
-  .badge {
-    font-size: 0.625rem;
-    padding: 6px 16px;
-    margin-bottom: 0.75rem;
-  }
-
-  .bgPattern {
-    background-size: 22px 22px;
-  }
-
-  .contentGrid {
+/* Tablet — image drops below copy, pillars go 2×2 */
+@media (max-width: 1023px) {
+  .intro {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .contentParagraph {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-  }
-
-  .ctaButton {
-    align-self: center;
+    gap: 2.5rem;
   }
 
   .imageWrapper {
-    border-radius: 12px;
+    aspect-ratio: 16 / 10;
+    max-width: 640px;
   }
 
-  .differentiatorsGrid {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-
-  .differentiatorCard {
-    padding: 1.25rem 0.875rem;
-    border-radius: 12px;
-  }
-
-  .differentiatorIcon {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-    border-radius: 10px;
-    margin-bottom: 0.75rem;
-  }
-
-  .differentiatorTitle {
-    font-size: 0.8125rem;
-  }
-
-  .differentiatorDesc {
-    font-size: 0.6875rem;
+  .pillars {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 2.5rem;
+    margin-top: 4rem;
   }
 }
 
-/* Small Mobile (max-width: 374px) */
-@media (max-width: 374px) {
-  .overviewSection {
-    padding: 2rem 0;
+/* Mobile — everything stacks */
+@media (max-width: 767px) {
+  .aboutSection {
+    padding: 4rem 0;
   }
 
-  .badge {
-    font-size: 0.5625rem;
-    padding: 5px 12px;
+  .container {
+    padding: 0 20px;
   }
 
-  .contentGrid {
-    gap: 1.5rem;
+  .intro {
+    gap: 2rem;
   }
 
-  .contentParagraph {
-    font-size: 0.875rem;
+  .headline {
+    margin-bottom: 1.25rem;
   }
 
-  .differentiatorsGrid {
+  .paragraph {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .imageWrapper {
+    aspect-ratio: 3 / 2;
+  }
+
+  .pillars {
     grid-template-columns: 1fr;
-    gap: 0.625rem;
+    gap: 0;
+    margin-top: 3rem;
   }
 
-  .differentiatorCard {
-    padding: 1rem 0.75rem;
+  /* On a single column the pillars read as a hairline-divided list */
+  .pillar {
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
   }
 
-  .differentiatorIcon {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-  }
-
-  .differentiatorTitle {
-    font-size: 0.75rem;
-  }
-
-  .differentiatorDesc {
-    font-size: 0.625rem;
-  }
-}
-
-/* ========== Hover Effects (Pointer Devices) ========== */
-@media (hover: hover) {
-  .differentiatorCard:hover {
-    transform: translateY(-4px);
+  .pillar:last-child {
+    padding-bottom: 0;
   }
 }
 
 /* ========== Reduced Motion ========== */
 @media (prefers-reduced-motion: reduce) {
-  .differentiatorCard,
-  .ctaButton,
-  .imageWrapper {
+  .image,
+  .textLink,
+  .textLinkIcon {
     transition: none;
-  }
-
-  .differentiatorCard:hover,
-  .imageWrapper:hover {
-    transform: none;
-  }
-
-  .ctaButton::before {
-    display: none;
-  }
-}
-
-/* ========== Focus Styles for Accessibility ========== */
-.ctaButton:focus-visible,
-.differentiatorCard:focus-visible {
-  outline: 2px solid #1E7B45;
-  outline-offset: 2px;
-}
-
-/* ========== Print Styles ========== */
-@media print {
-  .overviewSection {
-    padding: 2rem 0;
-    background: white;
-  }
-
-  .bgGradient,
-  .bgPattern {
-    display: none;
-  }
-
-  .contentGrid {
-    display: block;
-  }
-
-  .imageColumn {
-    display: none;
-  }
-
-  .differentiatorCard {
-    box-shadow: none;
-    border: 1px solid #e5e5e5;
-    page-break-inside: avoid;
   }
 }

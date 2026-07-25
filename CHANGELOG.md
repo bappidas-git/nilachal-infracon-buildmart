@@ -206,3 +206,35 @@ the single unreleased version below as each prompt is merged.
   the CTA → quote drawer and the Contact section. Dropped the Framer-Motion
   variants, MUI `Grid`/`Chip`/`Button` scaffolding and the CIT badge/copy from
   the hero, and cleaned the stylesheet of the dead form/video/pattern styles.
+
+### 07 — Page recomposition & About section
+
+**Removed**
+- Deleted the five leftover CIT sections that have no successor in the Nilachal
+  one-pager, folders and all `App.jsx` references (lazy import, `useIdlePreload`
+  entry, and JSX/ErrorBoundary/Suspense block): `WhyChooseCIT` (role covered by
+  Why-Us in prompt 09), `HighlightsSection` (campus labs grid), `LocationSection`
+  (its content folds into Contact in prompt 11), and the two urgency bands
+  `CTASection` / `SecondaryCTASection` (off-brand for the minimal design; the page
+  keeps a single mid-page CTA moment, added with Brands in prompt 09).
+
+**Changed**
+- Rebuilt **AboutSection** (`id="about"`) as the "Welcome to Nilachal Infracon"
+  moment on a white background. **Part A** is an intro split: an eyebrow
+  (`WELCOME TO NILACHAL INFRACON`, mirroring the Hero eyebrow's bar + tracked
+  uppercase), the headline "One of Northeast India's emerging infrastructure &
+  building materials companies", the `aboutData.welcome` paragraph (flagship brand
+  **North East Buildmart** emphasised inline, split on `siteConfig.flagshipBrand`),
+  a quiet "Explore our services →" text link to `#services`, and one Unsplash
+  architectural image (verified 200, `w=1200`, rounded 20px) with a subtle
+  `useParallax` drift over an overscanned frame. **Part B** renders the four
+  `aboutData.pillars` (Mission / Vision / Values / Commitment) as borderless cards
+  — thin top hairline, green Iconify icon, title, text — 4-up on desktop, 2×2 on
+  tablet, stacked (hairline-divided) on mobile. `useReveal` fades Part A up;
+  `useStaggerReveal` staggers the pillar row; both respect `prefers-reduced-motion`.
+- Recomposed `App.jsx`'s `HomePageContent` to the slimmer set — Hero → About →
+  Services → Stats → Features → Contact — with the hash-scroll retry logic
+  untouched. `ServicesSection`, `StatsSection`, `FeaturesSection` and
+  `ContactSection` stay mounted (rebuilt in prompts 08–11).
+- Updated the `CLAUDE.md` project-structure section list to the currently mounted
+  sections.

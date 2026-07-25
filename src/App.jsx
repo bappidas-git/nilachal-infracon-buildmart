@@ -37,15 +37,10 @@ const AdminLayout = lazy(() => import('./admin/components/AdminLayout'));
 
 // Lazy loaded sections for performance (Below the fold)
 const AboutSection = lazy(() => import('./components/sections/AboutSection/AboutSection'));
-const WhyChooseCIT = lazy(() => import('./components/sections/WhyChooseCIT/WhyChooseCIT'));
 const ServicesSection = lazy(() => import('./components/sections/ServicesSection/ServicesSection'));
 const StatsSection = lazy(() => import('./components/sections/StatsSection/StatsSection'));
-const HighlightsSection = lazy(() => import('./components/sections/HighlightsSection/HighlightsSection'));
 const FeaturesSection = lazy(() => import('./components/sections/FeaturesSection/FeaturesSection'));
-const LocationSection = lazy(() => import('./components/sections/LocationSection/LocationSection'));
-const CTASection = lazy(() => import('./components/sections/CTASection/CTASection'));
 const ContactSection = lazy(() => import('./components/sections/ContactSection/ContactSection'));
-const SecondaryCTASection = lazy(() => import('./components/sections/SecondaryCTASection/SecondaryCTASection'));
 
 // ===========================================
 // Error Boundary Component
@@ -311,15 +306,10 @@ const useIdlePreload = () => {
     if ('requestIdleCallback' in window) {
       const sections = [
         () => import('./components/sections/AboutSection/AboutSection'),
-        () => import('./components/sections/WhyChooseCIT/WhyChooseCIT'),
         () => import('./components/sections/ServicesSection/ServicesSection'),
         () => import('./components/sections/StatsSection/StatsSection'),
-        () => import('./components/sections/LocationSection/LocationSection'),
         () => import('./components/sections/FeaturesSection/FeaturesSection'),
-        () => import('./components/sections/HighlightsSection/HighlightsSection'),
-        () => import('./components/sections/CTASection/CTASection'),
         () => import('./components/sections/ContactSection/ContactSection'),
-        () => import('./components/sections/SecondaryCTASection/SecondaryCTASection'),
       ];
 
       let currentIndex = 0;
@@ -429,12 +419,6 @@ const HomePageContent = () => {
         </ErrorBoundary>
 
         <ErrorBoundary>
-          <Suspense fallback={<SectionLoader height={500} variant="default" />}>
-            <WhyChooseCIT />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
           <Suspense fallback={<SectionLoader height={400} variant="skeleton" />}>
             <ServicesSection />
           </Suspense>
@@ -447,38 +431,14 @@ const HomePageContent = () => {
         </ErrorBoundary>
 
         <ErrorBoundary>
-          <Suspense fallback={<SectionLoader height={500} variant="skeleton" />}>
-            <HighlightsSection />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
           <Suspense fallback={<SectionLoader height={600} variant="skeleton" />}>
             <FeaturesSection />
           </Suspense>
         </ErrorBoundary>
 
         <ErrorBoundary>
-          <Suspense fallback={<SectionLoader height={400} variant="skeleton" />}>
-            <LocationSection />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionLoader height={300} variant="default" />}>
-            <CTASection />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
           <Suspense fallback={<SectionLoader height={500} variant="skeleton" />}>
             <ContactSection />
-          </Suspense>
-        </ErrorBoundary>
-
-        <ErrorBoundary>
-          <Suspense fallback={<SectionLoader height={500} variant="default" />}>
-            <SecondaryCTASection />
           </Suspense>
         </ErrorBoundary>
       </main>
