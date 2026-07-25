@@ -99,7 +99,7 @@ const ServicesSection = () => {
       variants={isMobile ? undefined : cardVariants}
       initial={isMobile ? undefined : "hidden"}
       animate={isMobile ? undefined : isInView ? "visible" : "hidden"}
-      whileHover={{ y: -6, boxShadow: "0 12px 40px rgba(12, 45, 72, 0.18)" }}
+      whileHover={{ y: -6, boxShadow: "0 12px 40px rgba(22, 50, 79, 0.18)" }}
       transition={{ duration: 0.3 }}
     >
       {/* Badge */}
@@ -174,24 +174,24 @@ const ServicesSection = () => {
             <Chip
               label="Courses Offered"
               sx={{
-                backgroundColor: "rgba(216, 38, 24, 0.10)",
-                color: "#D82618",
+                backgroundColor: "rgba(30, 123, 69, 0.10)",
+                color: "#1E7B45",
                 fontWeight: 700,
                 fontSize: "0.7rem",
                 letterSpacing: "0.1em",
                 height: "28px",
                 borderRadius: "20px",
-                border: "1px solid rgba(216, 38, 24, 0.25)",
+                border: "1px solid rgba(30, 123, 69, 0.25)",
               }}
             />
             <Typography
               variant="h2"
               className={styles.sectionTitle}
               sx={{
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 700,
                 fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2.25rem" },
-                color: "#0C2D48",
+                color: "#16324F",
                 marginTop: "0.75rem",
                 textAlign: "center",
                 lineHeight: 1.2,

@@ -1,37 +1,19 @@
 /* ============================================
    AboutSection Component
    CIT credibility band: accreditations, legacy & NE-2026 invite
+
+   Animation: GSAP + ScrollTrigger via the shared `useReveal`
+   hook (src/animations) — the mandatory reveal pattern for all
+   public page sections. Framer Motion is kept only for the
+   image hover micro-interaction.
    ============================================ */
 
-import React from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { Container, Typography, Button } from "@mui/material";
 import { Icon } from "@iconify/react";
 import { useModal } from "../../../context/ModalContext";
+import { useReveal } from "../../../animations";
 import styles from "./AboutSection.module.css";
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.46, 0.45, 0.94],
-    },
-  },
-};
 
 const campusImage = {
   src: "https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669894/CIT-Campus_nndyrh.png",
@@ -66,33 +48,31 @@ const credibilityPoints = [
 ];
 
 const AboutSection = () => {
-  const ref = React.useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
   const { openLeadDrawer } = useModal();
 
+  // GSAP scroll-reveal — fades the content up once as it enters the viewport.
+  // Refreshes ScrollTrigger internally so lazy-mounted sections measure right,
+  // and no-ops (instant final state) under prefers-reduced-motion.
+  const revealRef = useReveal();
+
   return (
-    <section className={styles.overviewSection} id="about" ref={ref}>
+    <section className={styles.overviewSection} id="about">
       <div className={styles.bgGradient} />
       <div className={styles.bgPattern} />
 
       <Container maxWidth="xl">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className={styles.mainWrapper}
-        >
+        <div ref={revealRef} className={styles.mainWrapper}>
           {/* Section Header */}
-          <motion.div variants={itemVariants} className={styles.sectionHeader}>
+          <div className={styles.sectionHeader}>
             <span className={styles.badge}>ABOUT CIT</span>
             <Typography
               variant="h2"
               className={styles.sectionTitle}
               sx={{
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 700,
                 fontSize: { xs: "1.75rem", sm: "2rem", md: "2.75rem" },
-                color: "#0C2D48",
+                color: "#16324F",
                 letterSpacing: "-0.01em",
               }}
             >
@@ -111,11 +91,11 @@ const AboutSection = () => {
             >
               Now welcoming North East students for the 2026 B.E. intake
             </Typography>
-          </motion.div>
+          </div>
 
           {/* Content Grid (Text + Campus Image) */}
           <div className={styles.contentGrid}>
-            <motion.div variants={itemVariants} className={styles.textColumn}>
+            <div className={styles.textColumn}>
               <Typography className={styles.contentParagraph}>
                 <strong>Channabasaveshwara Institute of Technology (CIT)</strong>{" "}
                 is a NAAC-accredited, AICTE-approved and VTU-affiliated
@@ -136,30 +116,30 @@ const AboutSection = () => {
                 endIcon={<Icon icon="mdi:arrow-right" />}
                 sx={{
                   background:
-                    "linear-gradient(135deg, #E0301E 0%, #B71F12 100%)",
+                    "linear-gradient(135deg, #1E7B45 0%, #176437 100%)",
                   color: "#FFFFFF",
                   fontWeight: 700,
                   fontSize: { xs: "0.9375rem", md: "1rem" },
                   padding: { xs: "12px 28px", md: "14px 36px" },
                   borderRadius: "50px",
                   textTransform: "none",
-                  boxShadow: "0 8px 30px rgba(224, 48, 30, 0.3)",
+                  boxShadow: "0 8px 30px rgba(30, 123, 69, 0.3)",
                   marginTop: "1rem",
                   transition: "all 0.3s ease",
                   "&:hover": {
                     background:
-                      "linear-gradient(135deg, #F0584A 0%, #E0301E 100%)",
+                      "linear-gradient(135deg, #2E9A5C 0%, #1E7B45 100%)",
                     color: "#FFFFFF",
-                    boxShadow: "0 14px 40px rgba(224, 48, 30, 0.45)",
+                    boxShadow: "0 14px 40px rgba(30, 123, 69, 0.45)",
                     transform: "translateY(-2px)",
                   },
                 }}
               >
                 Apply for 2026 Admission
               </Button>
-            </motion.div>
+            </div>
 
-            <motion.div variants={itemVariants} className={styles.imageColumn}>
+            <div className={styles.imageColumn}>
               <motion.div
                 className={styles.imageWrapper}
                 whileHover={{ scale: 1.03 }}
@@ -172,22 +152,14 @@ const AboutSection = () => {
                   loading="lazy"
                 />
               </motion.div>
-            </motion.div>
+            </div>
           </div>
 
           {/* Credibility Points Row */}
-          <motion.div
-            variants={itemVariants}
-            className={styles.differentiatorsRow}
-          >
+          <div className={styles.differentiatorsRow}>
             <div className={styles.differentiatorsGrid}>
               {credibilityPoints.map((item, index) => (
-                <motion.div
-                  key={index}
-                  className={styles.differentiatorCard}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.2 }}
-                >
+                <div key={index} className={styles.differentiatorCard}>
                   <div className={styles.differentiatorIcon}>
                     <Icon icon={item.icon} />
                   </div>
@@ -195,11 +167,11 @@ const AboutSection = () => {
                   <p className={styles.differentiatorDesc}>
                     {item.description}
                   </p>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </Container>
     </section>
   );

@@ -13,12 +13,12 @@
     />
     <meta
       name="theme-color"
-      content="#0C2D48"
+      content="#16324F"
       media="(prefers-color-scheme: dark)"
     />
     <meta
       name="theme-color"
-      content="#0C2D48"
+      content="#16324F"
       media="(prefers-color-scheme: light)"
     />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -29,7 +29,7 @@
     />
     <meta name="apple-mobile-web-app-title" content="CIT Admissions" />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-TileColor" content="#0C2D48" />
+    <meta name="msapplication-TileColor" content="#16324F" />
     <meta name="msapplication-tap-highlight" content="no" />
 
     <!-- =========================================
@@ -62,7 +62,7 @@
     />
     <meta
       property="og:image"
-      content="https://placehold.co/1200x630/0C2D48/FFFFFF?text=CIT+Admissions+2026"
+      content="https://placehold.co/1200x630/16324F/FFFFFF?text=CIT+Admissions+2026"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -88,7 +88,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://placehold.co/1200x630/0C2D48/FFFFFF?text=CIT+Admissions+2026"
+      content="https://placehold.co/1200x630/16324F/FFFFFF?text=CIT+Admissions+2026"
     />
 
     <!-- =========================================
@@ -125,7 +125,7 @@
     <link
       rel="mask-icon"
       href="%PUBLIC_URL%/safari-pinned-tab.svg"
-      color="#0C2D48"
+      color="#16324F"
     />
 
     <!-- =========================================
@@ -142,7 +142,7 @@
          ========================================= -->
     <link
       rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
       as="style"
       onload="
         this.onload = null;
@@ -151,7 +151,7 @@
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -381,8 +381,8 @@
         position: absolute;
         top: -40px;
         left: 0;
-        background: #E0301E;
-        color: #0C2D48;
+        background: #16324F;
+        color: #FFFFFF;
         padding: 8px 16px;
         z-index: 10000;
         font-weight: 600;
@@ -406,7 +406,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #ffffff;
+        background: #0F2438;
         transition:
           opacity 0.4s ease,
           visibility 0.4s ease;
@@ -453,7 +453,7 @@
           sans-serif;
         font-size: 13px;
         font-weight: 500;
-        color: #546e7a;
+        color: rgba(255, 255, 255, 0.72);
         letter-spacing: 0.04em;
         text-align: center;
         animation: loaderFadeIn 0.6s 0.2s ease both;
@@ -463,7 +463,7 @@
       .loader-bar-track {
         width: 100%;
         height: 3px;
-        background: #eceef5;
+        background: rgba(255, 255, 255, 0.12);
         border-radius: 3px;
         overflow: hidden;
         animation: loaderFadeIn 0.4s 0.3s ease both;
@@ -473,7 +473,7 @@
         height: 100%;
         width: 0%;
         border-radius: 3px;
-        background: linear-gradient(90deg, #0C2D48, #1c5fc2, #E0301E);
+        background: linear-gradient(90deg, #16324F, #274B6E, #1E7B45);
         background-size: 200% 100%;
         animation:
           loaderProgress 2s 0.4s ease-in-out forwards,
@@ -490,7 +490,7 @@
           sans-serif;
         font-size: 12px;
         font-weight: 400;
-        color: #90a4ae;
+        color: rgba(255, 255, 255, 0.5);
         letter-spacing: 0.02em;
         animation: loaderFadeIn 0.4s 0.4s ease both;
       }
@@ -600,7 +600,7 @@
          ============================================ */
       @media (prefers-color-scheme: dark) {
         .initial-loader {
-          background: #081F33;
+          background: #0F2438;
         }
         .loader-tagline {
           color: rgba(255, 255, 255, 0.6);
@@ -610,9 +610,6 @@
         }
         .loader-status {
           color: rgba(255, 255, 255, 0.4);
-        }
-        .loader-logo-img {
-          filter: brightness(0) invert(1);
         }
       }
 
@@ -639,12 +636,12 @@
         style="
           padding: 20px;
           text-align: center;
-          background: #0C2D48;
+          background: #16324F;
           color: #ffffff;
           font-family: sans-serif;
         "
       >
-        <h1 style="color: #E0301E; margin-bottom: 10px">JavaScript Required</h1>
+        <h1 style="color: #8FD3AB; margin-bottom: 10px">JavaScript Required</h1>
         <p>You need to enable JavaScript to run this app.</p>
         <p style="margin-top: 10px">
           Please enable JavaScript in your browser settings and refresh the
@@ -658,19 +655,19 @@
       class="initial-loader"
       id="initial-loader"
       role="progressbar"
-      aria-label="Loading CIT Admissions"
+      aria-label="Loading Nilachal Infracon"
     >
       <div class="loader-wrapper">
         <!-- Logo + Brand -->
         <div class="loader-brand">
           <img
-            src="https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669113/logo-cit_ykpxvd.png"
-            alt="CIT Tumakuru"
+            src="https://res.cloudinary.com/dn9gyaiik/image/upload/v1784965863/nilachal-logo-white_hus13s.png"
+            alt="Nilachal Infracon"
             class="loader-logo-img"
             width="180"
             height="auto"
           />
-          <p class="loader-tagline">Direct B.E. Admissions 2026</p>
+          <p class="loader-tagline">Building Tomorrow, Together.</p>
         </div>
 
         <!-- Animated Progress Bar -->

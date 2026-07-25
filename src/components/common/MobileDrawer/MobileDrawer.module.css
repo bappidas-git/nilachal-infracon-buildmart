@@ -12,7 +12,7 @@
 
 /* Backdrop */
 .backdrop {
-  background-color: rgba(8, 31, 51, 0.6) !important;
+  background-color: rgba(15, 36, 56, 0.6) !important;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
@@ -73,9 +73,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #0C2D48 0%, #1A5276 100%);
+  background: linear-gradient(135deg, #16324F 0%, #274B6E 100%);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(12, 45, 72, 0.3);
+  box-shadow: 0 4px 12px rgba(22, 50, 79, 0.3);
 }
 
 .logoText {
@@ -143,17 +143,17 @@
 }
 
 .menuButton:hover {
-  background-color: rgba(12, 45, 72, 0.08) !important;
+  background-color: rgba(22, 50, 79, 0.08) !important;
 }
 
 .menuButton:active {
-  background-color: rgba(12, 45, 72, 0.12) !important;
+  background-color: rgba(22, 50, 79, 0.12) !important;
   transform: scale(0.98);
 }
 
 /* Active Menu Item */
 .activeItem {
-  background-color: rgba(12, 45, 72, 0.1) !important;
+  background-color: rgba(22, 50, 79, 0.1) !important;
 }
 
 .activeItem::before {
@@ -192,7 +192,7 @@
   background: var(--accent-gold);
   border-radius: 50%;
   margin-left: auto;
-  box-shadow: 0 0 8px rgba(12, 45, 72, 0.6);
+  box-shadow: 0 0 8px rgba(22, 50, 79, 0.6);
 }
 
 /* Drawer Footer */
@@ -241,7 +241,7 @@
 }
 
 .contactDetailItem:hover {
-  background: rgba(12, 45, 72, 0.08);
+  background: rgba(22, 50, 79, 0.08);
   border-color: var(--accent-gold);
 }
 
@@ -296,13 +296,13 @@
 }
 
 .unifiedActionCall {
-  background: rgba(12, 45, 72, 0.1);
-  color: #0C2D48;
-  border-color: rgba(12, 45, 72, 0.25);
+  background: rgba(22, 50, 79, 0.1);
+  color: #16324F;
+  border-color: rgba(22, 50, 79, 0.25);
 }
 
 .unifiedActionCall:active {
-  background: #0C2D48;
+  background: #16324F;
   color: #fff;
   transform: scale(0.98);
 }
@@ -329,23 +329,23 @@
   padding: 14px 24px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #E0301E 0%, #F0584A 100%);
+  background: linear-gradient(135deg, #1E7B45 0%, #2E9A5C 100%);
   color: #FFFFFF;
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(224, 48, 30, 0.4);
+  box-shadow: 0 4px 16px rgba(30, 123, 69, 0.4);
   transition: all 0.2s ease;
 }
 
 .bookConsultationCta:hover {
-  background: linear-gradient(135deg, #B71F12 0%, #E0301E 100%);
-  box-shadow: 0 6px 20px rgba(224, 48, 30, 0.5);
+  background: linear-gradient(135deg, #176437 0%, #1E7B45 100%);
+  box-shadow: 0 6px 20px rgba(30, 123, 69, 0.5);
 }
 
 .bookConsultationCta:active {
-  background: linear-gradient(135deg, #9A1A0E 0%, #B71F12 100%);
+  background: linear-gradient(135deg, #124E2B 0%, #176437 100%);
 }
 
 .bookConsultationCta svg {
@@ -441,7 +441,7 @@
   }
 
   .menuButton:active {
-    background-color: rgba(12, 45, 72, 0.12) !important;
+    background-color: rgba(22, 50, 79, 0.12) !important;
   }
 
   .closeButton:hover {

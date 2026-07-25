@@ -190,7 +190,7 @@ npm start
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/styles/variables.css</code></td>
               <td className={styles.guideTableCell}>Brand colors (landing page only)</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>--color-primary: #0C2D48</code></td>
+              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>--color-primary: #16324F</code></td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/theme/muiTheme.js</code></td>
@@ -250,17 +250,17 @@ npm start
           <tbody>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>--color-primary</code></td>
-              <td className={styles.guideTableCell}>#0C2D48 (CIT Blue)</td>
+              <td className={styles.guideTableCell}>#16324F (Steel Navy)</td>
               <td className={styles.guideTableCell}>Headers, primary surfaces</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>--color-secondary</code></td>
-              <td className={styles.guideTableCell}>#D82618 (CIT Red)</td>
+              <td className={styles.guideTableCell}>#1E7B45 (Nilachal Green)</td>
               <td className={styles.guideTableCell}>Accents, section labels, badges</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>--color-accent</code></td>
-              <td className={styles.guideTableCell}>#E0301E (CTA Red)</td>
+              <td className={styles.guideTableCell}>#1E7B45 (Nilachal Green)</td>
               <td className={styles.guideTableCell}>Primary CTA buttons only</td>
             </tr>
           </tbody>

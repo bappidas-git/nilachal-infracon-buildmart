@@ -52,3 +52,39 @@ the single unreleased version below as each prompt is merged.
 - The entire SEO system (`SEOHead`, `src/config/seo.js`, `src/utils/seo.js`,
   JSON-LD in `index.html`), UTM capture, the `source` field, and the admin CSV
   UTM columns — these are generic link attribution, not ad-platform tracking.
+
+### 03 — Design system & GSAP animation foundation
+
+**Added**
+- Installed the Nilachal brand tokens in `src/styles/variables.css` and
+  `src/theme/muiTheme.js`: steel navy (`#16324F` / `#0F2438` / `#274B6E`),
+  Nilachal green (`#1E7B45` / `#176437`, tint `#E8F5EE`), ink `#101C29`, slate
+  `#4A5A6A`, subtle bg `#F5F7FA`, border `#E5EAF0`, plus a soft elevation token
+  `0 8px 30px rgba(16,28,41,.06)`. Kept every existing variable/palette **name**
+  (including legacy `--accent-gold*` → navy and `--accent-orange*`/`--accent-amber*`
+  → green aliases) so `.module.css` references stay valid.
+- Added the GSAP + ScrollTrigger animation foundation in `src/animations/`
+  (`gsapSetup.js`, `useReveal`, `useStaggerReveal`, `useCountUp`, `useParallax`,
+  barrel `index.js`) — SSR-safe hooks that refresh ScrollTrigger for lazy sections
+  and no-op to the final state under `prefers-reduced-motion`. Installed `gsap`
+  and `@gsap/react`.
+- Documented the Brand Color System and Animations patterns in `CLAUDE.md`.
+
+**Changed**
+- Set typography to **Inter everywhere** (headings included; heading weights
+  600–700, `letter-spacing: -0.02em` on h1–h3) and removed Poppins from the MUI
+  theme, `public/index.html`, `src/index.js`, and `src/styles/global.css` font
+  URLs/preloads.
+- Reworked the `index.html` splash loader for Nilachal: white logo on a navy
+  (`#0F2438`) background, progress bar gradient navy→green, tagline
+  "Building Tomorrow, Together." Updated `theme-color` / `msapplication-TileColor`
+  / mask-icon and `manifest.json` `theme_color` to `#16324F`, and the noscript
+  fallback colors.
+- Swept every hardcoded CIT hex (`#0C2D48`, `#081F33`, `#1A5276`, `#D82618`,
+  `#E0301E`, `#B71F12`) and their `rgba()` equivalents out of `src/` and `public/`,
+  plus `global.css`/`App.css` fallbacks, `swalHelper.js`/`Modal.jsx` confirm
+  colors, and the `ThemeContext` meta theme-color — replaced with navy/green
+  tokens. Admin `--admin-*` tokens moved off the retired CIT hexes onto navy/green
+  (+ semantic amber/red); full admin restyle is deferred to prompt 13.
+- Wired `useReveal` into `AboutSection` as a proof-of-life smoke test (GSAP now
+  drives its scroll reveal; Framer Motion retained only for the image hover).
