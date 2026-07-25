@@ -142,7 +142,7 @@ correctly, and **no-ops to the final state instantly** when
 ## Customization Guide
 
 1. **Content**: Update data files in `src/data/` and hard-coded text in section components
-2. **Branding**: Replace the logo URL in `Header.jsx`, `Footer.jsx`, `MobileDrawer.jsx`, and `public/index.html`
+2. **Branding**: The header, footer, and mobile drawer read the logo from `src/data/siteConfig.js` (`logo` for light backgrounds, `logoWhite` for dark) — update it there. The `public/index.html` splash logo is set separately.
 3. **Contact Info**: Update `src/data/siteConfig.js` (the single source of truth — `locationData.js` derives from it) and the matching values in `.env`
 4. **SEO**: Update meta tags, JSON-LD schemas, `src/config/seo.js`, and `public/sitemap.xml`
 5. **Forms**: Leads POST to the server store (`/api/leads.php`) via `src/utils/webhookSubmit.js` — usually leave the default endpoint

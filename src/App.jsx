@@ -370,7 +370,7 @@ const HomePageContent = () => {
   const handleMenuClick = () => setIsMobileDrawerOpen(true);
   const handleMobileDrawerClose = () => setIsMobileDrawerOpen(false);
   const handleMobileDrawerOpen = () => setIsMobileDrawerOpen(true);
-  const handleEnquiryClick = () => openLeadDrawer('default');
+  const handleEnquiryClick = () => openLeadDrawer('request-quote');
 
   // Handle hash-based scroll to section (e.g., /#overview, /#floor-plans)
   // Sections are lazy-loaded, so we poll until the target element appears in the DOM

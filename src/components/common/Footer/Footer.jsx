@@ -1,7 +1,8 @@
 /* ============================================
-   Footer Component — CIT 2026 Admissions
-   Multi-column footer with quick links, admission
-   contact info, accreditation strip and privacy modal
+   Footer Component — Nilachal Infracon
+   Four-column footer on deep navy with quick links,
+   contact info, registered-office details and the
+   privacy-policy modal.
    ============================================ */
 
 import React, { useState } from "react";
@@ -9,48 +10,49 @@ import { Container, IconButton } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import { Icon } from "@iconify/react";
+import {
+  siteConfig,
+  telHref,
+  mailHref,
+  waHref,
+  fullAddress,
+} from "../../../data/siteConfig";
 import styles from "./Footer.module.css";
 
-const CIT_LOGO_URL =
-  "https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669113/logo-cit_ykpxvd.png";
-
-const PRIMARY_PHONE = "+918069645014";
-const PRIMARY_PHONE_DISPLAY = "+91 8069645014";
-const WHATSAPP_LINK =
-  "https://api.whatsapp.com/send?phone=918069645014&text=Hello%20CIT%2C%20I%27d%20like%20guidance%20on%20Direct%20B.E.%20admission%202026.";
-
-// Privacy Policy Content — CIT / Assam Digital admissions campaign
+// Privacy Policy Content — Nilachal Infracon enquiry data policy
 const PrivacyPolicyContent = () => (
   <div className={styles.legalContent}>
     <section className={styles.legalSection}>
       <h3>Introduction</h3>
       <p>
-        Channabasaveshwara Institute of Technology (CIT), Tumakuru, together
-        with its marketing partner Assam Digital, respects your privacy and is
-        committed to protecting the personal data shared by prospective
-        students and parents during the Direct B.E. Admissions 2026 campaign.
-        This Privacy Policy explains what we collect, how we use it, and your
-        rights.
+        {siteConfig.legalName} (&ldquo;we&rdquo;, &ldquo;us&rdquo;) respects your
+        privacy. This policy explains what information we collect when you send
+        an enquiry through this website, how we use it, and how you can ask us to
+        remove it.
       </p>
     </section>
 
     <section className={styles.legalSection}>
       <h3>Information We Collect</h3>
-      <p>We may collect the following types of information:</p>
+      <p>
+        When you submit an enquiry or request a callback, we collect only the
+        details you choose to share with us:
+      </p>
       <ul>
         <li>
-          <strong>Personal information:</strong> name, mobile number, email,
-          home state and city — collected through admission enquiry forms,
-          call-back requests and WhatsApp messages.
+          <strong>Your name</strong> — so we know who to address.
         </li>
         <li>
-          <strong>Academic interest:</strong> the B.E. branch you are
-          interested in, year of qualifying exam, and any questions about
-          hostel, fees or the admission process.
+          <strong>Your phone number</strong> — so our team can call or message
+          you back.
         </li>
         <li>
-          <strong>Device information:</strong> IP address and browser type,
-          used only for basic security and to process your enquiry.
+          <strong>Your email address</strong> — an optional way for us to reach
+          you.
+        </li>
+        <li>
+          <strong>Your enquiry details</strong> — the products, services, brands
+          or project you would like to discuss.
         </li>
       </ul>
     </section>
@@ -58,66 +60,64 @@ const PrivacyPolicyContent = () => (
     <section className={styles.legalSection}>
       <h3>How We Use Your Information</h3>
       <ul>
-        <li>To contact you about Direct B.E. admission 2026 at CIT.</li>
         <li>
-          To answer questions about courses, fees, hostel facilities, scholarships
-          and the admission process — by call or WhatsApp.
+          To respond to your enquiry and help you with the products and services
+          offered by North East Buildmart.
         </li>
         <li>
-          To improve our campaigns, the landing page experience, and the
-          guidance we provide to North East India students.
-        </li>
-        <li>
-          To comply with applicable Indian laws and education-regulatory
-          obligations.
+          To share availability, brands, pricing and project guidance you have
+          asked about.
         </li>
       </ul>
-    </section>
-
-    <section className={styles.legalSection}>
-      <h3>Sharing of Information</h3>
       <p>
-        Your details are shared only between CIT&apos;s admissions team and
-        Assam Digital&apos;s NE-region counsellors handling this campaign.
-        We do not sell your data.
+        Your details are used <strong>only to respond to your enquiry</strong>.
+        We do not use them for anything else.
       </p>
     </section>
 
     <section className={styles.legalSection}>
-      <h3>Cookies</h3>
+      <h3>Storage &amp; Sharing</h3>
       <p>
-        This site does not use advertising or analytics tracking. Only the
-        essential cookies needed for the site to function are used, and the
-        information you submit is used solely to respond to your enquiry.
+        Enquiries are stored on this website&apos;s own server so our team can
+        follow up with you. We <strong>never sell or rent</strong> your
+        information, and we do not share it with advertising platforms or data
+        brokers.
       </p>
     </section>
 
     <section className={styles.legalSection}>
-      <h3>Your Rights</h3>
-      <ul>
-        <li>Request a copy of the personal data we hold about you.</li>
-        <li>Ask us to correct inaccurate information.</li>
-        <li>Ask us to delete your data (subject to record-keeping requirements).</li>
-        <li>Opt out of further marketing communication at any time.</li>
-      </ul>
+      <h3>No Ad-Platform Tracking</h3>
+      <p>
+        This site does not run advertising pixels, ad-network trackers or
+        cross-site profiling. Only the essential cookies needed for the site to
+        function are used.
+      </p>
+    </section>
+
+    <section className={styles.legalSection}>
+      <h3>Removing Your Data</h3>
+      <p>
+        You can ask us to delete the details you submitted at any time. Email us
+        at{" "}
+        <a href={mailHref} className={styles.legalLinkInline}>
+          {siteConfig.email}
+        </a>{" "}
+        and we will remove your enquiry from our records.
+      </p>
     </section>
 
     <section className={styles.legalSection}>
       <h3>Contact</h3>
       <p>
-        For any privacy questions or data requests, contact the CIT admissions
-        office:
-      </p>
-      <p>
-        <strong>Channabasaveshwara Institute of Technology</strong>
+        <strong>{siteConfig.legalName}</strong>
         <br />
-        NH 206, B.H. Road, Gubbi, Tumakuru – 572 216, Karnataka
+        {fullAddress}
         <br />
-        Phone: {PRIMARY_PHONE_DISPLAY}
+        Phone: {siteConfig.phoneDisplay}
+        <br />
+        Email: {siteConfig.email}
       </p>
     </section>
-
-    <p className={styles.lastUpdated}>Last Updated: May 2026</p>
   </div>
 );
 
@@ -180,22 +180,14 @@ const LegalModal = ({ isOpen, onClose, title, children }) => {
   );
 };
 
-// Quick Links — match the landing-page section anchors
+// Quick Links — match the one-pager section anchors
 const quickLinks = [
-  { label: "About CIT", href: "#about" },
-  { label: "Courses", href: "#courses" },
-  { label: "Placements", href: "#placements" },
-  { label: "Campus", href: "#campus" },
+  { label: "About", href: "#about" },
+  { label: "Products", href: "#products" },
+  { label: "Services", href: "#services" },
+  { label: "Brands", href: "#brands" },
+  { label: "Why Us", href: "#why-us" },
   { label: "Contact", href: "#contact" },
-];
-
-const accreditationItems = [
-  "NAAC Accredited",
-  "AICTE Approved",
-  "VTU Affiliated",
-  "ISO 9001:2015",
-  "CET Code E101",
-  "COMED-K E035",
 ];
 
 const Footer = () => {
@@ -208,23 +200,24 @@ const Footer = () => {
         <div className={styles.mainFooter}>
           <Container maxWidth="xl">
             <div className={styles.footerGrid}>
-              {/* Column 1: Logo & Tagline */}
+              {/* Column 1: Brand */}
               <div className={styles.footerBrand}>
                 <div className={styles.logoWrapper}>
                   <img
-                    src={CIT_LOGO_URL}
-                    alt="CIT — Channabasaveshwara Institute of Technology"
-                    style={{
-                      height: "40px",
-                      width: "auto",
-                    }}
+                    src={siteConfig.logoWhite}
+                    alt={siteConfig.legalName}
+                    className={styles.brandLogo}
                   />
                 </div>
-                <p className={styles.tagline}>
-                  Channabasaveshwara Institute of Technology — a NAAC-accredited,
-                  AICTE-approved engineering institute in Tumakuru, Karnataka.
-                  Guided Direct B.E. admissions for the 2026 intake, with
-                  end-to-end support for students from North East India.
+                <p className={styles.legalName}>{siteConfig.legalName}</p>
+                <p className={styles.tagline}>{siteConfig.tagline}</p>
+                <p className={styles.about}>
+                  Infrastructure &amp; building-materials, delivered with care
+                  across Northeast India.
+                </p>
+                <p className={styles.brandLine}>
+                  {siteConfig.flagshipBrand} — A Brand of Nilachal Infracon Pvt.
+                  Ltd.
                 </p>
               </div>
 
@@ -232,8 +225,8 @@ const Footer = () => {
               <div className={styles.footerColumn}>
                 <h4 className={styles.columnTitle}>Quick Links</h4>
                 <ul className={styles.footerLinks}>
-                  {quickLinks.map((link, index) => (
-                    <li key={index}>
+                  {quickLinks.map((link) => (
+                    <li key={link.href}>
                       <a href={link.href} className={styles.footerLink}>
                         {link.label}
                       </a>
@@ -244,77 +237,56 @@ const Footer = () => {
 
               {/* Column 3: Contact */}
               <div className={styles.footerColumn}>
-                <h4 className={styles.columnTitle}>Admissions Contact</h4>
+                <h4 className={styles.columnTitle}>Contact</h4>
                 <ul className={styles.contactList}>
                   <li className={styles.contactItem}>
-                    <div className={styles.contactLabelRow}>
-                      <Icon
-                        icon="mdi:phone-in-talk-outline"
-                        className={styles.contactIcon}
-                      />
-                      <span className={styles.contactLabel}>
-                        Call or WhatsApp
-                      </span>
-                    </div>
-                    <span className={styles.contactValue}>
-                      {PRIMARY_PHONE_DISPLAY}
-                    </span>
-                    <div className={styles.contactChipRow}>
-                      <a
-                        href={`tel:${PRIMARY_PHONE}`}
-                        className={`${styles.contactChip} ${styles.contactChipCall}`}
-                        aria-label={`Call ${PRIMARY_PHONE_DISPLAY}`}
-                      >
-                        <Icon icon="mdi:phone" />
-                        <span>Call</span>
-                      </a>
-                      <a
-                        href={WHATSAPP_LINK}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`${styles.contactChip} ${styles.contactChipWhatsapp}`}
-                        aria-label={`Chat on WhatsApp with ${PRIMARY_PHONE_DISPLAY}`}
-                      >
-                        <Icon icon="mdi:whatsapp" />
-                        <span>Chat</span>
-                      </a>
-                    </div>
+                    <Icon
+                      icon="mdi:map-marker-outline"
+                      className={styles.contactIcon}
+                    />
+                    <span className={styles.contactValue}>{fullAddress}</span>
                   </li>
-
                   <li className={styles.contactItem}>
-                    <div className={styles.contactLabelRow}>
-                      <Icon
-                        icon="mdi:map-marker"
-                        className={styles.contactIcon}
-                      />
-                      <span className={styles.contactLabel}>Campus</span>
-                    </div>
-                    <span className={styles.contactValue}>
-                      NH 206, B.H. Road, Gubbi,
-                      <br />
-                      Tumakuru – 572 216, Karnataka
-                    </span>
+                    <Icon
+                      icon="mdi:phone-outline"
+                      className={styles.contactIcon}
+                    />
+                    <a href={telHref} className={styles.contactLink}>
+                      {siteConfig.phoneDisplay}
+                    </a>
+                  </li>
+                  <li className={styles.contactItem}>
+                    <Icon
+                      icon="mdi:email-outline"
+                      className={styles.contactIcon}
+                    />
+                    <a href={mailHref} className={styles.contactLink}>
+                      {siteConfig.email}
+                    </a>
                   </li>
                 </ul>
+                <a
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.whatsappChip}
+                  aria-label={`Chat with ${siteConfig.brandName} on WhatsApp`}
+                >
+                  <Icon icon="mdi:whatsapp" />
+                  <span>WhatsApp Us</span>
+                </a>
+              </div>
+
+              {/* Column 4: Registered Office */}
+              <div className={styles.footerColumn}>
+                <h4 className={styles.columnTitle}>Registered Office</h4>
+                <p className={styles.officeAddress}>{fullAddress}</p>
+                <p className={styles.cin}>
+                  <span className={styles.cinLabel}>CIN</span>
+                  <span className={styles.cinValue}>{siteConfig.cin}</span>
+                </p>
               </div>
             </div>
-          </Container>
-        </div>
-
-        {/* Accreditation Strip */}
-        <div className={styles.accreditationStrip}>
-          <Container maxWidth="xl">
-            <ul className={styles.accreditationList}>
-              {accreditationItems.map((item) => (
-                <li key={item} className={styles.accreditationItem}>
-                  <Icon
-                    icon="mdi:shield-check-outline"
-                    className={styles.accreditationIcon}
-                  />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
           </Container>
         </div>
 
@@ -323,36 +295,29 @@ const Footer = () => {
           <Container maxWidth="xl">
             <div className={styles.bottomContent}>
               <p className={styles.copyright}>
-                &copy; 2026 Channabasaveshwara Institute of Technology. All
-                rights reserved.
+                &copy; 2026 {siteConfig.legalName}. All Rights Reserved.
               </p>
-              <div className={styles.legalLinks}>
+              <div className={styles.bottomRight}>
                 <button
                   className={styles.legalLink}
                   onClick={() => setPrivacyModalOpen(true)}
                 >
                   Privacy Policy
                 </button>
+                <span className={styles.linkDivider}>·</span>
+                <span className={styles.developerText}>
+                  Developed by{" "}
+                  <a
+                    href="https://www.assamdigital.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.developerLink}
+                  >
+                    Assam Digital
+                  </a>
+                </span>
               </div>
             </div>
-          </Container>
-        </div>
-
-        {/* Marketed By Credit */}
-        <div className={styles.developerBar}>
-          <Container maxWidth="xl">
-            <p className={styles.developerText}>
-              Marketed by{" "}
-              <a
-                href="https://www.assamdigital.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.developerLink}
-              >
-                Assam Digital
-              </a>{" "}
-              · Direct B.E. Admissions 2026
-            </p>
           </Container>
         </div>
       </footer>
