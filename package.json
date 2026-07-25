@@ -1,7 +1,7 @@
 {
-  "name": "cit-landing-page",
+  "name": "nilachal-infracon-website",
   "version": "1.0.0",
-  "description": "CIT — Direct B.E. Engineering Admissions 2026 landing page for Channabasaveshwara Institute of Technology. High-converting, mobile-first lead-generation page built with React 18, MUI v5, and Framer Motion.",
+  "description": "Nilachal Infracon Private Limited — one-page business website for Northeast India's infrastructure & building materials company (flagship brand: North East Buildmart). React 18 + MUI + GSAP, with lead-capturing enquiry form and admin panel.",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -54,15 +54,15 @@
   "author": "Assam Digital",
   "license": "UNLICENSED",
   "keywords": [
-    "engineering-admission",
+    "nilachal-infracon",
+    "north-east-buildmart",
+    "building-materials",
+    "construction",
+    "infrastructure",
+    "northeast-india",
+    "assam",
+    "nagaon",
     "landing-page",
-    "lead-generation",
-    "cit",
-    "vtu",
-    "direct-admission",
-    "be-admission",
-    "tumakuru",
-    "gtm-integration",
-    "conversion-tracking"
+    "lead-generation"
   ]
 }

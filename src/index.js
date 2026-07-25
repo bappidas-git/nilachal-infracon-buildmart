@@ -1,6 +1,6 @@
 /* ============================================
-   Entry Point - Landing Page Boilerplate
-   Franchise Landing Page
+   Entry Point — Nilachal Infracon
+   Official Website
 
    Performance optimized with:
    - React 18 concurrent features
@@ -133,7 +133,7 @@ reportWebVitals(handleWebVitals);
 
 if (process.env.NODE_ENV === 'development') {
   // Log when app is ready
-  console.log('%c CIT Admissions 2026 ', 'background: #0C2D48; color: #E0301E; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px;');
+  console.log('%c Nilachal Infracon — Official Website ', 'background: #16324F; color: #FFFFFF; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 4px;');
   console.log('%c Development Mode ', 'background: #4CAF50; color: white; padding: 5px 10px; font-size: 12px; border-radius: 4px;');
 }
 
