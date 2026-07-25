@@ -150,32 +150,7 @@ Make sure the `public/api/data/` folder is writable by the PHP process (usually 
 
 > **Single source of truth:** Every lead — and every admin action (status change, note, delete) — flows through `/api/leads.php`. There is no localStorage copy of leads, so all browsers and devices stay in sync automatically.
 
-## 9. Set Up Google Tag Manager
-
-1. Create a GTM container at [tagmanager.google.com](https://tagmanager.google.com/)
-2. Add your GTM ID to `.env`:
-   ```
-   REACT_APP_GTM_ID="GTM-XXXXXXX"
-   ```
-3. Replace `GTM-XXXXXXX` in `public/index.html` (two places: `<head>` script and `<body>` noscript)
-4. Configure tags, triggers, and variables in GTM
-
-See `GTM_GUIDE.md` for detailed setup including dataLayer events.
-
-### Optional: Meta Pixel
-
-```
-REACT_APP_META_PIXEL_ID="XXXXXXXXXXXXXXX"
-```
-
-### Optional: Google Ads Conversion Tracking
-
-```
-REACT_APP_GOOGLE_ADS_ID="AW-XXXXXXXXXX"
-REACT_APP_GOOGLE_ADS_CONVERSION_LABEL="XXXXXXXXXX"
-```
-
-## 10. Deploy
+## 9. Deploy
 
 ```bash
 # Build production bundle
@@ -199,7 +174,7 @@ Since this is a single-page app with client-side routing, configure your hosting
 - **Apache**: Add `.htaccess` with `RewriteRule` to `index.html`
 - **Nginx**: Add `try_files $uri /index.html`
 
-## 11. Post-Deploy Verification
+## 10. Post-Deploy Verification
 
 After deployment, verify:
 
@@ -208,8 +183,6 @@ After deployment, verify:
 - [ ] UnifiedLeadForm submissions work (check the Admin Panel / `api/data/leads.json`)
 - [ ] Thank You page shows after form submission
 - [ ] Admin panel accessible at `/admin`
-- [ ] GTM fires events (check browser console for `dataLayer`)
-- [ ] Meta Pixel fires (check Meta Events Manager)
 - [ ] SEO schemas validate (use [Google Rich Results Test](https://search.google.com/test/rich-results))
 - [ ] Mobile layout works correctly
 - [ ] No console errors in production
@@ -225,6 +198,5 @@ After deployment, verify:
 | SEO meta tags | `public/index.html`, `src/config/seo.js` |
 | Leads API endpoint | `src/utils/webhookSubmit.js` (default `/api/leads.php`) |
 | Lead Management API key | `public/api/config.php` (server) + `.env` (`REACT_APP_LEADS_ADMIN_KEY`) |
-| GTM container ID | `.env`, `public/index.html` |
 | Admin credentials | `.env` |
 | Favicon / icons | `public/` directory |

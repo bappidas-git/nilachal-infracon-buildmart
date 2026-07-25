@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
-import { trackPhoneClick, trackWhatsAppClick } from "../../../utils/gtm";
 import styles from "./MobileDrawer.module.css";
 
 // CIT primary admissions contact (Assam Digital campaign)
@@ -279,9 +278,6 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
                 <a
                   href={`tel:${PRIMARY_PHONE}`}
                   className={`${styles.unifiedActionBtn} ${styles.unifiedActionCall}`}
-                  onClick={() =>
-                    trackPhoneClick(PRIMARY_PHONE, 'mobile_drawer')
-                  }
                   aria-label={`Call ${PRIMARY_PHONE_DISPLAY}`}
                 >
                   <Icon icon="mdi:phone" style={{ fontSize: 16 }} />
@@ -292,7 +288,6 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
                   className={`${styles.unifiedActionBtn} ${styles.unifiedActionWhatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackWhatsAppClick('mobile_drawer')}
                   aria-label={`Chat on WhatsApp with ${PRIMARY_PHONE_DISPLAY}`}
                 >
                   <Icon icon="mdi:whatsapp" style={{ fontSize: 16 }} />

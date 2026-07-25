@@ -9,7 +9,6 @@ import { Container, Typography, Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { useModal } from "../../../context/ModalContext";
-import { trackCTAClick } from "../../../utils/gtm";
 import Button from "../../common/Button/Button";
 import styles from "./SecondaryCTASection.module.css";
 
@@ -127,11 +126,6 @@ const SecondaryCTASection = () => {
                   size="large"
                   className={styles.primaryCta}
                   onClick={() => {
-                    trackCTAClick(
-                      "secondary_cta_apply",
-                      "secondary_cta",
-                      "Apply for 2026 Admission",
-                    );
                     openLeadDrawer("apply-now");
                   }}
                 >
@@ -147,13 +141,6 @@ const SecondaryCTASection = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.whatsappBtn}
-                  onClick={() =>
-                    trackCTAClick(
-                      "secondary_cta_whatsapp",
-                      "secondary_cta",
-                      "WhatsApp Us",
-                    )
-                  }
                 >
                   <Icon icon="mdi:whatsapp" style={{ fontSize: "1.3rem" }} />
                   WhatsApp Us
@@ -164,13 +151,6 @@ const SecondaryCTASection = () => {
                 <a
                   href="tel:+918069645014"
                   className={styles.phoneLink}
-                  onClick={() =>
-                    trackCTAClick(
-                      "secondary_cta_call",
-                      "secondary_cta",
-                      "Call CIT",
-                    )
-                  }
                 >
                   <Icon icon="mdi:phone" className={styles.phoneIcon} />
                   +91 8069645014

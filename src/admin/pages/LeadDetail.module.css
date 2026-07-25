@@ -174,37 +174,6 @@
   gap: 2px;
 }
 
-.utmItemFull {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  grid-column: 1 / -1;
-}
-
-/* ---- Copy Button ---- */
-.copyBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: 1px solid var(--admin-border);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 0.7rem;
-  color: var(--admin-text-muted);
-  cursor: pointer;
-  margin-left: 6px;
-  transition: all 0.15s ease;
-  min-height: 32px;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.copyBtn:hover {
-  border-color: var(--admin-accent);
-  color: var(--admin-accent);
-}
-
 /* ---- Notes Section ---- */
 .noteTextarea {
   width: 100%;
@@ -355,91 +324,11 @@
   padding: 8px 0;
 }
 
-/* ---- Conversion Tracking Card ---- */
-.trackingGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.trackingRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.trackingLabel {
-  font-size: 0.75rem;
-  color: var(--admin-text-secondary);
-}
-
-.trackingValue {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--admin-text-primary);
-}
-
-.trackingChip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.trackingChipGreen {
-  background: #ECFDF5;
-  color: #10B981;
-}
-
-.trackingChipBlue {
-  background: #EAEFF3;
-  color: #0C2D48;
-}
-
-.trackingChipMuted {
-  background: #F1F5F9;
-  color: var(--admin-text-muted);
-}
-
-.trackingChipOrange {
-  background: #FFF7ED;
-  color: #F59E0B;
-}
-
 /* ---- Action Buttons ---- */
 .actionButtons {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.convertBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 10px 16px;
-  background: #10B981;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease;
-  font-family: inherit;
-  min-height: 44px;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.convertBtn:hover {
-  background: #059669;
 }
 
 .deleteBtn {
@@ -570,7 +459,6 @@
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
   }
 
-  .mobileFooter .convertBtn,
   .mobileFooter .deleteBtn {
     flex: 1;
     padding: 10px 8px;
@@ -610,7 +498,6 @@
     display: none !important;
   }
 
-  .convertBtn,
   .deleteBtn {
     display: none;
   }

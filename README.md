@@ -119,9 +119,6 @@ variables:
 | `REACT_APP_LEADS_ADMIN_KEY` | Shared secret for admin lead operations — must match `ADMIN_API_KEY` in `public/api/config.php` |
 | `REACT_APP_TELECALLS_API_URL` | Tele-calling API endpoint (module removed in prompt 13) |
 
-> A few analytics/tracking variables still remain in `.env` from the previous
-> build; they are removed in **prompt 02** (`prompts/02-remove-ads-tracking.md`).
-
 ## Documentation
 
 - **[prompts/README.md](prompts/README.md)** — The rebuild prompt series and series-wide conventions

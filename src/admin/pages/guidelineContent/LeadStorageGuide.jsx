@@ -39,7 +39,7 @@ const LeadStorageGuide = ({ styles }) => {
             <tr>
               <td className={styles.guideTableCell}><strong>1. Visitor submits</strong></td>
               <td className={styles.guideTableCell}>
-                The form POSTs the lead (with UTM + GCLID attribution) to{' '}
+                The form POSTs the lead (with UTM attribution) to{' '}
                 <code className={styles.guideInlineCode}>/api/leads.php?action=create</code>.
                 The server dedupes by mobile number so the same applicant can't create two leads.
               </td>

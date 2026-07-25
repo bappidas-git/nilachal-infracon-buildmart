@@ -7,11 +7,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { Icon } from "@iconify/react";
-import {
-  trackPhoneClick,
-  trackNavigation,
-  trackCTAClick,
-} from "../../../utils/gtm";
 import { useModal } from "../../../context/ModalContext";
 import styles from "./Header.module.css";
 
@@ -128,7 +123,6 @@ const Header = ({ forceCloseMenu = false }) => {
   };
 
   const handleApplyClick = (source) => {
-    trackCTAClick(`header_apply_now_${source}`, "header", "Apply Now");
     openLeadDrawer("apply-now");
     setIsMobileMenuOpen(false);
   };
@@ -219,7 +213,6 @@ const Header = ({ forceCloseMenu = false }) => {
                   <a
                     href={item.href}
                     onClick={(e) => {
-                      trackNavigation("desktop_nav", "click", item.label);
                       scrollToSection(e, item.href);
                     }}
                     className={`${styles.navLink} ${activeSection === item.href.substring(1) ? styles.active : ""}`}
@@ -244,9 +237,6 @@ const Header = ({ forceCloseMenu = false }) => {
                 <a
                   href={`tel:${PRIMARY_PHONE}`}
                   className={styles.callButton}
-                  onClick={() =>
-                    trackPhoneClick(PRIMARY_PHONE, "header_desktop")
-                  }
                   aria-label={`Call CIT admissions on ${PRIMARY_PHONE_DISPLAY}`}
                 >
                   <Icon icon="mdi:phone" className={styles.callButtonIcon} />
@@ -274,7 +264,6 @@ const Header = ({ forceCloseMenu = false }) => {
               className={styles.menuButton}
               onClick={() => {
                 const newState = !isMobileMenuOpen;
-                trackNavigation("mobile_menu", newState ? "open" : "close");
                 setIsMobileMenuOpen(newState);
               }}
               aria-label="Toggle menu"
@@ -339,7 +328,6 @@ const Header = ({ forceCloseMenu = false }) => {
                   href={`tel:${PRIMARY_PHONE}`}
                   className={styles.mobileCallButton}
                   onClick={() => {
-                    trackPhoneClick(PRIMARY_PHONE, "header_mobile_menu");
                     setIsMobileMenuOpen(false);
                   }}
                 >

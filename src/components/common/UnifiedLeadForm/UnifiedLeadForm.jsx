@@ -28,12 +28,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { showSuccess, showError, showInfo } from "../../../utils/swalHelper";
-import { trackFormSubmission } from "../../../utils/gtm";
-import { trackLead as trackMetaLead } from "../../../utils/metaPixel";
-import { sendLeadEvent } from "../../../utils/metaCAPI";
-import { generateEventId } from "../../../utils/eventDedup";
-import { trackFormSubmission as trackGoogleAdsFormSubmission } from "../../../utils/googleAds";
-import { sendEnhancedConversionData } from "../../../utils/enhancedConversions";
 import Button from "../Button/Button";
 import {
   getMobileErrorMessage,
@@ -151,14 +145,9 @@ const PrivacyPolicyContent = () => (
           <strong>Admission preferences:</strong> the B.E. course you are
           interested in and the state you are applying from.
         </li>
-        <li style={{ marginBottom: "6px" }}>
+        <li>
           <strong>Optional message:</strong> any question you choose to add
           about admission, hostel, or fees.
-        </li>
-        <li>
-          <strong>Usage & device data:</strong> standard analytics information
-          (IP address, browser, pages visited) used to improve the site and
-          measure campaign performance.
         </li>
       </ul>
     </section>
@@ -200,13 +189,9 @@ const PrivacyPolicyContent = () => (
         <li style={{ marginBottom: "6px" }}>
           Contact you by phone, WhatsApp, SMS, or email about your enquiry.
         </li>
-        <li style={{ marginBottom: "6px" }}>
+        <li>
           Share course, fee, hostel, and placement details relevant to your
           enquiry.
-        </li>
-        <li>
-          Improve our website, content, and ad campaigns based on aggregated
-          usage data.
         </li>
       </ul>
     </section>
@@ -251,7 +236,7 @@ const PrivacyPolicyContent = () => (
         </li>
         <li>
           <strong>Service providers:</strong> trusted vendors that help us host
-          the website, send communications, and measure campaign performance.
+          the website and send communications.
         </li>
       </ul>
       <p
@@ -685,44 +670,6 @@ const UnifiedLeadForm = ({
       }
 
       if (result.success) {
-        // Push lead form submission + generate_lead conversion events to GTM
-        trackFormSubmission(formId || 'general', {
-          serviceInterest: formData.service_interest,
-        });
-
-        // Meta Pixel + CAPI dual tracking with shared event_id for deduplication
-        const metaEventId = generateEventId();
-
-        // 1. Fire browser-side Meta Pixel Lead event (no PII)
-        trackMetaLead({
-          event_id: metaEventId,
-          content_name: formId || 'lead_form',
-          content_category: 'lead_generation',
-        });
-
-        // 2. Send server-side CAPI Lead event with hashed PII (non-blocking)
-        sendLeadEvent({
-          name: formData.name,
-          email: formData.email,
-          mobile: formData.mobile,
-          event_id: metaEventId,
-          source: formId || 'general',
-        }).catch((err) => {
-          console.error('[MetaCAPI] Lead event failed:', err);
-        });
-
-        // 3. Fire Google Ads conversion event
-        trackGoogleAdsFormSubmission(formId || 'general');
-
-        // 4. Send enhanced conversion data (hashed PII) for Google Ads
-        sendEnhancedConversionData(
-          formData.email,
-          formData.mobile,
-          formData.name
-        ).catch((err) => {
-          console.error('[EnhancedConversions] Failed:', err);
-        });
-
         // Set lead submitted flag for thank you page access
         sessionStorage.setItem("lead_submitted", "true");
         sessionStorage.setItem("lead_name", formData.name);

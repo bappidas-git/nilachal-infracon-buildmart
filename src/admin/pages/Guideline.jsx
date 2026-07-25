@@ -1,6 +1,6 @@
 /* ============================================
    Admin Guideline Page
-   Password-protected with 8-tab navigation
+   Password-protected with 4-tab navigation
    ============================================ */
 
 import React, { useState, useEffect } from "react";
@@ -9,10 +9,6 @@ import { TextField, IconButton } from "@mui/material";
 import { Icon } from "@iconify/react";
 import styles from "./Guideline.module.css";
 import LeadStorageGuide from "./guidelineContent/LeadStorageGuide";
-import GoogleAdsGuide from "./guidelineContent/GoogleAdsGuide";
-import MetaAdsGuide from "./guidelineContent/MetaAdsGuide";
-import GTMSetupGuide from "./guidelineContent/GTMSetupGuide";
-import ConversionTrackingGuide from "./guidelineContent/ConversionTrackingGuide";
 import SEOSetupGuide from "./guidelineContent/SEOSetupGuide";
 import DeploymentGuide from "./guidelineContent/DeploymentGuide";
 import DeveloperGuide from "./guidelineContent/DeveloperGuide";
@@ -22,17 +18,9 @@ const SESSION_KEY = "guideline_unlocked";
 
 const TABS = [
   { id: 0, label: "Lead Storage", icon: "mdi:database-outline" },
-  { id: 1, label: "Google Ads", icon: "mdi:google-ads" },
-  { id: 2, label: "Meta Ads", icon: "mdi:facebook" },
-  { id: 3, label: "GTM Setup", icon: "mdi:tag-outline" },
-  {
-    id: 4,
-    label: "Conversion Tracking",
-    icon: "mdi:chart-timeline-variant-shimmer",
-  },
-  { id: 5, label: "SEO Setup", icon: "mdi:search-web" },
-  { id: 6, label: "Deployment", icon: "mdi:rocket-launch-outline" },
-  { id: 7, label: "For Developers", icon: "mdi:code-braces" },
+  { id: 1, label: "SEO Setup", icon: "mdi:search-web" },
+  { id: 2, label: "Deployment", icon: "mdi:rocket-launch-outline" },
+  { id: 3, label: "For Developers", icon: "mdi:code-braces" },
 ];
 
 const TabPlaceholder = ({ title, icon }) => (
@@ -178,14 +166,10 @@ const Guideline = () => {
       {/* Tab Content */}
       <div className={styles.tabContent}>
         {activeTab === 0 && <LeadStorageGuide styles={styles} />}
-        {activeTab === 1 && <GoogleAdsGuide styles={styles} />}
-        {activeTab === 2 && <MetaAdsGuide styles={styles} />}
-        {activeTab === 3 && <GTMSetupGuide styles={styles} />}
-        {activeTab === 4 && <ConversionTrackingGuide styles={styles} />}
-        {activeTab === 5 && <SEOSetupGuide styles={styles} />}
-        {activeTab === 6 && <DeploymentGuide styles={styles} />}
-        {activeTab === 7 && <DeveloperGuide styles={styles} />}
-        {activeTab > 7 && (
+        {activeTab === 1 && <SEOSetupGuide styles={styles} />}
+        {activeTab === 2 && <DeploymentGuide styles={styles} />}
+        {activeTab === 3 && <DeveloperGuide styles={styles} />}
+        {activeTab > 3 && (
           <TabPlaceholder title={currentTab.label} icon={currentTab.icon} />
         )}
       </div>

@@ -17,7 +17,6 @@ import {
 import { Icon } from "@iconify/react";
 import UnifiedLeadForm from "../../common/UnifiedLeadForm/UnifiedLeadForm";
 import { useModal } from "../../../context/ModalContext";
-import { trackCTAClick } from "../../../utils/gtm";
 import styles from "./HeroSection.module.css";
 
 // Set REACT_APP_HERO_VIDEO_URL in .env to enable hero background video
@@ -238,11 +237,6 @@ const HeroSection = () => {
                   size="large"
                   className={styles.primaryCta}
                   onClick={() => {
-                    trackCTAClick(
-                      "hero_primary_cta",
-                      "hero",
-                      "Apply Now",
-                    );
                     openLeadDrawer("apply-now");
                   }}
                   sx={{
@@ -272,9 +266,6 @@ const HeroSection = () => {
                   className={styles.secondaryCta}
                   component="a"
                   href="tel:+918069645014"
-                  onClick={() => {
-                    trackCTAClick("hero_secondary_cta", "hero", "Call Now");
-                  }}
                   sx={{
                     borderColor: "rgba(255, 255, 255, 0.6)",
                     color: "#FFFFFF",

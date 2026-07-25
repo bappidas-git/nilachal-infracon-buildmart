@@ -10,7 +10,6 @@ import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import Button from "../../common/Button/Button";
 import { useModal } from "../../../context/ModalContext";
-import { trackCTAClick } from "../../../utils/gtm";
 import styles from "./CTASection.module.css";
 
 const reassurances = [
@@ -58,12 +57,7 @@ const CTASection = () => {
   };
 
   const handleApplyNow = () => {
-    trackCTAClick("primary_cta_apply", "mid_page_cta", "Apply Now");
     openLeadDrawer("apply-now");
-  };
-
-  const handleCallClick = () => {
-    trackCTAClick("primary_cta_call", "mid_page_cta", "Call CIT");
   };
 
   return (
@@ -126,7 +120,6 @@ const CTASection = () => {
               size="large"
               startIcon="mdi:phone-outline"
               href="tel:+918069645014"
-              onClick={handleCallClick}
               className={styles.secondaryBtn}
             >
               Call +91 8069645014
