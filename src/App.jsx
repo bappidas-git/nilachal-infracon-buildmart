@@ -24,15 +24,7 @@ import Modal from './components/common/Modal/Modal';
 import MobileNavigation from './components/common/MobileNavigation/MobileNavigation';
 import MobileDrawer from './components/common/MobileDrawer/MobileDrawer';
 import LeadFormDrawer from './components/common/LeadFormDrawer/LeadFormDrawer';
-import EngagementTracker from './components/common/EngagementTracker/EngagementTracker';
 import SEOHead from './components/common/SEO/SEOHead';
-import useGTMTracking from './hooks/useGTMTracking';
-import { initGTM } from './utils/gtm';
-import { initConsentMode } from './utils/consentMode';
-import { initPixel, trackPageView as trackMetaPageView } from './utils/metaPixel';
-import { captureGclid } from './utils/gclidManager';
-import { initGoogleAds } from './utils/googleAds';
-import { setupEnhancedConversions } from './utils/enhancedConversions';
 
 // Admin
 import { AdminAuthProvider } from './admin/context/AdminAuthContext';
@@ -375,14 +367,6 @@ const HomePageContent = () => {
   const { openLeadDrawer } = useModal();
   const location = useLocation();
 
-  // Initialize GTM tracking (page views, scroll depth, time on page, section visibility)
-  useGTMTracking();
-
-  // Track Meta Pixel PageView on route changes
-  useEffect(() => {
-    trackMetaPageView();
-  }, [location.pathname]);
-
   const handleMenuClick = () => setIsMobileDrawerOpen(true);
   const handleMobileDrawerClose = () => setIsMobileDrawerOpen(false);
   const handleMobileDrawerOpen = () => setIsMobileDrawerOpen(true);
@@ -535,23 +519,6 @@ const App = () => {
   // Enable idle preloading
   useIdlePreload();
 
-  // Initialize Google Consent Mode, GTM, and Meta Pixel on mount
-  useEffect(() => {
-    initConsentMode();
-    const gtmId = process.env.REACT_APP_GTM_ID;
-    if (gtmId) {
-      initGTM(gtmId);
-    }
-    // Initialize Meta Pixel (only if REACT_APP_META_PIXEL_ID is set)
-    initPixel();
-    // Initialize Google Ads conversion tracking
-    initGoogleAds();
-    // Setup enhanced conversions if enabled
-    setupEnhancedConversions();
-    // Capture gclid from URL on page load (persists in localStorage)
-    captureGclid();
-  }, []);
-
   // Hide initial loader after mount
   useEffect(() => {
     const initialLoader = document.getElementById('initial-loader');
@@ -641,9 +608,6 @@ const App = () => {
 
             {/* Lead Form Drawer - Available globally */}
             <LeadFormDrawerWrapper />
-
-            {/* Engagement Tracker - Invisible component for analytics */}
-            <EngagementTracker />
           </div>
         </ModalProvider>
       </CustomThemeProvider>

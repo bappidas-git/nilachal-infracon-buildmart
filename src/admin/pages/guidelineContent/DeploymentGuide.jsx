@@ -385,31 +385,21 @@ REACT_APP_LEADS_ADMIN_KEY="Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE"`}
             </tr>
             <tr>
               <td className={styles.guideTableCell}>10</td>
-              <td className={styles.guideTableCell}>GTM fires events</td>
-              <td className={styles.guideTableCell}>Open browser console → type <code className={styles.guideInlineCode}>dataLayer</code></td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}>11</td>
-              <td className={styles.guideTableCell}>Meta Pixel fires</td>
-              <td className={styles.guideTableCell}>Use Meta Pixel Helper extension</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}>12</td>
               <td className={styles.guideTableCell}>Mobile layout works</td>
               <td className={styles.guideTableCell}>Test on a real phone</td>
             </tr>
             <tr>
-              <td className={styles.guideTableCell}>13</td>
+              <td className={styles.guideTableCell}>11</td>
               <td className={styles.guideTableCell}>SSL certificate active</td>
               <td className={styles.guideTableCell}>Look for lock icon in browser URL bar</td>
             </tr>
             <tr>
-              <td className={styles.guideTableCell}>14</td>
+              <td className={styles.guideTableCell}>12</td>
               <td className={styles.guideTableCell}>OG image shows on sharing</td>
               <td className={styles.guideTableCell}>Share URL on WhatsApp/Slack → check preview</td>
             </tr>
             <tr>
-              <td className={styles.guideTableCell}>15</td>
+              <td className={styles.guideTableCell}>13</td>
               <td className={styles.guideTableCell}>Page speed score &gt; 80</td>
               <td className={styles.guideTableCell}>Run Lighthouse in Chrome DevTools</td>
             </tr>

@@ -11,9 +11,6 @@
    authoritative and the admin reads straight from it.
    ============================================ */
 
-// GCLID manager for persistent gclid storage (Google Ads attribution).
-import { getStoredGclid } from "./gclidManager";
-
 // =============================================
 // CONFIGURATION
 // Server-side lead storage endpoint. The admin panel reads leads from here,
@@ -73,7 +70,6 @@ export const submitLeadToWebhook = async (leadData) => {
     utm_campaign: params.get("utm_campaign") || "",
     utm_term: params.get("utm_term") || "",
     utm_content: params.get("utm_content") || "",
-    gclid: params.get("gclid") || getStoredGclid() || "",
     notes: [],
     activity: [
       {

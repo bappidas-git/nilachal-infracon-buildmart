@@ -49,13 +49,8 @@ const PrivacyPolicyContent = () => (
           hostel, fees or the admission process.
         </li>
         <li>
-          <strong>Usage data:</strong> anonymised information about how you
-          interact with this landing page (pages viewed, source campaign, time
-          spent) collected through Google Tag Manager and Meta Pixel.
-        </li>
-        <li>
-          <strong>Device information:</strong> IP address, browser type and
-          device identifiers, used for analytics and basic security.
+          <strong>Device information:</strong> IP address and browser type,
+          used only for basic security and to process your enquiry.
         </li>
       </ul>
     </section>
@@ -84,19 +79,16 @@ const PrivacyPolicyContent = () => (
       <p>
         Your details are shared only between CIT&apos;s admissions team and
         Assam Digital&apos;s NE-region counsellors handling this campaign.
-        We do not sell your data. We may share aggregated, anonymised
-        analytics with platforms such as Google and Meta for ad performance
-        measurement.
+        We do not sell your data.
       </p>
     </section>
 
     <section className={styles.legalSection}>
-      <h3>Cookies &amp; Tracking</h3>
+      <h3>Cookies</h3>
       <p>
-        This site uses Google Tag Manager, Google Ads conversion tracking and
-        Meta Pixel/Conversions API to measure ad performance. You can disable
-        cookies via your browser settings; some site features may not work as
-        expected if you do.
+        This site does not use advertising or analytics tracking. Only the
+        essential cookies needed for the site to function are used, and the
+        information you submit is used solely to respond to your enquiry.
       </p>
     </section>
 

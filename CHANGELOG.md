@@ -26,3 +26,29 @@ the single unreleased version below as each prompt is merged.
 - Deleted the `resources/` directory (scanned brochures from the previous build).
 - Pruned environment variables that no code reads (build metadata, unused feature
   flags, social/map/CDN placeholders, dead API-endpoint and location vars).
+
+### 02 — Remove ads / analytics / conversion tracking
+
+**Removed**
+- Deleted all ad/analytics tracking modules and their consumers: Google Tag
+  Manager, Google Ads, Meta Pixel, Meta Conversions API, Google Consent Mode,
+  enhanced conversions, event dedup, the GCLID manager, the `EngagementTracker`
+  component, the `useGTMTracking` hook, and the admin Google Ads CSV export.
+- Deleted the server-side tracking endpoints `public/api/meta-capi.php` and
+  `public/api/google-offline-conversions.php`, and the Meta CAPI constants from
+  `public/api/config.example.php` (kept `ADMIN_API_KEY`).
+- Removed the admin "Record Conversion" feature (Meta CAPI + Google Ads offline
+  conversions) from Lead Detail, along with the four ad/tracking setup guides
+  (Google Ads, Meta Ads, GTM Setup, Conversion Tracking) and `GTM_GUIDE.md`. The
+  status dropdown (including the "completed" state) and the funnel stat tiles
+  remain as the business workflow.
+- Removed `gclid` capture end-to-end (public form payload and admin CSV export)
+  and dropped all tracking env vars from `.env` / `.env.example` and the docs.
+- Removed the hard-coded GTM container from `public/index.html` (head snippet and
+  `<noscript>` iframe) and the GTM/Meta Pixel/Google Ads disclosures from the
+  Footer and enquiry-form privacy copy.
+
+**Kept**
+- The entire SEO system (`SEOHead`, `src/config/seo.js`, `src/utils/seo.js`,
+  JSON-LD in `index.html`), UTM capture, the `source` field, and the admin CSV
+  UTM columns — these are generic link attribution, not ad-platform tracking.

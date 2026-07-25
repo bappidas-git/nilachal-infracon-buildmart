@@ -82,8 +82,8 @@ const DeveloperGuide = ({ styles }) => {
 
         <pre className={styles.guideCode}>
 {`├── public/
-│   ├── api/                  # Server-side PHP endpoints (Meta CAPI, offline conversions)
-│   ├── index.html            # Main HTML with SEO meta tags, GTM snippet, JSON-LD schemas
+│   ├── api/                  # Server-side PHP endpoints (shared lead store)
+│   ├── index.html            # Main HTML with SEO meta tags, JSON-LD schemas
 │   ├── manifest.json         # PWA manifest
 │   ├── robots.txt            # Search engine crawl directives
 │   └── sitemap.xml           # Sitemap for Google
@@ -93,23 +93,22 @@ const DeveloperGuide = ({ styles }) => {
 │   │   ├── context/          # AdminAuthContext (login state management)
 │   │   ├── pages/            # Dashboard, LeadManagement, LeadDetail, Guideline
 │   │   │   └── guidelineContent/  # Tab content components for Guideline page
-│   │   └── utils/            # adminAuth, leadService, googleAdsExport, leadStatus
+│   │   └── utils/            # adminAuth, leadService, leadStatus
 │   ├── components/
 │   │   ├── common/           # Reusable: Header, Footer, LeadForm, Button, Card, Modal, etc.
 │   │   └── sections/         # Page sections: Hero, About, Services, Features, CTA, etc.
 │   ├── config/               # seo.js (SEO configuration)
 │   ├── context/              # ModalContext (drawer/modal state), ThemeContext
 │   ├── data/                 # Content data: services, features, stats, locations
-│   ├── hooks/                # Custom hooks: useGTMTracking, useInView, useMediaQuery
+│   ├── hooks/                # Custom hooks: useInView, useMediaQuery
 │   ├── pages/                # Full pages: ThankYou
 │   ├── styles/               # Global CSS: variables.css, global.css, animations.css, responsive.css
 │   ├── theme/                # MUI theme configuration (muiTheme.js)
-│   └── utils/                # Utilities: webhookSubmit, gtm, metaPixel, googleAds, validators, etc.
+│   └── utils/                # Utilities: webhookSubmit, validators, etc.
 ├── .env                      # Environment variables (not committed to git)
 ├── .env.example              # Environment variable template
 ├── CLAUDE.md                 # AI assistant instructions
 ├── CUSTOMIZATION_GUIDE.md    # Step-by-step setup guide
-├── GTM_GUIDE.md              # Google Tag Manager guide
 ├── SEO_GUIDE.md              # SEO configuration guide
 └── CHANGELOG.md              # Version history`}
         </pre>
@@ -210,7 +209,7 @@ npm start
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>public/index.html</code></td>
-              <td className={styles.guideTableCell}>Title, meta tags, JSON-LD, GTM ID</td>
+              <td className={styles.guideTableCell}>Title, meta tags, JSON-LD</td>
               <td className={styles.guideTableCell}>Your SEO content</td>
             </tr>
             <tr>
@@ -302,7 +301,7 @@ npm start
       <h2 className={styles.guideTitle}>6. Form Submission Flow</h2>
       <div className={styles.guideSection}>
         <p className={styles.guideParagraph}>
-          The complete flow from user form submission to tracking and redirect:
+          The complete flow from user form submission to redirect:
         </p>
 
         <pre className={styles.guideCode}>
@@ -314,13 +313,6 @@ Form validation (validators.js)
 submitLeadToWebhook() in webhookSubmit.js
   └── POST /api/leads.php?action=create  (shared server store = single source of truth)
        Server dedupes by mobile → duplicate response shown as "Already Registered"
-  ↓
-Tracking fires (in parallel):
-  ├── GTM: trackFormSubmission() → dataLayer push (course interest, state)
-  ├── Google Ads: trackFormSubmission() → gtag conversion
-  ├── Meta Pixel: trackLead() → fbq('track', 'Lead')
-  ├── Meta CAPI: sendLeadEvent() → POST to /api/meta-capi.php
-  └── Enhanced Conversions: sendEnhancedConversionData() → hashed PII to gtag
   ↓
 sessionStorage.setItem('lead_submitted', 'true')
   ↓
@@ -424,60 +416,6 @@ Navigate to /thank-you`}
               <td className={styles.guideTableCell}>Yes</td>
               <td className={styles.guideTableCell}>—</td>
               <td className={styles.guideTableCell}>Sales email</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_GTM_ID</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Google Tag Manager container ID</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_GA4_MEASUREMENT_ID</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Google Analytics 4 measurement ID</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_GOOGLE_ADS_ID</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Google Ads conversion ID (AW-XXX)</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_GOOGLE_ADS_CONVERSION_LABEL</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Google Ads conversion label</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_GOOGLE_ADS_ENHANCED_CONVERSIONS</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>false</code></td>
-              <td className={styles.guideTableCell}>Enable enhanced conversions</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_META_PIXEL_ID</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Meta (Facebook) Pixel ID</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_META_CAPI_ENDPOINT</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>/api/meta-capi.php</code></td>
-              <td className={styles.guideTableCell}>Server-side CAPI endpoint</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_ENABLE_ANALYTICS</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>false</code></td>
-              <td className={styles.guideTableCell}>Master switch for all analytics</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_ENABLE_CONSENT_MODE</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>false</code></td>
-              <td className={styles.guideTableCell}>Google Consent Mode v2</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_HERO_VIDEO_URL</code></td>

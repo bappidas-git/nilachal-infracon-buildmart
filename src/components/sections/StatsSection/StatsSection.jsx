@@ -9,7 +9,6 @@ import { Container, Typography, Grid, useMediaQuery, useTheme } from '@mui/mater
 import { Icon } from '@iconify/react';
 import AnimatedCounter from '../../common/AnimatedCounter/AnimatedCounter';
 import { useModal } from '../../../context/ModalContext';
-import { trackCTAClick } from '../../../utils/gtm';
 import { statsData } from '../../../data/statsData';
 import styles from './StatsSection.module.css';
 
@@ -115,7 +114,6 @@ const StatsSection = () => {
   const headlineStats = statsData.filter((s) => HEADLINE_STAT_IDS.includes(s.id));
 
   const handleApplyNow = () => {
-    trackCTAClick('placements_apply_now', 'placements', 'Apply for 2026 Admission');
     openLeadDrawer('apply-now');
   };
 

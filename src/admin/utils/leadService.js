@@ -368,40 +368,6 @@ export const addLeadNote = (id, noteText) => {
 };
 
 /**
- * Persist conversion tracking details on a lead and mirror them to the shared
- * server store so the conversion value/type also appears on other devices.
- * Returns the updated lead, or null if not found.
- */
-export const updateLeadConversion = (id, { conversion_value, conversion_type, converted_at }) => {
-  const existing = _cache.find((l) => l.lead_id === id);
-  if (!existing) return null;
-
-  const now = new Date().toISOString();
-  const updated = replaceInCache(id, (l) => ({
-    ...l,
-    conversion_value,
-    conversion_type,
-    converted_at: converted_at || now,
-    updated_at: now,
-  }));
-
-  notifyLeadsChanged();
-
-  // Mirror to the shared server store so conversion data syncs across admins.
-  callLeadsApi("update", {
-    lead_id: id,
-    patch: {
-      conversion_value: updated.conversion_value,
-      conversion_type: updated.conversion_type,
-      converted_at: updated.converted_at,
-      updated_at: updated.updated_at,
-    },
-  });
-
-  return updated;
-};
-
-/**
  * Delete a single lead
  */
 export const deleteLead = (id) => {
@@ -445,7 +411,6 @@ export const exportLeadsCSV = (leads) => {
     "UTM Campaign",
     "UTM Term",
     "UTM Content",
-    "GCLID",
     "Notes",
   ];
 
@@ -473,7 +438,6 @@ export const exportLeadsCSV = (leads) => {
     l.utm_campaign,
     l.utm_term,
     l.utm_content,
-    l.gclid,
     (l.notes || []).map((n) => n.text).join(" | "),
   ]);
 
