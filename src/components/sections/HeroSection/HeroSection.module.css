@@ -1,473 +1,403 @@
 /* ============================================
-   HeroSection Styles - Landing Page Boilerplate
-   Premium franchise hero section styling
-   ============================================ */
-
-/* ============================================
-   Hero Background Layers — Stacked with z-index
-   Order (bottom to top): gradient → image → video → overlay → pattern → content
+   HeroSection Styles — Nilachal Infracon
+   Cinematic, Apple-minimal full-viewport hero.
+   Background stack (bottom → top):
+     gradient fallback → image (parallax) → navy scrim → content
    ============================================ */
 
 /* ========== Main Section ========== */
 .heroSection {
   position: relative;
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
   display: flex;
-  align-items: center;
   overflow: hidden;
   background: none;
-  padding-top: 80px;
-  padding-bottom: 2rem;
+  color: #ffffff;
 }
 
-/* Layer 1: Gradient fallback — always present as absolute base */
+/* Layer 1: Gradient fallback — always present as the absolute base so the
+   hero never flashes empty while the image loads (or if it fails). */
 .heroBgGradient {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(135deg, #16324F 0%, #0F2438 50%, #16324F 100%);
+  background: linear-gradient(135deg, #16324f 0%, #0f2438 55%, #0f2438 100%);
 }
 
-/* Subtle radial gradient overlays for visual interest */
-.heroBgGradient::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      ellipse at 20% 50%,
-      rgba(30, 123, 69, 0.08) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at 80% 20%,
-      rgba(22, 50, 79, 0.25) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at 50% 80%,
-      rgba(30, 123, 69, 0.08) 0%,
-      transparent 50%
-    );
-  pointer-events: none;
-}
-
-/* Layer 2: Fallback image */
+/* Layer 2: Cinematic background image. Always rendered (opacity toggled once
+   loaded) so the parallax ref has a stable target. Oversized top/bottom so the
+   vertical parallax drift never reveals an edge. */
 .heroBgImage {
   position: absolute;
-  inset: 0;
+  top: -8%;
+  left: 0;
+  width: 100%;
+  height: 116%;
   z-index: 1;
   background-size: cover;
-  background-position: center;
+  background-position: center 40%;
   background-repeat: no-repeat;
-  transition: opacity 0.8s ease;
+  opacity: 1;
+  transition: opacity 0.9s ease;
+  will-change: transform;
 }
 
 .heroBgImageHidden {
   opacity: 0;
 }
 
-/* Layer 3: Background video */
-.heroVideo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 1s ease;
-  pointer-events: none;
-}
-
-.heroVideoVisible {
-  opacity: 1;
-}
-
-/* Layer 4: Dark overlay for text readability */
+/* Layer 3: Navy scrim for text readability.
+   - Primary vertical scrim: rgba(15,36,56,.85) at the bottom → .45 at the top.
+   - Left assist: extra navy on the left where the desktop copy sits.
+   - Top assist: a short darkening under the transparent header so the white
+     header logo / nav stay legible over the lighter sky. */
 .heroOverlay {
   position: absolute;
   inset: 0;
-  z-index: 3;
-  background: linear-gradient(
-    135deg,
-    rgba(22, 50, 79, 0.85) 0%,
-    rgba(15, 36, 56, 0.82) 50%,
-    rgba(22, 50, 79, 0.88) 100%
-  );
-}
-
-/* Pattern Overlay (above dark overlay) */
-.patternOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(
-    circle at 2px 2px,
-    rgba(30, 123, 69, 0.1) 1px,
-    transparent 0
-  );
-  background-size: 40px 40px;
-  z-index: 4;
+  z-index: 2;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(15, 36, 56, 0.55) 0%,
+      rgba(15, 36, 56, 0) 130px
+    ),
+    linear-gradient(
+      to right,
+      rgba(15, 36, 56, 0.5) 0%,
+      rgba(15, 36, 56, 0) 60%
+    ),
+    linear-gradient(
+      to top,
+      rgba(15, 36, 56, 0.85) 0%,
+      rgba(15, 36, 56, 0.6) 45%,
+      rgba(15, 36, 56, 0.45) 100%
+    );
   pointer-events: none;
 }
 
-/* ========== Container ========== */
-.heroContainer {
+/* ========== Inner content wrapper (1200px, bottom-left on desktop) ========== */
+.heroInner {
   position: relative;
-  z-index: 5;
+  z-index: 3;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 24px 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-/* ========== Content ========== */
 .heroContent {
-  position: relative;
-  z-index: 5;
-  padding: 1rem 0;
+  max-width: 720px;
 }
 
-/* ========== Highlighted Headline Phrase (CIT amber) ========== */
-.orangeText {
-  color: #1E7B45;
+/* ========== Eyebrow ========== */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.eyebrowBar {
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-accent, #1e7b45);
+  flex-shrink: 0;
+}
+
+/* ========== Headline (masked split-line reveal) ========== */
+.heroTitle {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+/* Each line is an overflow-hidden mask; the inner span slides up into it. */
+.titleLine {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.04em; /* room for descenders inside the mask */
+}
+
+.titleLineInner {
   display: block;
 }
 
-/* ========== Launch Badge ========== */
-.launchBadge {
-  position: relative;
-}
-
-.pulseDot {
-  width: 8px;
-  height: 8px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  display: inline-block;
-  position: relative;
-}
-
-.pulseDot::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  border-radius: 50%;
-  animation: pulseDotAnimation 2s ease-in-out infinite;
-}
-
-@keyframes pulseDotAnimation {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 0;
-  }
-}
-
-/* ========== CTA Buttons ========== */
-.ctaButtons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.primaryCta {
-  min-width: 180px;
-}
-
-.secondaryCta {
-  min-width: 200px;
-}
-
-/* ========== Trust Indicators ========== */
-.trustIndicators {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  position: relative;
-  z-index: 5;
-}
-
-.trustIndicator {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.875rem;
+/* ========== Tagline / subline ========== */
+.subline {
+  margin: 20px 0 0;
+  font-family: "Inter", system-ui, sans-serif;
   font-weight: 500;
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.92);
 }
 
-.trustIcon {
-  font-size: 1.125rem;
-  color: #1E7B45;
+/* ========== Supporting paragraph ========== */
+.paragraph {
+  margin: 18px 0 0;
+  max-width: 560px;
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
 }
 
-/* ========== Form Section ========== */
-.formWrapper {
-  position: relative;
-  z-index: 5;
+/* ========== CTA row ========== */
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.ctaBase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 54px;
+  padding: 0 30px;
+  border-radius: 14px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.25s ease, background 0.25s ease,
+    border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Primary — the one sparing use of green */
+.ctaPrimary {
+  background: var(--color-accent, #1e7b45);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(30, 123, 69, 0.35);
+}
+
+.ctaPrimary:hover {
+  background: var(--color-accent-dark, #176437);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(30, 123, 69, 0.45);
+}
+
+/* Secondary — ghost / white outline */
+.ctaSecondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.ctaSecondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.ctaPrimary:focus-visible,
+.ctaSecondary:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* ========== Trust strip ========== */
+.trustStrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  margin-top: 52px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.trustItem {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.formCard {
-  width: 100%;
-  max-width: 420px;
-  background: #ffffff;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.25),
-    0 10px 30px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(22, 50, 79, 0.15);
+  gap: 2px;
+  padding: 0 26px;
   position: relative;
 }
 
-.formCard::before {
+.trustItem:first-child {
+  padding-left: 0;
+}
+
+/* Hairline separators between items */
+.trustItem:not(:first-child)::before {
   content: "";
   position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #16324F 0%, #1E7B45 50%, #16324F 100%);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.16);
 }
 
-.formHeader {
-  padding: 1.25rem 1.5rem;
-  background: linear-gradient(135deg, #16324F 0%, #0F2438 100%);
-  position: relative;
-  overflow: hidden;
+.trustValue {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  line-height: 1.1;
 }
 
-.formHeader::before {
-  content: "";
+.trustLabel {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.68);
+  letter-spacing: 0.01em;
+}
+
+/* ========== Scroll affordance ========== */
+.scrollHint {
   position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(
-    circle,
-    rgba(30, 123, 69, 0.18) 0%,
-    transparent 70%
-  );
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   pointer-events: none;
 }
 
-.formBody {
-  padding: 1.25rem 1.5rem 1.5rem;
-  background: #ffffff;
+.scrollChevron {
+  font-size: 1.5rem;
+  animation: heroScrollBob 1.8s ease-in-out infinite;
 }
 
-/* ========== Scroll Indicator ========== */
-.scrollIndicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-}
-
-.scrollIcon {
-  font-size: 2rem;
-  color: #1E7B45;
-  opacity: 0.8;
-}
-
-/* ========== Responsive Styles ========== */
-
-/* Large Desktop */
-@media (min-width: 1440px) {
-  .heroContent {
-    padding-right: 2rem;
-  }
-}
-
-/* Desktop */
-@media (min-width: 1024px) and (max-width: 1439px) {
-  .heroSection {
-    padding-top: 100px;
-  }
-
-  .formCard {
-    max-width: 400px;
-  }
-}
-
-/* Tablet */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .heroSection {
-    padding-top: 90px;
-    min-height: auto;
-    padding-bottom: 3rem;
-  }
-
-  .heroContent {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .ctaButtons {
-    justify-content: center;
-  }
-
-  .trustIndicators {
-    justify-content: center;
-  }
-
-  .scrollIndicator {
-    display: none;
-  }
-}
-
-/* Mobile */
-@media (max-width: 767px) {
-  .heroSection {
-    padding-top: 80px;
-    min-height: 100vh;
-    padding-bottom: 100px; /* Space for bottom nav */
-  }
-
-  .heroContent {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .orangeText {
-    display: inline;
-  }
-
-  .ctaButtons {
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .primaryCta,
-  .secondaryCta {
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .trustIndicators {
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  .trustIndicator {
-    font-size: 0.8125rem;
-  }
-
-  .trustIcon {
-    font-size: 1rem;
-  }
-
-  .scrollIndicator {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .heroVideo {
-    min-height: 100vh;
-    min-height: 100dvh;
-  }
-
-  .heroOverlay {
-    background: linear-gradient(
-      180deg,
-      rgba(22, 50, 79, 0.9) 0%,
-      rgba(15, 36, 56, 0.85) 40%,
-      rgba(22, 50, 79, 0.92) 100%
-    );
-  }
-}
-
-/* Small Mobile */
-@media (max-width: 374px) {
-  .trustIndicators {
-    gap: 0.75rem;
-  }
-
-  .trustIndicator {
-    font-size: 0.75rem;
-  }
-}
-
-/* ========== Animations ========== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
+@keyframes heroScrollBob {
+  0%,
+  100% {
     transform: translateY(0);
   }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  50% {
+    transform: translateY(6px);
   }
 }
 
-/* ========== Dark Mode Adjustments ========== */
-@media (prefers-color-scheme: dark) {
-  .heroOverlay {
-    background: linear-gradient(
-      135deg,
-      rgba(22, 50, 79, 0.98) 0%,
-      rgba(15, 36, 56, 0.92) 50%,
-      rgba(22, 50, 79, 0.85) 100%
-    );
+/* ============================================
+   Responsive
+   ============================================ */
+
+/* Tablet & below — center the content */
+@media (max-width: 900px) {
+  .heroInner {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 110px 22px 96px;
+  }
+
+  .heroContent {
+    max-width: 640px;
+  }
+
+  .eyebrow {
+    justify-content: center;
+  }
+
+  .paragraph {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ctaRow {
+    justify-content: center;
+  }
+
+  .trustStrip {
+    justify-content: center;
   }
 }
 
-/* ========== Reduced Motion ========== */
-@media (prefers-reduced-motion: reduce) {
-  .heroVideo {
+/* Mobile — trust strip becomes a 2×2 grid */
+@media (max-width: 767px) {
+  .heroInner {
+    padding: 104px 20px 92px;
+  }
+
+  .trustStrip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 0;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .trustItem {
+    align-items: center;
+    text-align: center;
+    padding: 0 12px;
+  }
+
+  /* Drop the vertical hairlines; use a grid gutter look instead */
+  .trustItem:not(:first-child)::before {
     display: none;
   }
 
-  .heroBgImageHidden {
-    opacity: 1;
+  .trustItem:nth-child(2)::before,
+  .trustItem:nth-child(4)::before {
+    display: block;
+    height: 34px;
   }
 
-  .pulseDot::before {
+  .scrollHint {
+    display: none;
+  }
+}
+
+/* Small phones — CTAs stack full-width */
+@media (max-width: 480px) {
+  .ctaRow {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .ctaBase {
+    width: 100%;
+  }
+
+  .heroTitle {
+    font-size: clamp(2.25rem, 9vw, 3rem);
+  }
+}
+
+/* ============================================
+   Reduced motion — no bobbing chevron; the JS
+   intro timeline separately no-ops to final state.
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .scrollChevron {
     animation: none;
   }
 
-  .trustIndicator {
+  .heroBgImage {
     transition: none;
   }
 }

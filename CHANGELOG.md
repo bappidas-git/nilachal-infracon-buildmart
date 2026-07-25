@@ -171,3 +171,38 @@ the single unreleased version below as each prompt is merged.
 - `#products`, `#brands` and `#why-us` do not exist in the DOM until prompts
   08–09, so those nav items temporarily dead-end; the existing hash-scroll retry
   logic tolerates the missing targets.
+
+### 06 — Hero section (Apple-style, GSAP)
+
+**Changed**
+- Rebuilt the **HeroSection** as a cinematic, minimal full-viewport hero
+  (`min-height: 100svh`, `id="home"`): a single `<h1>` "Building the Future of
+  Northeast India", the "Nilachal Infracon Private Limited" eyebrow, the
+  "Building Tomorrow, Together." tagline, a supporting paragraph, and two CTAs —
+  primary green **"Explore Our Products"** (smooth-scrolls to `#products`,
+  tolerates the still-missing target) and a ghost/white **"Request a Quote"**
+  (opens the `request-quote` drawer). A quiet trust strip
+  (`10+ Years · 5000+ Customers · 7+ NE States · 100% Genuine Products`) runs
+  along the bottom, separated by hairlines and wrapping to a 2×2 grid on mobile.
+- Replaced the CIT campus image with cinematic construction imagery from Unsplash
+  (dusk tower-crane cluster, with a verified building-under-construction
+  fallback), served at `w=2400` on desktop and `w=1200` on mobile. Kept the JS
+  image-preload fallback chain (5s timeout → gradient fallback).
+- Reworked the background stack to gradient → image → navy scrim → content:
+  a `rgba(15,36,56,.85) → .45` navy scrim (plus a left assist for the bottom-left
+  copy and a short top assist so the transparent header stays legible). Dropped
+  the busy dot-pattern layer and deleted the unused hero-video CSS layers.
+- Added a **GSAP intro timeline** on mount (≤1.6s, `power3.out`): scrim settles →
+  eyebrow fades in → `<h1>` reveals with a hand-rolled masked split-line slide-up
+  (overflow-hidden line wrappers, no paid SplitText) → paragraph + CTAs fade up
+  staggered → trust strip fades in. Added a minimal "Scroll" chevron affordance
+  that fades out on first scroll (ScrollTrigger), and a subtle background image
+  parallax (`useParallax`, desktop only). Everything appears instantly under
+  `prefers-reduced-motion`.
+
+**Removed**
+- Removed the embedded desktop lead form from the hero (one of the three
+  `UnifiedLeadForm` instances — noted for prompt 10); conversion now happens via
+  the CTA → quote drawer and the Contact section. Dropped the Framer-Motion
+  variants, MUI `Grid`/`Chip`/`Button` scaffolding and the CIT badge/copy from
+  the hero, and cleaned the stylesheet of the dead form/video/pattern styles.
