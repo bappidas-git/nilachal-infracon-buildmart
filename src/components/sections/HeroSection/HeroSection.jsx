@@ -1,102 +1,63 @@
 /* ============================================
-   HeroSection Component
-   Hero section with animations
+   HeroSection — Nilachal Infracon
+   Cinematic, Apple-minimal full-viewport hero. Dark construction
+   image + navy scrim, a single <h1>, two CTAs and a quiet trust
+   strip. Animated with a GSAP intro timeline on mount and a subtle
+   scroll parallax on the background image.
    ============================================ */
 
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  Container,
-  Typography,
-  Grid,
-  Chip,
-  useMediaQuery,
-  useTheme,
-  Button,
-} from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
 import { Icon } from "@iconify/react";
-import UnifiedLeadForm from "../../common/UnifiedLeadForm/UnifiedLeadForm";
+import { useMediaQuery, useTheme } from "@mui/material";
 import { useModal } from "../../../context/ModalContext";
+import {
+  gsap,
+  ScrollTrigger,
+  useGSAP,
+  EASE,
+  prefersReducedMotion,
+  useParallax,
+} from "../../../animations";
 import styles from "./HeroSection.module.css";
 
-// Set REACT_APP_HERO_VIDEO_URL in .env to enable hero background video
-// Hero images with fallbacks
+// Cinematic construction imagery (Unsplash, verified 200). The first URL is the
+// primary; the second is a verified fallback used by the preload chain below if
+// the primary fails. A `w=1200` variant is served on mobile.
 const HERO_IMAGES = {
   desktop: [
-    "https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669894/CIT-Campus_nndyrh.png",
+    "https://images.unsplash.com/photo-1621715743917-10dcaa815da6?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1684497404598-6e844dff9cde?auto=format&fit=crop&w=2400&q=80",
   ],
   mobile: [
-    "https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669894/CIT-Campus_nndyrh.png",
+    "https://images.unsplash.com/photo-1621715743917-10dcaa815da6?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1684497404598-6e844dff9cde?auto=format&fit=crop&w=1200&q=80",
   ],
 };
 
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
-    },
-  },
-};
-
-const badgeVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-const buttonVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-// Trust indicators data
-const trustIndicators = [
-  { icon: "mdi:school-outline", text: "25 Years of Excellence" },
-  { icon: "mdi:briefcase-check-outline", text: "85%+ Placements" },
-  { icon: "mdi:office-building-outline", text: "90+ Recruiters" },
-  { icon: "mdi:certificate-outline", text: "NAAC • AICTE • VTU" },
+// Quiet trust strip along the hero bottom.
+const TRUST_STATS = [
+  { value: "10+", label: "Years" },
+  { value: "5000+", label: "Customers" },
+  { value: "7+", label: "NE States" },
+  { value: "100%", label: "Genuine Products" },
 ];
 
 const HeroSection = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
+  // `noSsr` so the value is correct on first paint — the parallax ref then
+  // attaches only on desktop instead of flickering across the breakpoint.
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"), { noSsr: true });
   const { openLeadDrawer } = useModal();
 
-  // Fallback image state
+  const sectionRef = useRef(null);
+  // Subtle background parallax on scroll (desktop only; the hook itself skips
+  // under reduced motion).
+  const parallaxRef = useParallax({ amount: 8 });
+
+  // Background image preload with fallback chain (5s timeout → gradient).
   const [heroImageUrl, setHeroImageUrl] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // Try loading fallback images in order
   useEffect(() => {
     const images = isMobile ? HERO_IMAGES.mobile : HERO_IMAGES.desktop;
     let cancelled = false;
@@ -104,24 +65,22 @@ const HeroSection = () => {
     const tryLoadImage = async () => {
       for (const url of images) {
         if (cancelled) return;
-        try {
-          const loaded = await new Promise((resolve) => {
-            const img = new Image();
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
-            img.src = url;
-            setTimeout(() => resolve(false), 5000);
-          });
-          if (loaded && !cancelled) {
-            setHeroImageUrl(url);
-            setImageLoaded(true);
-            return;
-          }
-        } catch {
-          continue;
+        const loaded = await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = url;
+          setTimeout(() => resolve(false), 5000);
+        });
+        if (loaded && !cancelled) {
+          setHeroImageUrl(url);
+          setImageLoaded(true);
+          return;
         }
       }
-      console.warn("All hero images failed to load, using gradient fallback");
+      if (!cancelled) {
+        console.warn("All hero images failed to load, using gradient fallback");
+      }
     };
 
     tryLoadImage();
@@ -130,249 +89,170 @@ const HeroSection = () => {
     };
   }, [isMobile]);
 
+  // ===== GSAP intro timeline (on mount) + scroll affordance =====
+  useGSAP(
+    () => {
+      const scope = sectionRef.current;
+      if (!scope) return;
+
+      const q = (sel) => scope.querySelector(sel);
+      const overlay = q(`.${styles.heroOverlay}`);
+      const eyebrow = q(`.${styles.eyebrow}`);
+      const titleLines = scope.querySelectorAll(`.${styles.titleLineInner}`);
+      const subline = q(`.${styles.subline}`);
+      const paragraph = q(`.${styles.paragraph}`);
+      const ctaRow = q(`.${styles.ctaRow}`);
+      const trustStrip = q(`.${styles.trustStrip}`);
+      const hint = q(`.${styles.scrollHint}`);
+
+      // Reduced motion → everything at its final state instantly.
+      if (prefersReducedMotion()) {
+        gsap.set([eyebrow, subline, paragraph, ctaRow, trustStrip], {
+          autoAlpha: 1,
+          y: 0,
+        });
+        gsap.set(titleLines, { yPercent: 0 });
+        if (overlay) gsap.set(overlay, { opacity: 1 });
+        if (hint) {
+          ScrollTrigger.create({
+            start: 1,
+            end: "max",
+            onEnter: () => gsap.set(hint, { autoAlpha: 0 }),
+            onLeaveBack: () => gsap.set(hint, { autoAlpha: 1 }),
+          });
+        }
+        return;
+      }
+
+      // Initial hidden states (set pre-paint by useGSAP's layout effect).
+      gsap.set([eyebrow, subline, paragraph, ctaRow, trustStrip], {
+        autoAlpha: 0,
+        y: 16,
+      });
+      gsap.set(titleLines, { yPercent: 115 });
+
+      const tl = gsap.timeline({ defaults: { ease: EASE } });
+      tl.fromTo(overlay, { opacity: 0.4 }, { opacity: 1, duration: 0.6 }, 0)
+        .to(eyebrow, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.15)
+        .to(titleLines, { yPercent: 0, duration: 0.75, stagger: 0.1 }, 0.3)
+        .to(subline, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.6)
+        .to(
+          [paragraph, ctaRow],
+          { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.12 },
+          0.8,
+        )
+        .to(trustStrip, { autoAlpha: 1, y: 0, duration: 0.5 }, 1.05);
+
+      // Scroll hint fades out over the first bit of scroll.
+      if (hint) {
+        gsap.to(hint, {
+          autoAlpha: 0,
+          ease: "none",
+          scrollTrigger: { trigger: scope, start: "top top", end: "+=200", scrub: true },
+        });
+      }
+
+      ScrollTrigger.refresh();
+    },
+    { scope: sectionRef },
+  );
+
+  // Smooth-scroll to the products section. Tolerates a missing target
+  // (#products is added in a later prompt) — must never throw.
+  const scrollToProducts = (e) => {
+    e.preventDefault();
+    const target = document.getElementById("products");
+    if (!target) return;
+    const headerOffset = 80;
+    const top =
+      target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
   return (
-    <section className={styles.heroSection} id="home">
-      {/* === Background Layer 1: Gradient fallback (always present) === */}
-      <div className={styles.heroBgGradient} />
+    <section
+      ref={sectionRef}
+      id="home"
+      className={styles.heroSection}
+      aria-label="Nilachal Infracon — Building the Future of Northeast India"
+    >
+      {/* Layer 1: gradient fallback (always present) */}
+      <div className={styles.heroBgGradient} aria-hidden="true" />
 
-      {/* === Background Layer 2: Fallback image === */}
-      {imageLoaded && (
-        <div
-          className={styles.heroBgImage}
-          style={{ backgroundImage: `url('${heroImageUrl}')` }}
-        />
-      )}
+      {/* Layer 2: cinematic image (parallax on desktop) */}
+      <div
+        ref={isMobile ? null : parallaxRef}
+        className={`${styles.heroBgImage}${
+          imageLoaded ? "" : ` ${styles.heroBgImageHidden}`
+        }`}
+        style={
+          heroImageUrl ? { backgroundImage: `url('${heroImageUrl}')` } : undefined
+        }
+        aria-hidden="true"
+      />
 
-      {/* === Dark overlay for text readability === */}
-      <div className={styles.heroOverlay} />
+      {/* Layer 3: navy scrim */}
+      <div className={styles.heroOverlay} aria-hidden="true" />
 
-      {/* Animated Background Pattern */}
-      <div className={styles.patternOverlay} />
+      {/* Content */}
+      <div className={styles.heroInner}>
+        <div className={styles.heroContent}>
+          <p className={styles.eyebrow}>
+            <span className={styles.eyebrowBar} aria-hidden="true" />
+            Nilachal Infracon Private Limited
+          </p>
 
-      {/* Main Content */}
-      <Container maxWidth="xl" className={styles.heroContainer}>
-        <Grid container spacing={isMobile ? 3 : 6} alignItems="center">
-          {/* Left Content */}
-          <Grid item xs={12} lg={7}>
-            <motion.div
-              className={styles.heroContent}
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
+          <h1 className={styles.heroTitle}>
+            <span className={styles.titleLine}>
+              <span className={styles.titleLineInner}>Building the Future</span>
+            </span>
+            <span className={styles.titleLine}>
+              <span className={styles.titleLineInner}>of Northeast India</span>
+            </span>
+          </h1>
+
+          <p className={styles.subline}>Building Tomorrow, Together.</p>
+
+          <p className={styles.paragraph}>
+            A trusted infrastructure and building materials company delivering
+            premium construction products and professional construction services
+            across Northeast India.
+          </p>
+
+          <div className={styles.ctaRow}>
+            <a
+              href="#products"
+              onClick={scrollToProducts}
+              className={`${styles.ctaBase} ${styles.ctaPrimary}`}
             >
-              {/* Pre-headline Badge */}
-              <motion.div variants={badgeVariants}>
-                <Chip
-                  icon={<span className={styles.pulseDot} />}
-                  label="Direct B.E. Admission 2026 • Limited Seats"
-                  className={styles.launchBadge}
-                  sx={{
-                    backgroundColor: "#16324F",
-                    color: "#FFFFFF",
-                    fontWeight: 600,
-                    fontSize: "0.875rem",
-                    height: "36px",
-                    borderRadius: "20px",
-                    "& .MuiChip-icon": {
-                      marginLeft: "8px",
-                    },
-                  }}
-                />
-              </motion.div>
+              Explore Our Products
+              <Icon icon="mdi:arrow-right" aria-hidden="true" />
+            </a>
+            <button
+              type="button"
+              onClick={() => openLeadDrawer("request-quote")}
+              className={`${styles.ctaBase} ${styles.ctaSecondary}`}
+            >
+              Request a Quote
+            </button>
+          </div>
 
-              {/* Main Headline */}
-              <motion.div variants={itemVariants}>
-                <Typography
-                  variant="h1"
-                  className={styles.heroTitle}
-                  sx={{
-                    color: "#FFFFFF",
-                    fontFamily: "'Inter', sans-serif",
-                    fontWeight: 700,
-                    fontSize: {
-                      xs: "2.25rem",
-                      sm: "2.75rem",
-                      md: "3.25rem",
-                      lg: "3.5rem",
-                    },
-                    lineHeight: 1.1,
-                    marginTop: "1.5rem",
-                  }}
-                >
-                  Your Engineering Future Starts at CIT —
-                  <span className={styles.orangeText}>
-                    {" "}
-                    Direct B.E. Admission for 2026
-                  </span>
-                </Typography>
-              </motion.div>
+          <div className={styles.trustStrip}>
+            {TRUST_STATS.map((stat) => (
+              <div className={styles.trustItem} key={stat.label}>
+                <span className={styles.trustValue}>{stat.value}</span>
+                <span className={styles.trustLabel}>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
-              {/* Sub-headline */}
-              <motion.div variants={itemVariants}>
-                <Typography
-                  variant="h6"
-                  className={styles.heroSubtitle}
-                  sx={{
-                    color: "rgba(255, 255, 255, 0.85)",
-                    fontWeight: 400,
-                    fontSize: { xs: "0.95rem", md: "1.125rem" },
-                    marginTop: "1rem",
-                    maxWidth: "600px",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  NAAC-accredited, AICTE-approved VTU degree in Tumakuru,
-                  Karnataka with 85%+ placements — guided direct admission for
-                  students from North East India.
-                </Typography>
-              </motion.div>
-
-              {/* CTA Buttons */}
-              <motion.div
-                variants={buttonVariants}
-                className={styles.ctaButtons}
-              >
-                <Button
-                  variant="contained"
-                  size="large"
-                  className={styles.primaryCta}
-                  onClick={() => {
-                    openLeadDrawer("apply-now");
-                  }}
-                  sx={{
-                    backgroundColor: "#1E7B45",
-                    color: "#FFFFFF",
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    padding: "0.875rem 2rem",
-                    borderRadius: "12px",
-                    textTransform: "none",
-                    fontFamily: "'Inter', sans-serif",
-                    boxShadow: "0 4px 20px rgba(30, 123, 69, 0.45)",
-                    "&:hover": {
-                      backgroundColor: "#176437",
-                      color: "#FFFFFF",
-                      boxShadow: "0 8px 28px rgba(30, 123, 69, 0.6)",
-                      transform: "translateY(-2px)",
-                    },
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  Apply Now →
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  className={styles.secondaryCta}
-                  component="a"
-                  href="tel:+918069645014"
-                  sx={{
-                    borderColor: "rgba(255, 255, 255, 0.6)",
-                    color: "#FFFFFF",
-                    fontWeight: 600,
-                    fontSize: "1rem",
-                    padding: "0.875rem 2rem",
-                    borderRadius: "12px",
-                    textTransform: "none",
-                    fontFamily: "'Inter', sans-serif",
-                    borderWidth: "2px",
-                    "&:hover": {
-                      borderColor: "#FFFFFF",
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
-                      borderWidth: "2px",
-                    },
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  Call +91 8069645014
-                </Button>
-              </motion.div>
-
-              {/* Trust Indicators */}
-              <motion.div
-                variants={itemVariants}
-                className={styles.trustIndicators}
-              >
-                {trustIndicators.map((indicator, index) => (
-                  <div key={index} className={styles.trustIndicator}>
-                    <Icon icon={indicator.icon} className={styles.trustIcon} />
-                    <span>{indicator.text}</span>
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
-          </Grid>
-
-          {/* Right Content - Lead Form (Desktop only) */}
-          {isDesktop && (
-            <Grid item lg={5}>
-              <motion.div
-                className={styles.formWrapper}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-              >
-                <div className={styles.formCard}>
-                  <div className={styles.formHeader}>
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        color: "#FFFFFF",
-                        fontWeight: 700,
-                        fontFamily: "'Inter', sans-serif",
-                        textAlign: "center",
-                        fontSize: "1.25rem",
-                      }}
-                    >
-                      Apply for Direct B.E. Admission 2026
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: "rgba(255, 255, 255, 0.8)",
-                        textAlign: "center",
-                        marginTop: "0.25rem",
-                        fontSize: "0.875rem",
-                      }}
-                    >
-                      Free guidance from CIT's admission team
-                    </Typography>
-                  </div>
-                  <div className={styles.formBody}>
-                    <UnifiedLeadForm
-                      variant="hero"
-                      source="hero"
-                      showTitle={false}
-                      showSubtitle={false}
-                      showCourseFields={true}
-                      showTrustBadges={true}
-                      showConsent={true}
-                      showPhoneButton={false}
-                      submitButtonText="Apply for 2026 Admission"
-                      formId="hero-form"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-            </Grid>
-          )}
-        </Grid>
-      </Container>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className={styles.scrollIndicator}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Icon icon="mdi:chevron-double-down" className={styles.scrollIcon} />
-        </motion.div>
-      </motion.div>
+      {/* Scroll affordance */}
+      <div className={styles.scrollHint} aria-hidden="true">
+        <span>Scroll</span>
+        <Icon icon="mdi:chevron-down" className={styles.scrollChevron} />
+      </div>
     </section>
   );
 };
