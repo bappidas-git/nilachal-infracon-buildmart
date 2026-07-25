@@ -123,3 +123,51 @@ the single unreleased version below as each prompt is merged.
 
 **Removed**
 - Deleted `src/data/serviceDetailsData.js` (verified dead — no imports).
+
+### 05 — Header, footer & mobile navigation
+
+**Changed**
+- Rebuilt the **Header** for Nilachal: color/white logo swap from `siteConfig`
+  (white over the hero, color once scrolled), the six one-pager anchors
+  (About / Products / Services / Brands / Why Us / Contact), a quiet phone text
+  link and a green **"Request a Quote"** CTA (`openLeadDrawer('request-quote')`).
+  Restyled the transparent→solid-white scroll state with a subtle border + blur
+  using design tokens, and replaced the Framer-Motion entrance with a subtle
+  GSAP fade-down (logo + nav, once, reduced-motion aware). Removed the CIT
+  accreditation strip. Scroll-spy and the 80px offset logic are unchanged.
+- Rebuilt the **Footer** as a clean four-column layout on `--color-primary-dark`:
+  white logo + legal name + tagline + one-line about + "North East Buildmart — A
+  Brand of Nilachal Infracon Pvt. Ltd."; Quick Links (six anchors); Contact
+  (full address, `tel:`, `mailto:`, WhatsApp chip); and Registered Office + CIN.
+  Bottom bar shows the 2026 copyright, the Privacy Policy link, and the
+  "Developed by Assam Digital" credit. Rewrote the privacy-policy modal for
+  Nilachal (name/phone/email/enquiry details, used only to respond, stored on
+  the site's own server, never sold, no ad-platform tracking, removal by email);
+  the modal mechanics are unchanged.
+- Rebuilt the **MobileDrawer** (bottom sheet) with the Nilachal logo, Home + the
+  six anchors, Call / WhatsApp contact actions, and a "Request a Quote" CTA.
+  SwipeableDrawer mechanics, scroll-lock, Escape handling and the 80px offset are
+  unchanged.
+- Rebuilt the **MobileNavigation** bottom bar actions — Call, WhatsApp,
+  **Enquire** (primary green, opens the `request-quote` drawer,
+  `mdi:file-document-edit-outline`), Menu. Show/hide-on-scroll mechanics are
+  unchanged.
+- Rewrote `ModalContext` `DRAWER_TITLES` with Nilachal copy (`request-quote`,
+  `product-enquiry`, `service-enquiry`, `callback`, `default`); kept the legacy
+  CIT keys as aliases pointing at the new copy so not-yet-rebuilt sections keep
+  compiling (pruned in prompt 11). Drawer open/close/scroll-lock mechanics are
+  unchanged.
+- Updated `LeadFormDrawer` defaults: header icon `mdi:office-building-outline`
+  and the `request-quote` title/subtitle; neutralised the leftover submit label
+  to "Send Enquiry" (the rest of the form is prompt 10). Pointed
+  `App.jsx`'s enquiry handler at the `request-quote` drawer.
+- All contact facts in these components now come from `src/data/siteConfig.js`
+  (no hardcoded phones/emails/addresses). Swept the remaining CIT branding,
+  phone (`+91 8069645014`), logo and "Assam Digital campaign" comments out of the
+  four components. Updated the `CLAUDE.md` branding pointer to note logos come
+  from `siteConfig`.
+
+**Note**
+- `#products`, `#brands` and `#why-us` do not exist in the DOM until prompts
+  08–09, so those nav items temporarily dead-end; the existing hash-scroll retry
+  logic tolerates the missing targets.

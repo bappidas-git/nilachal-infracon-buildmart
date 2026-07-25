@@ -21,37 +21,46 @@ export const MODAL_TYPES = {
   CUSTOM: 'CUSTOM',
 };
 
-// Drawer title mapping based on source/context
-// CIT — Direct B.E. Engineering Admissions 2026 drawer title configuration
+// Drawer title/subtitle mapping based on source/context.
+// Nilachal Infracon enquiry drawer copy. New keys drive the current sections;
+// the legacy keys below are kept as aliases pointing at the same copy so
+// sections not yet rebuilt keep working (prompt 11 prunes the aliases).
+const REQUEST_QUOTE = {
+  title: 'Request a Quote',
+  subtitle: 'Tell us what you need and our team will get back within 24 hours.',
+};
+const PRODUCT_ENQUIRY = {
+  title: 'Product Enquiry',
+  subtitle: 'Ask about availability, brands and pricing.',
+};
+const SERVICE_ENQUIRY = {
+  title: 'Service Enquiry',
+  subtitle: 'Discuss your construction or renovation project with us.',
+};
+const CALLBACK = {
+  title: 'Request a Callback',
+  subtitle: "Share your details and we'll call you back.",
+};
+const DEFAULT_ENQUIRY = {
+  title: 'Send an Enquiry',
+  subtitle: 'We usually respond within 24 hours.',
+};
+
 export const DRAWER_TITLES = {
-  'apply-now': {
-    title: 'Apply for 2026 Admission',
-    subtitle: 'Share your details — our team will guide you',
-  },
-  'get-details': {
-    title: 'Get Admission Details',
-    subtitle: 'Courses, fees, hostel & placements',
-  },
-  'request-callback': {
-    title: 'Request a Callback',
-    subtitle: 'Our admission team will call you',
-  },
-  'book-meeting': {
-    title: 'Talk to an Admission Counsellor',
-    subtitle: 'Book a free counselling call',
-  },
-  'download-brochure': {
-    title: 'Download CIT Brochure',
-    subtitle: 'Get the full 2026 prospectus',
-  },
-  'fees-scholarship': {
-    title: 'Fees & Scholarship Info',
-    subtitle: 'Get the latest 2026 fee structure and scholarship details',
-  },
-  'default': {
-    title: 'Enquire About Admission',
-    subtitle: "Fill the form — we'll assist you",
-  },
+  // Current Nilachal keys
+  'request-quote': REQUEST_QUOTE,
+  'product-enquiry': PRODUCT_ENQUIRY,
+  'service-enquiry': SERVICE_ENQUIRY,
+  'callback': CALLBACK,
+  'default': DEFAULT_ENQUIRY,
+
+  // Legacy aliases → new copy (removed in prompt 11).
+  'apply-now': REQUEST_QUOTE,
+  'get-details': PRODUCT_ENQUIRY,
+  'request-callback': CALLBACK,
+  'book-meeting': SERVICE_ENQUIRY,
+  'download-brochure': DEFAULT_ENQUIRY,
+  'fees-scholarship': DEFAULT_ENQUIRY,
 };
 
 // Provider component

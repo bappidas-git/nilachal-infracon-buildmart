@@ -18,24 +18,17 @@ import {
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
+import { siteConfig, telHref, waHref } from "../../../data/siteConfig";
 import styles from "./MobileDrawer.module.css";
 
-// CIT primary admissions contact (Assam Digital campaign)
-const PRIMARY_PHONE = "+918069645014";
-const PRIMARY_PHONE_DISPLAY = "+91 8069645014";
-const PRIMARY_PHONE_DIGITS = "918069645014";
-const WHATSAPP_HREF = `https://api.whatsapp.com/send?phone=${PRIMARY_PHONE_DIGITS}&text=Hello%20CIT%2C%20I%27d%20like%20guidance%20on%20Direct%20B.E.%20admission%202026.`;
-
-const CIT_LOGO_URL =
-  "https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669113/logo-cit_ykpxvd.png";
-
-// Navigation menu items — match Header anchors
+// Navigation menu items — Home + the six one-pager anchors (Header nav).
 const menuItems = [
-  { id: "home", label: "Home", icon: "ic:outline-home", href: "#home" },
-  { id: "about", label: "About CIT", icon: "mdi:information-outline", href: "#about" },
-  { id: "courses", label: "Courses", icon: "mdi:book-open-variant", href: "#courses" },
-  { id: "placements", label: "Placements", icon: "mdi:briefcase-outline", href: "#placements" },
-  { id: "campus", label: "Campus", icon: "mdi:school-outline", href: "#campus" },
+  { id: "home", label: "Home", icon: "mdi:home-outline", href: "#home" },
+  { id: "about", label: "About", icon: "mdi:information-outline", href: "#about" },
+  { id: "products", label: "Products", icon: "mdi:package-variant-closed", href: "#products" },
+  { id: "services", label: "Services", icon: "mdi:hammer-wrench", href: "#services" },
+  { id: "brands", label: "Brands", icon: "mdi:tag-multiple-outline", href: "#brands" },
+  { id: "why-us", label: "Why Us", icon: "mdi:star-outline", href: "#why-us" },
   { id: "contact", label: "Contact", icon: "mdi:phone-outline", href: "#contact" },
 ];
 
@@ -91,6 +84,10 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
 
     // Scroll after a brief delay to allow drawer close animation to start
     setTimeout(() => {
+      if (targetHref === "#home") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
       const element = document.querySelector(targetHref);
       if (element) {
         const headerOffset = 80;
@@ -165,9 +162,9 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
       <Box className={styles.drawerHeader}>
         <Box className={styles.logoSection}>
           <img
-            src={CIT_LOGO_URL}
-            alt="CIT — Channabasaveshwara Institute of Technology"
-            style={{ height: "36px", width: "auto" }}
+            src={siteConfig.logo}
+            alt={siteConfig.legalName}
+            style={{ height: "38px", width: "auto" }}
           />
         </Box>
         <IconButton
@@ -191,7 +188,7 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
             exit="exit"
           >
             <List className={styles.menuList}>
-              {menuItems.map((item, index) => (
+              {menuItems.map((item) => (
                 <motion.div key={item.id} variants={itemVariants}>
                   <ListItem disablePadding className={styles.menuItem}>
                     <ListItemButton
@@ -259,7 +256,7 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
         <Divider className={styles.divider} />
         <Box className={styles.contactInfo}>
           <Typography variant="caption" className={styles.contactLabel}>
-            CIT Admissions Desk
+            {siteConfig.brandName}
           </Typography>
 
           {/* Contact Details */}
@@ -268,27 +265,27 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
               <Box className={styles.unifiedContactHeader}>
                 <Icon
                   icon="mdi:phone-in-talk-outline"
-                  style={{ color: '#16324F', fontSize: 18 }}
+                  style={{ color: "#16324F", fontSize: 18 }}
                 />
                 <span className={styles.unifiedContactNumber}>
-                  {PRIMARY_PHONE_DISPLAY}
+                  {siteConfig.phoneDisplay}
                 </span>
               </Box>
               <Box className={styles.unifiedContactActions}>
                 <a
-                  href={`tel:${PRIMARY_PHONE}`}
+                  href={telHref}
                   className={`${styles.unifiedActionBtn} ${styles.unifiedActionCall}`}
-                  aria-label={`Call ${PRIMARY_PHONE_DISPLAY}`}
+                  aria-label={`Call ${siteConfig.phoneDisplay}`}
                 >
                   <Icon icon="mdi:phone" style={{ fontSize: 16 }} />
                   <span>Call</span>
                 </a>
                 <a
-                  href={WHATSAPP_HREF}
+                  href={waHref}
                   className={`${styles.unifiedActionBtn} ${styles.unifiedActionWhatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Chat on WhatsApp with ${PRIMARY_PHONE_DISPLAY}`}
+                  aria-label={`Chat on WhatsApp with ${siteConfig.brandName}`}
                 >
                   <Icon icon="mdi:whatsapp" style={{ fontSize: 16 }} />
                   <span>WhatsApp</span>
@@ -297,7 +294,7 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
             </Box>
           </Box>
 
-          {/* Apply Now CTA — opens unified lead drawer */}
+          {/* Request a Quote CTA — opens the unified lead drawer */}
           <motion.button
             className={styles.bookConsultationCta}
             whileHover={{ scale: 1.02 }}
@@ -308,10 +305,10 @@ const MobileDrawer = ({ open, onClose, onOpen, onBookConsultation, activeSection
                 setTimeout(() => onBookConsultation(), 300);
               }
             }}
-            aria-label="Apply for 2026 B.E. admission"
+            aria-label="Request a quote"
           >
-            <Icon icon="mdi:school-outline" style={{ fontSize: 20 }} />
-            <span>Apply for 2026 Admission</span>
+            <Icon icon="mdi:office-building-outline" style={{ fontSize: 20 }} />
+            <span>Request a Quote</span>
           </motion.button>
         </Box>
       </Box>
