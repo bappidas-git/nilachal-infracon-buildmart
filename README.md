@@ -1,141 +1,133 @@
-# CIT — Direct B.E. Engineering Admissions 2026
+# Nilachal Infracon Private Limited — Official Website
 
-A high-converting, mobile-first landing page for **Channabasaveshwara Institute of Technology (CIT), Tumakuru**, built to capture quality leads for **Direct B.E. (Engineering) Admissions — 2026 intake**. Targeted at students and parents across North East India and run by **Assam Digital** through Google Ads and Meta. Built with React 18, Material UI v5, and Framer Motion.
+A minimal, mobile-first **one-page business website** for **Nilachal Infracon
+Private Limited**, an infrastructure & building-materials company based in
+Nagaon, Assam (Northeast India), whose flagship retail brand is **North East
+Buildmart**. The page presents the company, its products and construction
+services, and captures qualified enquiries through a lead form backed by a
+server-side store and a lightweight admin panel.
 
-## Features
+Built and maintained by **Assam Digital**.
 
-### Landing Page
-- Responsive, mobile-first design with bottom navigation
-- Animated sections with scroll-triggered transitions (Framer Motion)
-- Lead capture forms with validation and duplicate prevention
-- Multiple form entry points (hero, contact, drawer, secondary CTA)
-- SweetAlert2 success/error modals
-- Thank You page with confetti animation
-- Legal modals (Privacy Policy, Terms, Disclaimer)
-- PWA-ready with manifest and service worker
-
-### Admin Panel (`/admin`)
-- Secure login with environment-variable credentials
-- Dashboard with lead analytics and charts
-- Lead Management System (LMS) with search, filter, sort, pagination
-- Lead status tracking (New, Contacted, Qualified, Converted, Lost)
-- Per-lead notes and activity log
-- CSV export for offline use
-- Google Ads offline conversion import format
-
-### Tracking & Analytics
-- Google Tag Manager integration with dataLayer events
-- Google Ads conversion tracking (browser-side + offline import)
-- Meta Pixel + Conversions API (CAPI) for server-side tracking
-- Google Consent Mode v2 support
-- Enhanced conversions support
-- GCLID capture and persistence
-- Event deduplication (browser + server)
-
-### SEO
-- JSON-LD structured data (Organization, LocalBusiness, FAQPage, BreadcrumbList, WebPage)
-- Dynamic SEO head management via `SEOHead` component
-- Open Graph and Twitter Card meta tags
-- Canonical URLs, robots.txt, sitemap.xml
-- Configurable via `src/config/seo.js`
+> **Rebuild in progress.** This codebase is being converted from a previous
+> landing page into the Nilachal Infracon site through an ordered prompt series
+> in [`prompts/`](prompts/README.md). Execute the prompts one at a time, in
+> numeric order — each is designed to run in a fresh session and open its own
+> pull request. See `prompts/README.md` for the full plan and conventions.
 
 ## Tech Stack
 
-- React 18 (concurrent features, lazy loading)
-- Material UI v5
-- Framer Motion
-- CSS Modules + CSS Custom Properties
-- React Router v6
-- Swiper (mobile carousels)
-- SweetAlert2
-- Iconify (MDI icons)
-- Web Vitals monitoring
+- **React 18** (CRA / `react-scripts` 5, concurrent features, lazy loading)
+- **Material UI v5** + **Emotion**
+- **CSS Modules** + CSS custom properties
+- **GSAP + ScrollTrigger** for public-page scroll animations _(introduced in prompt 03)_
+- **React Router v7**
+- **Iconify** (`mdi:*` icons), **SweetAlert2**, **Swiper**
+- **PHP** server-side lead store (`public/api/leads.php`)
+- **Web Vitals** monitoring
 
 ## Quick Start
 
 ```bash
-# Install dependencies
+# 1. Install dependencies
 npm install
 
-# Copy environment template
-cp .env.example .env
+# 2. Create your local environment file
+cp .env.example .env    # then fill in the values (see "Environment Variables" below)
 
-# Start development server
-npm start
+# 3. Start the dev server
+npm start               # http://localhost:3000
 
-# Build for production
-npm run build
+# 4. Production build
+npm run build           # outputs to build/
 ```
 
-Admin credentials: `citadmin` / `cit@admissions2026` (configured in `.env`).
+Admin credentials are configured through `.env` (`REACT_APP_ADMIN_USERNAME` /
+`REACT_APP_ADMIN_PASSWORD`) — they are intentionally **not** published here.
 
-## Folder Structure
+## Project Structure
 
 ```
 ├── public/
-│   ├── api/                # Server-side endpoints (CAPI, conversions)
-│   ├── index.html          # HTML template with SEO meta, JSON-LD schemas
+│   ├── api/                # Server-side endpoints (leads.php shared store, config)
+│   ├── index.html          # HTML template (SEO meta, JSON-LD)
 │   ├── manifest.json       # PWA manifest
-│   ├── robots.txt          # Search engine directives
-│   └── sitemap.xml         # Sitemap template
+│   ├── robots.txt          # Search-engine directives
+│   └── sitemap.xml         # Sitemap
 ├── src/
-│   ├── admin/
-│   │   ├── components/     # AdminLayout, AdminLogin, Sidebar, Topbar
-│   │   ├── context/        # AdminAuthContext
-│   │   ├── pages/          # Dashboard, LeadManagement
-│   │   └── utils/          # adminAuth, leadService, googleAdsExport
+│   ├── admin/              # Admin panel (components, pages, context, utils)
 │   ├── components/
-│   │   ├── common/         # Header, Footer, LeadForm, MobileNav, SEO, etc.
-│   │   └── sections/       # Hero, About, Services, Features, CTA, etc.
-│   ├── config/             # SEO configuration
+│   │   ├── common/         # Header, Footer, LeadForm, navigation, etc.
+│   │   └── sections/       # Hero, About, Services, and other page sections
+│   ├── config/             # Site / SEO configuration
 │   ├── context/            # ModalContext, ThemeContext
-│   ├── data/               # Content data files (edit these first!)
-│   ├── hooks/              # useGTMTracking, useInView, useMediaQuery, etc.
+│   ├── data/               # Content data files (edit these first)
+│   ├── hooks/              # useInView, useMediaQuery, and other hooks
 │   ├── pages/              # ThankYou page
 │   ├── styles/             # Global CSS, variables, animations, responsive
 │   ├── theme/              # MUI theme configuration
-│   └── utils/              # Webhook, GTM, Meta, Google Ads, validators, etc.
+│   └── utils/              # webhookSubmit, validators, and helpers
+├── prompts/                # The rebuild prompt series (run in order)
 ├── .env.example            # Environment variables template
-├── CHANGELOG.md            # What changed from the original codebase
-├── CLAUDE.md               # AI assistant instructions
-├── CUSTOMIZATION_GUIDE.md  # Step-by-step setup for a new landing page
-├── GTM_GUIDE.md            # Google Tag Manager setup guide
-└── SEO_GUIDE.md            # SEO configuration guide
+├── CHANGELOG.md            # Changelog
+└── CLAUDE.md               # Project instructions for AI-assisted work
 ```
-
-## Customization
-
-See **[CUSTOMIZATION_GUIDE.md](CUSTOMIZATION_GUIDE.md)** for a complete step-by-step walkthrough.
-
-### Quick Summary
-
-1. **Environment** — Copy `.env.example` to `.env`, fill in your business details
-2. **Content** — Edit data files in `src/data/` and section text in `src/components/sections/`
-3. **Branding** — Update colors in `src/styles/variables.css` and `src/theme/muiTheme.js`
-4. **Images** — Replace `placehold.co` URLs with your actual images
-5. **SEO** — Update meta tags and schemas in `public/index.html` and `src/config/seo.js`
-6. **Lead Storage** — Copy `public/api/config.example.php` → `config.php`, set `ADMIN_API_KEY`, and set the matching `REACT_APP_LEADS_ADMIN_KEY` in `.env`. Leads POST to `/api/leads.php` (the shared server store) — the single source of truth that keeps every device in sync
-7. **Analytics** — Set up your GTM container (see [GTM_GUIDE.md](GTM_GUIDE.md)); add your Meta Pixel ID / Google Ads ID in `.env` when ready
-8. **Deploy** — Run `npm run build` and deploy the `build/` folder
 
 ## Routes
 
 | Route | Description |
 |-------|-------------|
-| `/` | Landing page with all sections |
-| `/thank-you` | Post-submission thank you page (requires session flag) |
-| `/admin` | Redirects to `/admin/login` |
+| `/` | One-page site (all public sections) |
+| `/thank-you` | Post-submission thank-you page (requires a submission session flag) |
 | `/admin/login` | Admin authentication |
-| `/admin/dashboard` | Lead analytics dashboard |
-| `/admin/lms` | Lead Management System |
+| `/admin/*` | Protected admin panel — `dashboard`, `lms` (Lead Management + lead detail), `guideline` |
+
+## Lead Storage Architecture
+
+Leads are the product of this site, so they are stored **server-side** and treated
+as a single source of truth:
+
+- The public enquiry form POSTs each submission to `public/api/leads.php`
+  (a shared JSON store) via `src/utils/webhookSubmit.js`.
+- The admin panel reads and writes **only** the server, auto-refreshing every
+  **15 seconds**, and broadcasts changes to other open tabs in the same browser
+  via **BroadcastChannel**.
+- There is **no `localStorage` copy of leads** — a lead submitted on one device
+  appears in the admin panel on every other device.
+- Duplicate prevention (by mobile number) is enforced server-side.
+
+Configure the endpoint and its shared admin key with `REACT_APP_LEADS_API_URL`
+and `REACT_APP_LEADS_ADMIN_KEY`; the key must match `ADMIN_API_KEY` in
+`public/api/config.php` (copy `public/api/config.example.php` to `config.php`).
+
+## Environment Variables
+
+`.env` is committed to the repository as part of the existing agency workflow,
+so **every secret in it must be rotated during the rebuild series**. The core
+variables:
+
+| Variable | Purpose |
+|----------|---------|
+| `REACT_APP_NAME` | App display name |
+| `REACT_APP_ADMIN_USERNAME` | Admin panel username |
+| `REACT_APP_ADMIN_PASSWORD` | Admin panel password (rotate before deploy) |
+| `REACT_APP_SALES_PHONE` | Public contact phone |
+| `REACT_APP_WHATSAPP_NUMBER` | WhatsApp number (digits only, with country code) |
+| `REACT_APP_SALES_EMAIL` | Public contact email |
+| `REACT_APP_HERO_VIDEO_URL` | Optional hero background video URL |
+| `REACT_APP_LEADS_API_URL` | Leads API endpoint (default `/api/leads.php`) |
+| `REACT_APP_LEADS_ADMIN_KEY` | Shared secret for admin lead operations — must match `ADMIN_API_KEY` in `public/api/config.php` |
+| `REACT_APP_TELECALLS_API_URL` | Tele-calling API endpoint (module removed in prompt 13) |
+
+> A few analytics/tracking variables still remain in `.env` from the previous
+> build; they are removed in **prompt 02** (`prompts/02-remove-ads-tracking.md`).
 
 ## Documentation
 
-- **[CUSTOMIZATION_GUIDE.md](CUSTOMIZATION_GUIDE.md)** — Quick-start guide for creating a new landing page
-- **[GTM_GUIDE.md](GTM_GUIDE.md)** — Google Tag Manager setup and dataLayer events
-- **[SEO_GUIDE.md](SEO_GUIDE.md)** — SEO configuration and schema setup
-- **[CHANGELOG.md](CHANGELOG.md)** — Detailed changelog
+- **[prompts/README.md](prompts/README.md)** — The rebuild prompt series and series-wide conventions
+- **[CHANGELOG.md](CHANGELOG.md)** — What has changed
+- **[CLAUDE.md](CLAUDE.md)** — Project instructions and non-negotiable contracts
 
 ## License
 
-MIT
+Proprietary — `UNLICENSED`. © Nilachal Infracon Private Limited. All rights reserved.
