@@ -1,22 +1,21 @@
 /* ============================================
-   ServicesSection Component
-   CIT 2026 — Courses Offered (B.E. branches)
+   ServicesSection — Construction & Infrastructure
+   The five Nilachal Infracon services as a minimal,
+   Apple-style vertical list: a large index numeral, the
+   service name, a one-line description, a few feature tags,
+   and a hover-revealed arrow. Each row is a button that
+   opens the service-enquiry drawer pre-filled with the
+   service. Hairline separators, no cards, no carousel.
+
+   Animation: GSAP + ScrollTrigger via the shared hooks
+   (src/animations) — `useReveal` fades the header up and
+   `useStaggerReveal` staggers the rows; both no-op to their
+   final state under `prefers-reduced-motion`.
    ============================================ */
 
-import React, { useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
-import {
-  Container,
-  Typography,
-  Chip,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { useEffect } from "react";
 import { Icon } from "@iconify/react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
+import { useReveal, useStaggerReveal } from "../../../animations";
 import { servicesData } from "../../../data/servicesData";
 import { useModal } from "../../../context/ModalContext";
 import {
@@ -26,250 +25,81 @@ import {
 } from "../../../utils/seo";
 import styles from "./ServicesSection.module.css";
 
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94],
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      delay: i * 0.12,
-      duration: 0.5,
-      ease: [0.25, 0.46, 0.45, 0.94],
-    },
-  }),
-};
-
-const badgeIconFor = (badge) => {
-  if (badge === "Most Popular") return "mdi:star";
-  if (badge === "High Demand") return "mdi:trending-up";
-  return "mdi:diamond-stone";
-};
-
 const ServicesSection = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { openLeadDrawer } = useModal();
 
-  // Inject Service schema for structured data
+  // Header fades up once on scroll-in; the rows stagger in. Each hook refreshes
+  // ScrollTrigger so this lazy-mounted section measures correctly.
+  const headerRef = useReveal();
+  const listRef = useStaggerReveal();
+
+  // Inject the Service JSON-LD for structured data (generator wording is made
+  // construction-correct in prompt 12; the wiring stays as-is).
   useEffect(() => {
     injectSchema("schema-services", generateServiceSchema(servicesData));
     return () => removeSchema("schema-services");
   }, []);
 
-  const handleApply = (course) => {
-    openLeadDrawer("apply-now", {
-      subtitle: `Apply for ${course.shortName} — ${course.name}`,
-      course: course.name,
-      course_interest: course.name,
+  // Whole row opens the enquiry drawer pre-filled with the service, so the form
+  // arrives with the right context (prompt 10 wires the prefill in).
+  const handleRowEnquiry = (service) =>
+    openLeadDrawer("service-enquiry", {
+      subtitle: service.name,
+      service_interest: service.name,
     });
-  };
-
-  const renderCourseCard = (course, index) => (
-    <motion.div
-      key={course.id}
-      className={styles.courseCard}
-      custom={index}
-      variants={isMobile ? undefined : cardVariants}
-      initial={isMobile ? undefined : "hidden"}
-      animate={isMobile ? undefined : isInView ? "visible" : "hidden"}
-      whileHover={{ y: -6, boxShadow: "0 12px 40px rgba(22, 50, 79, 0.18)" }}
-      transition={{ duration: 0.3 }}
-    >
-      {/* Badge */}
-      {course.badge && (
-        <div
-          className={`${styles.courseBadge} ${
-            course.badge === "Most Popular" ? styles.popularBadge : ""
-          }`}
-        >
-          <Icon icon={badgeIconFor(course.badge)} />
-          <span>{course.badge}</span>
-        </div>
-      )}
-
-      {/* Icon */}
-      <div className={styles.courseIconWrapper}>
-        <Icon icon={course.icon} className={styles.courseIcon} />
-      </div>
-
-      {/* Short Name Chip */}
-      <div className={styles.shortNameChip}>{course.shortName}</div>
-
-      {/* Course Name */}
-      <Typography className={styles.courseName}>{course.name}</Typography>
-
-      {/* Ideal for */}
-      <div className={styles.idealFor}>
-        <Icon icon="mdi:bullseye-arrow" />
-        <span>
-          <strong>Ideal for:</strong> {course.target}
-        </span>
-      </div>
-
-      {/* Features */}
-      <ul className={styles.courseFeatures}>
-        {course.features.slice(0, 4).map((feature, idx) => (
-          <li key={idx} className={styles.courseFeatureItem}>
-            <Icon icon="mdi:check-circle" />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      {/* CTA Button */}
-      <motion.button
-        className={styles.courseCtaBtn}
-        onClick={() => handleApply(course)}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        aria-label={`Apply or enquire for ${course.name}`}
-      >
-        <span>Apply / Enquire</span>
-        <Icon icon="mdi:arrow-right" />
-      </motion.button>
-    </motion.div>
-  );
 
   return (
-    <section className={styles.coursesSection} id="courses" ref={ref}>
-      {/* Background */}
-      <div className={styles.bgOverlay} />
-      <div className={styles.bgPattern} />
+    <section className={styles.servicesSection} id="services">
+      <div className={styles.container}>
+        {/* Header */}
+        <header ref={headerRef} className={styles.header}>
+          <p className={styles.eyebrow}>
+            <span className={styles.eyebrowBar} aria-hidden="true" />
+            What We Do
+          </p>
+          <h2 className={styles.headline}>
+            Construction &amp; Infrastructure Services
+          </h2>
+          <p className={styles.subtext}>
+            End-to-end construction expertise — from homes and commercial
+            spaces to institutional projects and full project management across
+            Northeast India.
+          </p>
+        </header>
 
-      <Container maxWidth="xl">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-        >
-          {/* Section Header */}
-          <motion.div variants={itemVariants} className={styles.sectionHeader}>
-            <Chip
-              label="Courses Offered"
-              sx={{
-                backgroundColor: "rgba(30, 123, 69, 0.10)",
-                color: "#1E7B45",
-                fontWeight: 700,
-                fontSize: "0.7rem",
-                letterSpacing: "0.1em",
-                height: "28px",
-                borderRadius: "20px",
-                border: "1px solid rgba(30, 123, 69, 0.25)",
-              }}
-            />
-            <Typography
-              variant="h2"
-              className={styles.sectionTitle}
-              sx={{
-                fontFamily: "'Inter', sans-serif",
-                fontWeight: 700,
-                fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2.25rem" },
-                color: "#16324F",
-                marginTop: "0.75rem",
-                textAlign: "center",
-                lineHeight: 1.2,
-              }}
+        {/* Service list */}
+        <div ref={listRef} className={styles.list}>
+          {servicesData.map((service, index) => (
+            <button
+              key={service.id}
+              type="button"
+              className={styles.row}
+              onClick={() => handleRowEnquiry(service)}
+              aria-label={`Enquire about ${service.name}`}
             >
-              Choose Your{" "}
-              <span className={styles.accentText}>B.E. Engineering Branch</span>{" "}
-              — 2026 Intake
-            </Typography>
-            <Typography
-              className={styles.sectionSubtitle}
-              sx={{
-                fontSize: { xs: "0.875rem", md: "1rem" },
-                color: "#475569",
-                textAlign: "center",
-                marginTop: "0.5rem",
-                maxWidth: "560px",
-              }}
-            >
-              Seven VTU-affiliated B.E. programmes with hands-on labs, strong
-              placement record, and end-to-end admission guidance for
-              North-East students.
-            </Typography>
-          </motion.div>
+              <span className={styles.rowIndex} aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
 
-          {/* Course Cards */}
-          <motion.div variants={itemVariants}>
-            {isMobile ? (
-              <Swiper
-                modules={[Pagination, Autoplay]}
-                spaceBetween={16}
-                slidesPerView={1.15}
-                centeredSlides
-                pagination={{ clickable: true }}
-                autoplay={{ delay: 4000, disableOnInteraction: true }}
-                className={styles.swiperContainer}
-              >
-                {servicesData.map((course, index) => (
-                  <SwiperSlide key={course.id}>
-                    {renderCourseCard(course, index)}
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            ) : (
-              <div className={styles.coursesGrid}>
-                {servicesData.map((course, index) =>
-                  renderCourseCard(course, index),
-                )}
-              </div>
-            )}
-          </motion.div>
-
-          {/* Bottom CTA */}
-          <motion.div variants={itemVariants} className={styles.bottomCta}>
-            <div className={styles.ctaContent}>
-              <Icon icon="mdi:headset" className={styles.ctaIcon} />
-              <div className={styles.ctaText}>
-                <span className={styles.ctaTitle}>
-                  Not sure which branch is right for you?
+              <span className={styles.rowBody}>
+                <span className={styles.rowName}>{service.name}</span>
+                <span className={styles.rowDesc}>{service.description}</span>
+                <span className={styles.rowTags}>
+                  {service.features.slice(0, 3).map((feature) => (
+                    <span key={feature} className={styles.rowTag}>
+                      {feature}
+                    </span>
+                  ))}
                 </span>
-                <span className={styles.ctaSubtitle}>
-                  Talk to our admission team — we'll help you pick the right
-                  B.E. programme.
-                </span>
-              </div>
-            </div>
-            <motion.button
-              className={styles.ctaBtn}
-              onClick={() => openLeadDrawer("get-details")}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span>Talk to Us</span>
-              <Icon icon="mdi:arrow-right" />
-            </motion.button>
-          </motion.div>
-        </motion.div>
-      </Container>
+              </span>
+
+              <span className={styles.rowArrow} aria-hidden="true">
+                <Icon icon="mdi:arrow-right" />
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
