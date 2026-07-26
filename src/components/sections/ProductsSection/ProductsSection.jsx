@@ -23,7 +23,7 @@ import styles from "./ProductsSection.module.css";
 
 // Wide premium-materials strip — Unsplash, verified 200.
 const featureImage = {
-  src: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=2000&h=600&q=80",
+  src: "https://res.cloudinary.com/dn9gyaiik/image/upload/v1785042294/products-image_bimffn.png",
   alt: "Premium building materials supplied under the North East Buildmart brand",
   width: 2000,
   height: 600,
