@@ -238,3 +238,42 @@ the single unreleased version below as each prompt is merged.
   `ContactSection` stay mounted (rebuilt in prompts 08–11).
 - Updated the `CLAUDE.md` project-structure section list to the currently mounted
   sections.
+
+### 08 — Products & construction-services sections
+
+**Added**
+- Added **ProductsSection** (`id="products"`) — the North East Buildmart flagship
+  moment on white: a centered eyebrow (`OUR FLAGSHIP BRAND`), the headline
+  "North East Buildmart", the "A brand of Nilachal Infracon Pvt. Ltd. — premium
+  building materials under one roof." subtext, one wide Unsplash feature-image
+  strip (verified 200, `w=2000`, rounded 20px), and the 10 `productsData`
+  categories as minimal tiles (green Iconify icon on a `--color-accent-tint`
+  circle, name, two-line-clamped blurb) laid out 5×2 on desktop, 3-col on tablet,
+  2-col on mobile. Each tile is a button that opens the `product-enquiry` drawer
+  pre-filled (`subtitle` + `service_interest` = category name; prompt 10 wires the
+  prefill into the form), with a green "Request Product Pricing" CTA opening the
+  same drawer. `useReveal` fades the header up; `useStaggerReveal` staggers the
+  grid; the icon micro-scales on hover — all reduced-motion aware.
+- Wired `ProductsSection` into `App.jsx` between About and Services (lazy import
+  + `ErrorBoundary`/`Suspense` wrapper + `useIdlePreload` entry), so the header
+  "Products" anchor (`#products`) now resolves.
+
+**Changed**
+- Rebuilt **ServicesSection** (`id="services"`) on `--color-bg-subtle` to
+  alternate with the white Products section: a left-aligned eyebrow (`WHAT WE DO`)
+  and the headline "Construction & Infrastructure Services", then the 5
+  `servicesData` services as a minimal, Apple-style vertical list — large index
+  numeral, service name, description, up to three feature tags, and a
+  hover-revealed arrow — divided by thin hairlines (no cards). Each row is a
+  button that opens the `service-enquiry` drawer pre-filled (`subtitle` +
+  `service_interest` = service name). Kept the Service JSON-LD injection
+  (`injectSchema('schema-services', generateServiceSchema(servicesData))`).
+  `useReveal` fades the header up; `useStaggerReveal` staggers the rows; both
+  respect `prefers-reduced-motion`.
+
+**Removed**
+- Removed **Swiper** from `ServicesSection` (imports + `swiper/css` +
+  `swiper/css/pagination` + the mobile carousel and its pagination styles); the
+  five rows now stack naturally on mobile. `swiper` becomes an unused dependency,
+  pruned in prompt 14. Dropped the Framer-Motion card variants and the leftover
+  course-flavored markup/CSS class names (`.courseCard` → service-row naming).
