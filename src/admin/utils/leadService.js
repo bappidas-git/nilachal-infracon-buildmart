@@ -93,21 +93,88 @@ const getLeadsApiUrl = () => {
 };
 
 /**
+ * Compose the URL for an admin action. The admin key rides in an admin_key
+ * query param IN ADDITION to the X-Admin-Key header: some hosting stacks put a
+ * proxy/cache/security layer in front of PHP that strips custom request
+ * headers, which used to turn every admin call into an unexplainable 401. The
+ * key is compiled into this public bundle, so the URL copy exposes nothing new.
+ */
+const adminActionUrl = (url, action) =>
+  `${url}?action=${action}&admin_key=${encodeURIComponent(LEADS_ADMIN_KEY)}`;
+
+/**
  * Fire-and-forget admin call to the leads API. Re-syncs from the server once
  * the write completes so the cache reflects the server's merged copy.
  */
 const callLeadsApi = (action, body) => {
   const url = getLeadsApiUrl();
   if (!url || !LEADS_ADMIN_KEY) return Promise.resolve();
-  return fetch(`${url}?action=${action}`, {
+  return fetch(adminActionUrl(url, action), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "X-Admin-Key": LEADS_ADMIN_KEY,
     },
-    body: JSON.stringify(body),
+    // admin_key in the body mirrors the header for header-stripping proxies;
+    // the server reads it as an auth fallback and never stores it.
+    body: JSON.stringify({ ...body, admin_key: LEADS_ADMIN_KEY }),
     keepalive: true,
   }).catch((err) => console.error(`[LeadsAPI] ${action} failed:`, err));
+};
+
+/**
+ * Query the API's public health action (no auth, no lead data). Returns the
+ * parsed diagnostic object, or null when the deployed leads.php predates the
+ * health action (it answers 400 "Unknown action") or the call fails outright.
+ */
+const fetchLeadsHealth = async (url) => {
+  try {
+    const res = await fetch(adminActionUrl(url, "health"), {
+      method: "GET",
+      headers: { "X-Admin-Key": LEADS_ADMIN_KEY },
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data && data.success ? data : null;
+  } catch (err) {
+    return null;
+  }
+};
+
+/**
+ * Turn a failed list call into an error message the operator can act on.
+ * A bare "Server returned 401" (all the UI used to show) gives no clue that
+ * the fix is aligning the server's ADMIN_API_KEY with the key this build was
+ * compiled with — so for auth failures we ask the health action WHY the key
+ * was rejected and name the exact thing to change.
+ */
+const describeSyncFailure = async (url, status) => {
+  const base = `Server returned ${status}`;
+  if (status === 503) {
+    return `${base} — the server has no admin key configured. Redeploy the api/ folder from this build (its leads.php ships a built-in key).`;
+  }
+  if (status !== 401) return base;
+
+  const health = await fetchLeadsHealth(url);
+  if (!health) {
+    // Deployed leads.php is older than this build (no health action) — the
+    // key mismatch itself is still the overwhelmingly likely cause.
+    return `${base} — the server rejected this build's admin key. Set ADMIN_API_KEY in api/config.php on the server to this build's REACT_APP_LEADS_ADMIN_KEY (or delete api/config.php to use the built-in key), and redeploy the api/ folder from this build.`;
+  }
+  if (!health.receivedKey) {
+    return `${base} — the admin key never reached the server (a proxy is stripping it). Redeploy the api/ folder from this build so the query-param fallback is active.`;
+  }
+  if (!health.keyMatches) {
+    const sourceHint =
+      health.keySource === "config"
+        ? "api/config.php on the server defines a different ADMIN_API_KEY"
+        : health.keySource === "env"
+          ? "a LEADS_ADMIN_KEY / ADMIN_API_KEY server environment variable defines a different key"
+          : "the deployed api/leads.php has a different built-in key";
+    return `${base} — ${sourceHint} than the key this admin build was compiled with. Make them match: edit or delete api/config.php on the server, or rebuild with the matching REACT_APP_LEADS_ADMIN_KEY.`;
+  }
+  return base;
 };
 
 /**
@@ -167,9 +234,12 @@ export const syncLeadsFromServer = async () => {
   }
 
   try {
-    const response = await fetch(`${url}?action=list`, {
+    const response = await fetch(adminActionUrl(url, "list"), {
       method: "GET",
       headers: { "X-Admin-Key": LEADS_ADMIN_KEY },
+      // Bypass every HTTP cache between the panel and the store — a cached
+      // list response would hide fresh leads until the cache expired.
+      cache: "no-store",
     });
     if (!response.ok) {
       return {
@@ -177,7 +247,7 @@ export const syncLeadsFromServer = async () => {
         added: 0,
         updated: 0,
         removed: 0,
-        error: `Server returned ${response.status}`,
+        error: await describeSyncFailure(url, response.status),
       };
     }
     const data = await response.json();

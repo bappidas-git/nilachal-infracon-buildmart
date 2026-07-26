@@ -271,32 +271,35 @@ cp -r build/* /home/master/applications/your-app/public_html/`}
           on any cheap PHP server and set <code className={styles.guideInlineCode}>REACT_APP_LEADS_API_URL</code>{' '}
           to its full URL.
         </div>
+        <div className={styles.guideNote}>
+          <strong>It works out of the box.</strong>{' '}
+          <code className={styles.guideInlineCode}>leads.php</code> ships a built-in admin key
+          that already matches the <code className={styles.guideInlineCode}>REACT_APP_LEADS_ADMIN_KEY</code>{' '}
+          committed in <code className={styles.guideInlineCode}>.env</code> — you do{' '}
+          <strong>not</strong> need to create <code className={styles.guideInlineCode}>config.php</code>.
+          Only follow the steps below if you want to replace that pair with your own private key.
+        </div>
         <ol className={styles.guideStepList}>
           <li className={styles.guideStepItem}>
-            On the server, open the{' '}
-            <code className={styles.guideInlineCode}>api/</code> folder inside your deployed site.
-          </li>
-          <li className={styles.guideStepItem}>
-            Copy <code className={styles.guideInlineCode}>config.example.php</code> → rename the
-            copy to <code className={styles.guideInlineCode}>config.php</code>.
-          </li>
-          <li className={styles.guideStepItem}>
-            Edit <code className={styles.guideInlineCode}>config.php</code> and set{' '}
+            <em>(Optional — private key.)</em> On the server, open the deployed{' '}
+            <code className={styles.guideInlineCode}>api/</code> folder, copy{' '}
+            <code className={styles.guideInlineCode}>config.example.php</code> →{' '}
+            <code className={styles.guideInlineCode}>config.php</code>, and set{' '}
             <code className={styles.guideInlineCode}>ADMIN_API_KEY</code> to a long random string:
             <pre className={styles.guideCode}>{`define('ADMIN_API_KEY', 'Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE');`}</pre>
           </li>
           <li className={styles.guideStepItem}>
-            In your local project, open <code className={styles.guideInlineCode}>.env</code> and
-            set <strong>the same value</strong>:
+            In your local project, put <strong>the same value</strong> in{' '}
+            <code className={styles.guideInlineCode}>.env</code>:
             <pre className={styles.guideCode}>
 {`REACT_APP_LEADS_API_URL="/api/leads.php"
 REACT_APP_LEADS_ADMIN_KEY="Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE"`}
             </pre>
-          </li>
-          <li className={styles.guideStepItem}>
-            Run <code className={styles.guideInlineCode}>npm run build</code> again and re-upload
-            the <code className={styles.guideInlineCode}>build/</code> folder (env values get
-            baked in at build time).
+            then run <code className={styles.guideInlineCode}>npm run build</code> and re-upload{' '}
+            <code className={styles.guideInlineCode}>build/</code> (env values are baked in at
+            build time). A <code className={styles.guideInlineCode}>config.php</code>{' '}
+            <strong>overrides</strong> the built-in key, so creating it without rebuilding locks
+            your own admin panel out.
           </li>
           <li className={styles.guideStepItem}>
             Make sure <code className={styles.guideInlineCode}>api/data/</code> is writable by PHP
@@ -308,6 +311,19 @@ REACT_APP_LEADS_ADMIN_KEY="Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE"`}
             <code className={styles.guideInlineCode}>/admin/lms</code> — it should appear.
           </li>
         </ol>
+        <div className={styles.guideNoteWarning}>
+          <strong>Seeing “Refresh failed: Server returned 401”?</strong> The key on the server and
+          the key baked into your build don't match — usually because{' '}
+          <code className={styles.guideInlineCode}>api/config.php</code> was created with a
+          different <code className={styles.guideInlineCode}>ADMIN_API_KEY</code> than the build's{' '}
+          <code className={styles.guideInlineCode}>REACT_APP_LEADS_ADMIN_KEY</code>. Fix it by
+          editing <code className={styles.guideInlineCode}>api/config.php</code> to the build's key
+          (or deleting the file to use the built-in key), or by rebuilding with the matching value.
+          Open <code className={styles.guideInlineCode}>/api/leads.php?action=health</code> on your
+          domain to see which key source the server is using — leads submitted meanwhile are safe
+          in <code className={styles.guideInlineCode}>api/data/leads.json</code> and appear as soon
+          as the keys match.
+        </div>
         <div className={styles.guideTip}>
           <strong>Sync:</strong> All leads and admin actions (status changes, notes, deletions)
           flow through <code className={styles.guideInlineCode}>/api/leads.php</code>, so every
@@ -368,9 +384,10 @@ REACT_APP_LEADS_ADMIN_KEY="Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE"`}
                 Admin panel shows leads from other devices
               </td>
               <td className={styles.guideTableCell}>
-                Submit a lead from your phone, then open <code className={styles.guideInlineCode}>/admin/lms</code> on desktop — the lead should appear. If not, verify{' '}
-                <code className={styles.guideInlineCode}>config.php</code> and{' '}
-                <code className={styles.guideInlineCode}>REACT_APP_LEADS_ADMIN_KEY</code> match.
+                Submit a lead from your phone, then open <code className={styles.guideInlineCode}>/admin/lms</code> on desktop — the lead should appear. If not (or refresh shows a 401), open{' '}
+                <code className={styles.guideInlineCode}>/api/leads.php?action=health</code> and make{' '}
+                <code className={styles.guideInlineCode}>config.php</code> /{' '}
+                <code className={styles.guideInlineCode}>REACT_APP_LEADS_ADMIN_KEY</code> match (see 8b).
               </td>
             </tr>
             <tr>

@@ -80,7 +80,15 @@ tabs in sync), so every browser and device sees the same leads.
 match `ADMIN_API_KEY` in `public/api/config.php`, or the committed fallback in
 `public/api/leads.php`). The admin key was **rotated during the rebuild**
 (prompt 10) — when deploying, any live `public/api/config.php` must set the
-same `ADMIN_API_KEY` value as `.env`.
+same `ADMIN_API_KEY` value as `.env`: `config.php` **overrides** the fallback,
+and a mismatched override 401s every admin call while public submissions keep
+saving (this exact failure happened on the first Cloudways deploy). Admin calls
+carry the key via the `X-Admin-Key` header plus an `admin_key` query-param/body
+fallback (for header-stripping proxies); all API responses are
+`Cache-Control: no-store` (Varnish-safe); and the public
+`GET /api/leads.php?action=health` diagnostic reports the active key source +
+fingerprint and whether the caller's key matches, which the admin panel uses to
+show actionable sync-error messages instead of a bare 401.
 
 ## Enquiry Form
 
