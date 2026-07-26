@@ -110,7 +110,11 @@ const LeadStorageGuide = ({ styles }) => {
                 <code className={styles.guideInlineCode}>public/api/config.php</code>
               </td>
               <td className={styles.guideTableCell}>
-                Server-side copy of the same key. Generate a long random string and set both to it.
+                Optional server-side <strong>override</strong> of the built-in key. If the file
+                exists it wins — so it must hold the exact key the deployed build was compiled
+                with, or every admin call fails with 401. Check{' '}
+                <code className={styles.guideInlineCode}>/api/leads.php?action=health</code> to see
+                which key source is active.
               </td>
             </tr>
           </tbody>

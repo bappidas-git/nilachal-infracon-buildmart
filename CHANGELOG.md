@@ -545,3 +545,40 @@ the rebuild record.
   pairing, SPA redirect rules per host, post-deploy checklist);
   `README.md`/`CLAUDE.md` updated to the final codebase (rebuild banners
   retired, env reference corrected); this changelog dated for release.
+
+### 15 — Fix: admin panel 401 / leads invisible after deploy (key-override mismatch)
+
+**Fixed**
+- Diagnosed the live Cloudways deployment where the admin panel showed zero
+  leads on every device and the refresh button reported *"Refresh failed:
+  Server returned 401"*: a `public_html/api/config.php` created on the server
+  (per the deployment guide) defines an `ADMIN_API_KEY` that differs from the
+  `REACT_APP_LEADS_ADMIN_KEY` the deployed bundle was built with. `config.php`
+  overrides the committed fallback key, so every admin `list`/`update`/`delete`
+  was rejected while public submissions kept saving invisibly to
+  `api/data/leads.json`.
+- `public/api/leads.php` now accepts the admin key via the `X-Admin-Key`
+  header **or** an `admin_key` query param / JSON body field (fallbacks for
+  proxies that strip custom headers, scanning `getallheaders()`
+  case-insensitively as well), and sends
+  `Cache-Control: no-store` / `Pragma: no-cache` / `Expires: 0` on every
+  response so a proxy cache (e.g. Cloudways Varnish) can never serve stale or
+  unauthenticated lead data — or replay a cached 401 after the key is fixed.
+- New public `GET /api/leads.php?action=health` diagnostic (no lead data, no
+  key material): reports the active key source (`config` / `env` / `default`),
+  an 8-char SHA-256 fingerprint of the expected key, whether the request's key
+  arrived and matched, and whether the data store is writable.
+- `leadService.js` sends the key on both vectors, fetches with
+  `cache: "no-store"`, and on sync failure queries the health action to turn
+  the bare "Server returned 401" into an actionable message that names the
+  exact mismatch (e.g. *"api/config.php on the server defines a different
+  ADMIN_API_KEY than the key this admin build was compiled with"*) in the
+  Dashboard and Lead Management snackbars.
+
+**Changed**
+- Deployment guide (admin Guidelines → Deployment 8b), `README.md`,
+  `CUSTOMIZATION_GUIDE.md`, Lead Storage & Developer guides: `config.php` is
+  now documented as an **optional override** that must be created together
+  with a matching rebuild — with a troubleshooting note pointing at
+  `?action=health` — instead of a required setup step whose example invited a
+  mismatched key.

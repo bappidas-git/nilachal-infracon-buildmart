@@ -117,6 +117,16 @@ you should set your **own private pair**:
 2. Put the **same value** in `.env` as `REACT_APP_LEADS_ADMIN_KEY`.
 3. `npm run build` and redeploy (env values are baked in at build time).
 
+> **Warning — do steps 1–3 together or not at all.** A `config.php` (or server
+> env var) **overrides** the built-in key. Creating it without rebuilding the
+> client with the matching `REACT_APP_LEADS_ADMIN_KEY` locks the admin panel
+> out: every list/update/delete returns **401** ("Refresh failed: Server
+> returned 401") on every device, while public submissions keep saving
+> invisibly to `api/data/leads.json`. To diagnose, open
+> `https://yourdomain/api/leads.php?action=health` — it reports which key
+> source the server is using (`config` / `env` / `default`) and whether the
+> panel's key matches, without exposing any lead data.
+
 **Do not modify** the `leads.php` request/response contract, the lead record
 field keys (`lead_id`, `name`, `mobile`, `email`, `service_interest`, `state`,
 `message`, `source`, `status`, `submitted_at`, `updated_at`, `notes[]`,
@@ -142,8 +152,10 @@ npm run build        # outputs to build/
 1. Upload the **contents of `build/`** to the web root (e.g. `public_html/`).
    The build already contains `api/leads.php` + `api/config.example.php`
    (copied from `public/`).
-2. Create `api/config.php` on the server with your real `ADMIN_API_KEY`
-   (section 5). Never commit the real key to git.
+2. *(Optional)* Create `api/config.php` on the server with your own private
+   `ADMIN_API_KEY` — **only** together with the matching rebuild (section 5).
+   Skipping this step is fine: the built-in key pair works out of the box.
+   Never commit a real private key to git.
 3. Verify `api/data/` is **writable** by PHP — `leads.php` creates it on first
    run (with an `.htaccess` deny) — and that
    `https://yourdomain/api/data/leads.json` is **not** downloadable
