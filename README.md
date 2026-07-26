@@ -99,8 +99,13 @@ as a single source of truth:
 - Duplicate prevention (by mobile number) is enforced server-side.
 
 Configure the endpoint and its shared admin key with `REACT_APP_LEADS_API_URL`
-and `REACT_APP_LEADS_ADMIN_KEY`; the key must match `ADMIN_API_KEY` in
-`public/api/config.php` (copy `public/api/config.example.php` to `config.php`).
+and `REACT_APP_LEADS_ADMIN_KEY`. The committed fallback key inside `leads.php`
+already matches the committed `.env`, so **no server-side setup is needed**. A
+`public/api/config.php` (from `config.example.php`) or a `LEADS_ADMIN_KEY`
+server env var **overrides** that fallback — if you create one, it must hold
+the exact key the deployed build was compiled with, or every admin call
+returns 401 while public submissions keep saving invisibly. Diagnose key
+mismatches at `/api/leads.php?action=health` (public, no lead data).
 
 ## Environment Variables
 
@@ -114,7 +119,7 @@ reads exactly four variables (company/contact facts live in
 | `REACT_APP_ADMIN_USERNAME` | Admin panel username |
 | `REACT_APP_ADMIN_PASSWORD` | Admin panel password (rotate before deploy) |
 | `REACT_APP_LEADS_API_URL` | Leads API endpoint (default `/api/leads.php`) |
-| `REACT_APP_LEADS_ADMIN_KEY` | Shared secret for admin lead operations — must match `ADMIN_API_KEY` in `public/api/config.php` |
+| `REACT_APP_LEADS_ADMIN_KEY` | Shared secret for admin lead operations — must match the server's key (the committed fallback in `leads.php`, or `ADMIN_API_KEY` in `public/api/config.php` if that override exists) |
 
 ## Documentation
 

@@ -400,7 +400,7 @@ Navigate to /thank-you`}
               <td className={styles.guideTableCell}>Yes (for Admin Panel)</td>
               <td className={styles.guideTableCell}>—</td>
               <td className={styles.guideTableCell}>
-                Shared secret that must match <code className={styles.guideInlineCode}>ADMIN_API_KEY</code> in <code className={styles.guideInlineCode}>public/api/config.php</code>. Protects list/update/delete endpoints.
+                Shared secret protecting list/update/delete endpoints. Must match the server's admin key — the built-in fallback in <code className={styles.guideInlineCode}>leads.php</code> by default, or <code className={styles.guideInlineCode}>ADMIN_API_KEY</code> in <code className={styles.guideInlineCode}>api/config.php</code> when that override file exists.
               </td>
             </tr>
           </tbody>

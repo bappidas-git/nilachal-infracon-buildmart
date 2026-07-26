@@ -27,12 +27,36 @@
        Body: { "lead_ids": ["..."] }
        Removes leads by id.
 
+     GET  /api/leads.php?action=health
+       Public diagnostic — no lead data, no key
+       material. Reports which source the server's
+       admin key comes from (config.php / env /
+       committed default), a short fingerprint of
+       it, whether THIS request carried a key that
+       matched, and whether the data store is
+       writable. Lets the admin panel explain a
+       misconfiguration instead of a bare 401.
+
+   Auth: admin actions accept the key via the
+   X-Admin-Key header, or — for proxies that strip
+   custom headers — an admin_key query param / JSON
+   body field. The key is compiled into the public
+   admin bundle, so it is a sync handshake, not a
+   private secret.
+
    Storage: a JSON file at api/data/leads.json.
    The data/ folder is created on first use and
    protected with a .htaccess "Deny from all".
    ============================================ */
 
 header('Content-Type: application/json');
+// Never let a proxy/CDN (e.g. the Varnish layer Cloudways runs in front of
+// PHP apps) or the browser cache API responses: a cached `list` would serve
+// stale — or worse, unauthenticated — lead data, and a cached 401 would keep
+// the admin panel broken even after the key is fixed.
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-Admin-Key');
@@ -72,12 +96,14 @@ if (!is_dir($dataDir)) {
 //      Cloudways application settings).
 //   3. The committed default below, which MUST match REACT_APP_LEADS_ADMIN_KEY
 //      in .env. Change BOTH together to lock the API down to a private key.
-$adminKey   = '';
-$configFile = __DIR__ . '/config.php';
+$adminKey       = '';
+$adminKeySource = 'default'; // 'config' | 'env' | 'default' — surfaced by action=health
+$configFile     = __DIR__ . '/config.php';
 if (file_exists($configFile)) {
     require_once $configFile;
-    if (defined('ADMIN_API_KEY')) {
-        $adminKey = ADMIN_API_KEY;
+    if (defined('ADMIN_API_KEY') && ADMIN_API_KEY !== '') {
+        $adminKey       = ADMIN_API_KEY;
+        $adminKeySource = 'config';
     }
 }
 if ($adminKey === '') {
@@ -86,7 +112,8 @@ if ($adminKey === '') {
         $envKey = getenv('ADMIN_API_KEY');
     }
     if ($envKey) {
-        $adminKey = $envKey;
+        $adminKey       = $envKey;
+        $adminKeySource = 'env';
     }
 }
 if ($adminKey === '') {
@@ -149,14 +176,44 @@ function merge_lead_array($existing, $incoming, $type) {
     return $result;
 }
 
-function require_admin_auth($expected) {
+// Read the admin key off the request, trying every transport the client may
+// have used. The X-Admin-Key header is the primary vector; the query-param and
+// body fallbacks exist because some hosting stacks (reverse proxies, caches,
+// security modules) strip custom request headers, which used to turn every
+// admin call into an unexplainable 401. The key ships inside the public admin
+// bundle, so carrying it in an XHR URL does not expose anything new.
+function read_admin_key($input) {
+    $header = $_SERVER['HTTP_X_ADMIN_KEY'] ?? '';
+    if (is_string($header) && $header !== '') {
+        return $header;
+    }
+    // Some FastCGI/proxy stacks only surface custom headers via getallheaders()
+    // (or alter their case) — scan it case-insensitively before falling back.
+    if (function_exists('getallheaders')) {
+        foreach (getallheaders() as $name => $value) {
+            if (strcasecmp($name, 'X-Admin-Key') === 0 && is_string($value) && $value !== '') {
+                return $value;
+            }
+        }
+    }
+    $query = $_GET['admin_key'] ?? '';
+    if (is_string($query) && $query !== '') {
+        return $query;
+    }
+    $body = isset($input['admin_key']) ? $input['admin_key'] : '';
+    if (is_string($body) && $body !== '') {
+        return $body;
+    }
+    return '';
+}
+
+function require_admin_auth($expected, $provided) {
     if (empty($expected)) {
         http_response_code(503);
         echo json_encode(['error' => 'Admin API key not configured on server']);
         exit;
     }
-    $provided = $_SERVER['HTTP_X_ADMIN_KEY'] ?? '';
-    if (!is_string($provided) || !hash_equals($expected, $provided)) {
+    if (!is_string($provided) || $provided === '' || !hash_equals($expected, $provided)) {
         http_response_code(401);
         echo json_encode(['error' => 'Unauthorized']);
         exit;
@@ -171,8 +228,29 @@ if (!is_array($input)) $input = [];
 $action = $_GET['action'] ?? ($input['action'] ?? '');
 
 // ----- Routes -----
+
+// Public diagnostic. Exposes no lead data and no key material: the 8-char
+// SHA-256 prefix only lets a client that ALREADY holds a key check whether it
+// is the same one, and the real key is compiled into the public admin bundle
+// anyway. This is what lets the admin panel turn a bare 401 into "the server's
+// config.php defines a different ADMIN_API_KEY than this build".
+if ($action === 'health') {
+    $provided = read_admin_key($input);
+    echo json_encode([
+        'success'        => true,
+        'version'        => 2,
+        'keySource'      => $adminKeySource,
+        'keyFingerprint' => substr(hash('sha256', $adminKey), 0, 8),
+        'receivedKey'    => $provided !== '',
+        'keyMatches'     => $provided !== '' && hash_equals($adminKey, $provided),
+        'storeWritable'  => is_dir($dataDir) && is_writable($dataDir)
+                            && (!file_exists($dataFile) || is_writable($dataFile)),
+    ]);
+    exit;
+}
+
 if ($method === 'GET' && ($action === '' || $action === 'list')) {
-    require_admin_auth($adminKey);
+    require_admin_auth($adminKey, read_admin_key($input));
     echo json_encode(['success' => true, 'leads' => load_leads($dataFile)]);
     exit;
 }
@@ -210,7 +288,7 @@ if ($method === 'POST' && $action === 'create') {
 }
 
 if ($method === 'POST' && $action === 'update') {
-    require_admin_auth($adminKey);
+    require_admin_auth($adminKey, read_admin_key($input));
     $id    = $input['lead_id'] ?? '';
     $patch = $input['patch'] ?? null;
     if (!$id || !is_array($patch)) {
@@ -250,7 +328,7 @@ if ($method === 'POST' && $action === 'update') {
 }
 
 if ($method === 'POST' && $action === 'delete') {
-    require_admin_auth($adminKey);
+    require_admin_auth($adminKey, read_admin_key($input));
     $ids = $input['lead_ids'] ?? [];
     if (!is_array($ids) || count($ids) === 0) {
         http_response_code(400);
