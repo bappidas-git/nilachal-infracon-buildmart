@@ -41,9 +41,10 @@ _(Paths evolve across the rebuild series; update this list as later prompts move
 - `src/components/sections/` — Page sections. Currently mounted on the one-pager:
   `HeroSection`, `AboutSection` (Welcome + Mission/Vision/Values/Commitment),
   `ProductsSection` (North East Buildmart product categories),
-  `ServicesSection` (construction & infrastructure services), `StatsSection`,
-  `FeaturesSection`, `ContactSection` (Brands/WhyUs/FAQ arrive in prompt 09;
-  Stats/Contact are rebuilt in 09–11)
+  `ServicesSection` (construction & infrastructure services),
+  `StatsSection` (dark metrics band), `BrandsSection` (partner-brand strip +
+  mid-page CTA), `WhyUsSection` (why-choose-us value props),
+  `FAQSection` (FAQ accordion), `ContactSection` (Contact is rebuilt in 11)
 - `src/components/common/` — Reusable components (Header, Footer, LeadForm, etc.)
 - `src/data/` — Centralized content layer. `siteConfig.js` is the **single
   source of business truth** (company/contact facts + `telHref` / `waHref` /
