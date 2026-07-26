@@ -13,7 +13,7 @@ import SEOSetupGuide from "./guidelineContent/SEOSetupGuide";
 import DeploymentGuide from "./guidelineContent/DeploymentGuide";
 import DeveloperGuide from "./guidelineContent/DeveloperGuide";
 
-const GUIDELINE_PASSWORD = "ad@9707112233";
+const GUIDELINE_PASSWORD = "Nilachal@Guide2026";
 const SESSION_KEY = "guideline_unlocked";
 
 const TABS = [
@@ -76,8 +76,8 @@ const Guideline = () => {
       <div className={styles.modalOverlay}>
         <div className={styles.modalCard}>
           <img
-            src="https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669113/logo-cit_ykpxvd.png"
-            alt="CIT Admin"
+            src="https://res.cloudinary.com/dn9gyaiik/image/upload/v1784965863/nilachal-logo_v2lolq.png"
+            alt="Nilachal Infracon"
             className={styles.modalLogo}
           />
           <h2 className={styles.modalTitle}>Restricted Access</h2>

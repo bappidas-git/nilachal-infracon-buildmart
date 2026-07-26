@@ -117,7 +117,6 @@ variables:
 | `REACT_APP_HERO_VIDEO_URL` | Optional hero background video URL |
 | `REACT_APP_LEADS_API_URL` | Leads API endpoint (default `/api/leads.php`) |
 | `REACT_APP_LEADS_ADMIN_KEY` | Shared secret for admin lead operations — must match `ADMIN_API_KEY` in `public/api/config.php` |
-| `REACT_APP_TELECALLS_API_URL` | Tele-calling API endpoint (module removed in prompt 13) |
 
 ## Documentation
 

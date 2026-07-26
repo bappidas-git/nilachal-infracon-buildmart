@@ -462,3 +462,48 @@ the single unreleased version below as each prompt is merged.
   uses real `<a href="#…">`; `SEOHead` still noindexes `/thank-you` and
   `/admin*`. No violations found. (Admin panel still shows CIT logos/labels —
   that rebrand is prompt 13.)
+
+### 13 — Admin panel rebuild (Dashboard + Lead Management)
+
+**Fixed**
+- **Conversion Rate is finally non-zero.** `getLeadStats` counted the
+  non-existent status `'converted'`, so the dashboard rate was always 0%. It now
+  counts `status === 'completed'` — the terminal status the convert flow actually
+  sets (labelled "Converted").
+
+**Changed**
+- **Rebranded the admin shell to Nilachal.** `AdminLogin` (color logo, title
+  "Nilachal Infracon", subtitle "Admin Panel"), `AdminTopbar` (Nilachal logo,
+  nav = Dashboard · Leads · Guidelines, "Admin Panel" wordmark, no "Admissions"
+  badge). Aligned the `--admin-*` tokens in `variables.css` with the Nilachal
+  system (bg `#F5F7FA`, borders `#E5EAF0`, added the soft `--admin-shadow` token)
+  and removed the obsolete comment.
+- **Relabelled the lead status taxonomy for the construction funnel** (display
+  labels/colors only — persisted keys unchanged): New · Contacted · Quote Sent ·
+  Follow-Up · Converted · Not Interested.
+- **Redesigned the Dashboard**: stat tiles (Total Enquiries · New Today · This
+  Week · Conversion Rate), a hand-rolled 14-day SVG enquiry-trend sparkline
+  (no chart library), a status-breakdown row, a recent-enquiries table with
+  time-ago, and quick actions (View All Leads, Export CSV). Header reads
+  "Nilachal Infracon — Lead Management". `getLeadStats` now also returns `trend`
+  and `statusBreakdown`. 15s sync/BroadcastChannel mechanics untouched.
+- **Vocabulary sweep** across the admin: "Admission Leads" → "Enquiry Leads",
+  "Course Interested" → "Interested In" (table column + CSV header),
+  "Applicant Details" → "Contact Details", "Admission Interest" → "Enquiry"
+  (now also shows the Message field); LeadDetail Source card gained Page URL.
+- **Rebranded the Guideline hub** (Lead Storage · SEO Setup · Deployment · For
+  Developers) to Nilachal — purged `cittumkur.org`/CIT/Tumakuru examples and the
+  "Assam Digital" admin-color claims, switched the Developer palette table to
+  `#16324F`/`#1E7B45`, replaced printed default credentials with "set in `.env`",
+  and dropped the stale Google-Sheets/email post-deploy checklist rows. Changed
+  the hardcoded guideline password to a new value (shared with the owner in the PR).
+
+**Removed**
+- **Deleted the Tele-Calling module entirely** (a legacy feature with a
+  hardcoded roster of real staff names): `TeleCalling.jsx`, `TeleCallDetail.jsx`,
+  `TelecallFormDialog.jsx`, `telecallService.js`, `telecallStatus.js`, and
+  `public/api/telecalls.php`. Removed its routes and warm-up sync from
+  `AdminLayout`, its topbar nav item, `REACT_APP_TELECALLS_API_URL` from
+  `.env`/`.env.example`, `TELECALLS_API_URL` from `getConfig()` in
+  `webhookSubmit.js`, and its documentation from `CLAUDE.md`/`README.md`. Any
+  deployed `api/data/telecalls.json` can be archived/deleted server-side.

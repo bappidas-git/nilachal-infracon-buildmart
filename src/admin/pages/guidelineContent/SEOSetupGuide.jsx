@@ -32,7 +32,7 @@ const SEOSetupGuide = ({ styles }) => {
           <li className={styles.guideStepItem}>
             Example:
             <pre className={styles.guideCode}>
-{`<title>Direct B.E. Admission 2026 — CIT Tumakuru</title>`}
+{`<title>Nilachal Infracon | Building Materials & Construction — Nagaon, Assam</title>`}
             </pre>
           </li>
         </ol>
@@ -48,7 +48,7 @@ const SEOSetupGuide = ({ styles }) => {
           <li className={styles.guideStepItem}>
             Example:
             <pre className={styles.guideCode}>
-{`<meta name="description" content="Direct B.E. admission 2026 at Channabasaveshwara Institute of Technology, Tumakuru — NAAC-accredited, AICTE-approved, 25 years of excellence. Guided admissions for NE students.">`}
+{`<meta name="description" content="Nilachal Infracon Private Limited — building materials (North East Buildmart) and construction & infrastructure services across Northeast India. Based in Nagaon, Assam.">`}
             </pre>
           </li>
         </ol>
@@ -86,10 +86,10 @@ const SEOSetupGuide = ({ styles }) => {
             Update in <code className={styles.guideInlineCode}>public/index.html</code>:
             <ul style={{ marginTop: '8px', paddingLeft: '20px' }}>
               <li style={{ marginBottom: '4px' }}>
-                Line ~76: <code className={styles.guideInlineCode}>{`<meta property="og:image" content="https://landing.cittumkur.org/og-image.jpg">`}</code>
+                Line ~76: <code className={styles.guideInlineCode}>{`<meta property="og:image" content="https://www.nilachalinfracon.com/og-image.jpg">`}</code>
               </li>
               <li style={{ marginBottom: '4px' }}>
-                Line ~99: <code className={styles.guideInlineCode}>{`<meta name="twitter:image" content="https://landing.cittumkur.org/og-image.jpg">`}</code>
+                Line ~99: <code className={styles.guideInlineCode}>{`<meta name="twitter:image" content="https://www.nilachalinfracon.com/og-image.jpg">`}</code>
               </li>
             </ul>
           </li>
@@ -116,22 +116,22 @@ const SEOSetupGuide = ({ styles }) => {
         <h3 className={styles.guideSubtitle}>Key Things to Update in seo.js</h3>
         <pre className={styles.guideCode}>
 {`// Organization details
-organization.name       → Channabasaveshwara Institute of Technology
-organization.url        → https://landing.cittumkur.org
-organization.logo       → URL to the CIT logo image
-organization.phone      → +91-8069645014
-organization.email      → admin@cittumkur.org
-organization.address    → NH 206, B.H. Road, Gubbi, Tumakuru – 572 216, Karnataka
+organization.name       → Nilachal Infracon Private Limited
+organization.url        → https://www.nilachalinfracon.com
+organization.logo       → URL to the Nilachal Infracon logo image
+organization.phone      → +91-8638543526
+organization.email      → info@nilachalinfracon.com
+organization.address    → Lawkhowa Road, Near Aditya Multispeciality Hospital, Nagaon, Assam – 782003
 
 // FAQ section
-faqs                    → Replace with your actual admission FAQs (5-8 questions:
-                          fees, hostel, eligibility, scholarships, etc.)
+faqs                    → Replace with your actual service FAQs (5-8 questions:
+                          products, delivery, service areas, quotes, etc.)
 
 // Local business
-localBusiness.type      → "CollegeOrUniversity" or "EducationalOrganization"
+localBusiness.type      → ["LocalBusiness","HomeAndConstructionBusiness"]
 localBusiness.priceRange → Leave blank or "₹₹"
-localBusiness.openingHours → CIT admission office hours
-localBusiness.geo       → Tumakuru campus latitude and longitude (get from Google Maps)`}
+localBusiness.openingHours → Nilachal Infracon office hours
+localBusiness.geo       → Nagaon office latitude and longitude (get from Google Maps)`}
         </pre>
 
         <h3 className={styles.guideSubtitle}>How to Get Latitude & Longitude from Google Maps</h3>
@@ -151,7 +151,7 @@ localBusiness.geo       → Tumakuru campus latitude and longitude (get from Goo
         </p>
         <ul style={{ paddingLeft: '24px', marginBottom: '16px' }}>
           <li className={styles.guideStepItem}>
-            Replace <code className={styles.guideInlineCode}>https://landing.cittumkur.org/</code> with your actual domain
+            Replace <code className={styles.guideInlineCode}>https://www.nilachalinfracon.com/</code> with your actual domain
           </li>
           <li className={styles.guideStepItem}>
             Update the <code className={styles.guideInlineCode}>{`<lastmod>`}</code> date to today's date
@@ -189,7 +189,7 @@ localBusiness.geo       → Tumakuru campus latitude and longitude (get from Goo
             Open <code className={styles.guideInlineCode}>public/robots.txt</code>
           </li>
           <li className={styles.guideStepItem}>
-            Replace <code className={styles.guideInlineCode}>https://landing.cittumkur.org/sitemap.xml</code> with your actual domain
+            Replace <code className={styles.guideInlineCode}>https://www.nilachalinfracon.com/sitemap.xml</code> with your actual domain
           </li>
           <li className={styles.guideStepItem}>
             The file already blocks <code className={styles.guideInlineCode}>/admin/</code> and <code className={styles.guideInlineCode}>/thank-you</code> from being indexed — don't change these

@@ -7,7 +7,7 @@ const LeadStorageGuide = ({ styles }) => {
       <h2 className={styles.guideTitle}>How Leads Are Stored & Synced</h2>
       <div className={styles.guideSection}>
         <p className={styles.guideParagraph}>
-          Every admission enquiry submitted on the landing page is saved to a{' '}
+          Every enquiry submitted on the website is saved to a{' '}
           <strong>single shared store on your server</strong> —{' '}
           <code className={styles.guideInlineCode}>/api/leads.php</code>, which keeps all
           leads in one JSON file (<code className={styles.guideInlineCode}>api/data/leads.json</code>).
@@ -41,7 +41,7 @@ const LeadStorageGuide = ({ styles }) => {
               <td className={styles.guideTableCell}>
                 The form POSTs the lead (with UTM attribution) to{' '}
                 <code className={styles.guideInlineCode}>/api/leads.php?action=create</code>.
-                The server dedupes by mobile number so the same applicant can't create two leads.
+                The server dedupes by mobile number so the same person can't create two leads.
               </td>
             </tr>
             <tr>

@@ -13,7 +13,7 @@
    ============================================ */
 
 import { getConfig } from "../../utils/webhookSubmit";
-import { describeStatusChange } from "./leadStatus";
+import { describeStatusChange, STATUS_OPTIONS } from "./leadStatus";
 
 // Shared secret used to authenticate against /api/leads.php admin actions.
 // Must match ADMIN_API_KEY in public/api/config.php (or the committed default
@@ -216,7 +216,7 @@ export const syncLeadsFromServer = async () => {
 export const getLeads = (filters = {}) => {
   let leads = [..._cache];
 
-  // Search filter — name, email, mobile, course (service_interest), state
+  // Search filter — name, email, mobile, interest (service_interest), state
   if (filters.search) {
     const q = filters.search.toLowerCase();
     leads = leads.filter(
@@ -400,7 +400,7 @@ export const exportLeadsCSV = (leads) => {
     "Name",
     "Mobile",
     "Email",
-    "Course Interested",
+    "Interested In",
     "State",
     "Source",
     "Status",
@@ -478,9 +478,9 @@ export const importLeadsCSV = async (csvText) => {
     mobile: "mobile",
     email: "email",
     // Canonical key is `service_interest` (kept from the public form); the
-    // exported header label is "Course Interested" but legacy "Service
-    // Interest" CSVs still import into the same key.
-    "course interested": "service_interest",
+    // exported header label is "Interested In", and older "Service Interest"
+    // CSVs still import into the same key.
+    "interested in": "service_interest",
     "service interest": "service_interest",
     state: "state",
     source: "source",
@@ -559,7 +559,12 @@ export const getLeadStats = () => {
   const weekLeads = leads.filter(
     (l) => new Date(l.submitted_at) >= weekStart
   ).length;
-  const convertedLeads = leads.filter((l) => l.status === "converted").length;
+  // A lead counts as converted once its status reaches the terminal
+  // `completed` key (labelled "Converted" in the UI) — that is the status the
+  // convert flow actually sets. The old code counted a non-existent
+  // "converted" status, which is why the dashboard Conversion Rate was always
+  // 0%.
+  const convertedLeads = leads.filter((l) => l.status === "completed").length;
   const conversionRate = totalLeads > 0 ? ((convertedLeads / totalLeads) * 100).toFixed(1) : "0";
 
   // Top source
@@ -579,6 +584,36 @@ export const getLeadStats = () => {
   // Unique sources
   const sources = [...new Set(leads.map((l) => l.source).filter(Boolean))];
 
+  // 14-day enquiry trend — submissions per calendar day for the last 14 days
+  // (oldest first). Powers the hand-rolled SVG sparkline on the dashboard.
+  const trend = [];
+  for (let i = 13; i >= 0; i--) {
+    const dayStart = new Date(today);
+    dayStart.setDate(today.getDate() - i);
+    const dayEnd = new Date(dayStart);
+    dayEnd.setDate(dayStart.getDate() + 1);
+    const count = leads.filter((l) => {
+      const t = new Date(l.submitted_at);
+      return t >= dayStart && t < dayEnd;
+    }).length;
+    trend.push({ date: dayStart.toISOString(), count });
+  }
+
+  // Status breakdown — count of leads per status, in the canonical order with
+  // the display label + color, for the dashboard breakdown row.
+  const statusCounts = leads.reduce((acc, l) => {
+    const key = l.status || "new";
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+  const statusBreakdown = STATUS_OPTIONS.map((s) => ({
+    value: s.value,
+    label: s.label,
+    color: s.color,
+    bg: s.bg,
+    count: statusCounts[s.value] || 0,
+  }));
+
   return {
     totalLeads,
     newLeads24h,
@@ -588,5 +623,7 @@ export const getLeadStats = () => {
     topSource,
     recentLeads,
     sources,
+    trend,
+    statusBreakdown,
   };
 };

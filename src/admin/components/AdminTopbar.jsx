@@ -8,10 +8,12 @@ import { Icon } from '@iconify/react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import styles from './AdminTopbar.module.css';
 
+const NILACHAL_LOGO =
+  'https://res.cloudinary.com/dn9gyaiik/image/upload/v1784965863/nilachal-logo_v2lolq.png';
+
 const navItems = [
   { label: 'Dashboard', path: '/admin/dashboard', icon: 'mdi:view-dashboard' },
   { label: 'Leads', path: '/admin/lms', icon: 'mdi:account-group' },
-  { label: 'Tele-Calling', path: '/admin/tele-calling', icon: 'mdi:phone-in-talk' },
   { label: 'Guidelines', path: '/admin/guideline', icon: 'mdi:book-open-page-variant' },
 ];
 
@@ -58,13 +60,9 @@ const AdminTopbar = () => {
   return (
     <header className={styles.topbar}>
       <div className={styles.topbarLeft}>
-        <img
-          src="https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669113/logo-cit_ykpxvd.png"
-          alt="CIT Admin"
-          className={styles.logo}
-        />
+        <img src={NILACHAL_LOGO} alt="Nilachal Infracon" className={styles.logo} />
         <span className={styles.divider} />
-        <span className={styles.badge}>Admissions</span>
+        <span className={styles.wordmark}>Admin Panel</span>
       </div>
 
       <nav className={styles.desktopNav}>
@@ -112,8 +110,8 @@ const AdminTopbar = () => {
             {/* Logo at top */}
             <div className={styles.mobileMenuHeader}>
               <img
-                src="https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669113/logo-cit_ykpxvd.png"
-                alt="CIT Admin"
+                src={NILACHAL_LOGO}
+                alt="Nilachal Infracon"
                 className={styles.mobileMenuLogo}
               />
             </div>
@@ -152,7 +150,7 @@ const AdminTopbar = () => {
             </div>
 
             {/* Footer */}
-            <p className={styles.mobileMenuFooter}>CIT Admissions Admin Panel</p>
+            <p className={styles.mobileMenuFooter}>Nilachal Infracon · Admin Panel</p>
           </div>
         </div>
       )}

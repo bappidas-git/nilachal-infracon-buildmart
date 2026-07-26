@@ -215,7 +215,7 @@ const LeadDetail = () => {
         </div>
         <h2 className={styles.notFoundTitle}>Lead not found</h2>
         <p className={styles.notFoundText}>
-          The admission lead you're looking for doesn't exist or has been deleted.
+          The enquiry you're looking for doesn't exist or has been deleted.
         </p>
         <button className={styles.backBtn} onClick={() => navigate("/admin/lms")}>
           <Icon icon="mdi:arrow-left" width={16} />
@@ -273,7 +273,7 @@ const LeadDetail = () => {
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>
               <Icon icon="mdi:account-circle-outline" width={16} />
-              Applicant Details
+              Contact Details
             </h3>
             <div className={styles.infoGrid}>
               <div className={styles.infoField}>
@@ -305,15 +305,15 @@ const LeadDetail = () => {
             </div>
           </div>
 
-          {/* Admission Interest */}
+          {/* Enquiry */}
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>
-              <Icon icon="mdi:school-outline" width={16} />
-              Admission Interest
+              <Icon icon="mdi:clipboard-text-outline" width={16} />
+              Enquiry
             </h3>
             <div className={styles.infoGrid}>
               <div className={styles.infoField}>
-                <span className={styles.infoLabel}>Course Interested</span>
+                <span className={styles.infoLabel}>Interested In</span>
                 <span className={lead.service_interest ? styles.infoValue : styles.infoDash}>
                   {lead.service_interest || "\u2014"}
                 </span>
@@ -324,14 +324,20 @@ const LeadDetail = () => {
                   {lead.state || "\u2014"}
                 </span>
               </div>
+              <div className={styles.infoFieldFull}>
+                <span className={styles.infoLabel}>Message</span>
+                <span className={lead.message ? styles.infoValue : styles.infoDash}>
+                  {lead.message || "\u2014"}
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Source & UTM Data */}
+          {/* Source */}
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>
               <Icon icon="mdi:web" width={16} />
-              Source & UTM Data
+              Source
             </h3>
             <div style={{ marginBottom: 10 }}>
               <span className={styles.infoLabel}>Source</span>
@@ -342,6 +348,19 @@ const LeadDetail = () => {
                   <span className={styles.infoDash}>{"\u2014"}</span>
                 )}
               </div>
+            </div>
+            <div className={styles.infoFieldFull} style={{ marginBottom: 10 }}>
+              <span className={styles.infoLabel}>Page URL</span>
+              <span
+                className={lead.page_url ? styles.infoValue : styles.infoDash}
+                title={lead.page_url}
+              >
+                {lead.page_url
+                  ? lead.page_url.length > 60
+                    ? lead.page_url.slice(0, 60) + "..."
+                    : lead.page_url
+                  : "\u2014"}
+              </span>
             </div>
             <div className={styles.utmGrid}>
               {[
@@ -368,22 +387,9 @@ const LeadDetail = () => {
               Submission Details
             </h3>
             <div className={styles.infoGrid}>
-              <div className={styles.infoField}>
+              <div className={styles.infoFieldFull}>
                 <span className={styles.infoLabel}>Submitted At</span>
                 <span className={styles.infoValue}>{formatDate(lead.submitted_at)}</span>
-              </div>
-              <div className={styles.infoFieldFull}>
-                <span className={styles.infoLabel}>Page URL</span>
-                <span
-                  className={lead.page_url ? styles.infoValue : styles.infoDash}
-                  title={lead.page_url}
-                >
-                  {lead.page_url
-                    ? lead.page_url.length > 60
-                      ? lead.page_url.slice(0, 60) + "..."
-                      : lead.page_url
-                    : "\u2014"}
-                </span>
               </div>
               <div className={styles.infoFieldFull}>
                 <span className={styles.infoLabel}>User Agent</span>
