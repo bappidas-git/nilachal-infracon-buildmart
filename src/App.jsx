@@ -349,6 +349,7 @@ const LeadFormDrawerWrapper = () => {
       title={drawerConfig.title}
       subtitle={drawerConfig.subtitle}
       source={drawerConfig.source}
+      serviceInterest={drawerConfig.service_interest}
     />
   );
 };

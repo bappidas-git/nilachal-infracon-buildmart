@@ -329,3 +329,43 @@ the single unreleased version below as each prompt is merged.
   itself stays for now — prompt 14 deletes it if it is left unused).
 - Removed the temporary `featuresCategories` compatibility export from
   `featuresData.js` (the 3-tab mirror added in prompt 04).
+
+### 10 — Enquiry form, lead pipeline & thank-you page
+
+**Changed**
+- Re-contented **`UnifiedLeadForm`** for Nilachal without touching the submit
+  pipeline. Replaced the B.E.-course list with a grouped **"Interested In"**
+  `Select` (MUI `ListSubheader` groups) sourced from the data layer —
+  **Products** (`productsData`), **Services** (`servicesData`) and a
+  "General Enquiry" option; the **State** select now lists
+  `locationData.servingStates` + "Other". Added **prefill** support: the drawer
+  tiles/rows pass `service_interest` through to the form, which preselects the
+  matching option. Rewrote every user-facing string — placeholders/help text,
+  the consent line ("I agree to be contacted by Nilachal Infracon regarding my
+  enquiry."), the privacy-policy modal (aligned with the Footer's policy), and
+  the success / duplicate / error SweetAlert copy.
+- Restyled the form minimal: 12px-radius outlined fields with a **green focus
+  ring**, a solid Nilachal-green **"Send Enquiry"** button (was a teal
+  gradient), and green links. Removed the CIT trust-badge row, replacing it with
+  one quiet reassurance line — "We respond within 24 hours. Your details stay
+  private." Renamed the internal `showCourseFields` prop to `showInterestFields`.
+- Wired the drawer prefill end-to-end: `ModalContext.openLeadDrawer` →
+  `drawerConfig.service_interest` → `App` `LeadFormDrawerWrapper`
+  (`serviceInterest`) → `LeadFormDrawer` (`prefill`) → `UnifiedLeadForm`.
+- `webhookSubmit.js`: swapped the old CIT phone in the three user-facing error
+  messages for `siteConfig.phoneDisplay`, and refreshed the `service_interest`
+  JSDoc (product/service label, not a B.E. course). No logic change.
+- **Rebuilt the `/thank-you` page** as a minimal navy-on-white confirmation
+  (was a dark CIT treatment). A **GSAP** checkmark-draw with a soft green burst
+  replaces `canvas-confetti`; the sessionStorage access gate, greeting-by-name,
+  and 5-minute flag expiry are unchanged. New Nilachal next-steps ("Our team
+  reviews your enquiry" → "We call or WhatsApp you within 24 hours" → "You get a
+  quotation / consultation") and Call / WhatsApp / Back-to-Home CTAs from
+  `siteConfig`. Reduced-motion no-ops to the final state.
+
+**Security**
+- **Rotated the lead-store admin key** off the old committed default. Set a new
+  48-character key in `.env` (`REACT_APP_LEADS_ADMIN_KEY`) and updated the
+  committed fallback constant in both `public/api/leads.php` and
+  `public/api/telecalls.php`, plus the guidance in `config.example.php`. Any
+  live `public/api/config.php` must set the same `ADMIN_API_KEY` on deploy.

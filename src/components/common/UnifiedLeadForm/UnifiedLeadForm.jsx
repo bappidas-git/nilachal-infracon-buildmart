@@ -1,12 +1,13 @@
 /* ============================================
    UnifiedLeadForm Component
-   Single reusable lead capture form with:
-   - Duplicate prevention
-   - Trust badges
-   - Consent text
-   - Redirect to Thank You page
-   - Customizable title, subtitle, and phone CTA
-   CIT — Direct B.E. Engineering Admissions 2026
+   Single reusable enquiry form used by the enquiry drawer
+   (and, from prompt 11, the Contact section). Features:
+   - Grouped "Interested In" select (Products / Services / General)
+   - Optional prefill (drawer tiles/rows pass the category)
+   - Server-side duplicate prevention (by mobile, cross-device)
+   - Consent text + privacy-policy modal
+   - Redirect to the Thank-You page on success
+   Nilachal Infracon Private Limited — enquiry pipeline.
    ============================================ */
 
 import React, { useState, useCallback, useRef } from "react";
@@ -22,6 +23,7 @@ import {
   IconButton,
   Select,
   MenuItem,
+  ListSubheader,
   FormControl,
   FormHelperText,
 } from "@mui/material";
@@ -34,34 +36,31 @@ import {
   getEmailErrorMessage,
   getNameErrorMessage,
 } from "../../../utils/validators";
+import { productsData } from "../../../data/productsData";
+import { servicesData } from "../../../data/servicesData";
+import { locationData } from "../../../data/locationData";
+import { siteConfig, telHref, fullAddress } from "../../../data/siteConfig";
 import styles from "./UnifiedLeadForm.module.css";
 
-// Course options for CIT B.E. (Engineering) admissions 2026.
-// NOTE: stored under `service_interest` in form state / webhook payload to
-// preserve the existing admin + webhook plumbing — the value is the course.
-const COURSE_OPTIONS = [
-  "B.E. — Artificial Intelligence & Data Science",
-  "B.E. — Computer Science & Engineering",
-  "B.E. — Information Science & Engineering",
-  "B.E. — Electronics & Communication Engineering",
-  "B.E. — Electrical & Electronics Engineering",
-  "B.E. — Mechanical Engineering",
-  "B.E. — Civil Engineering",
-  "Not Sure — Need Guidance",
+// "Interested In" grouped options, sourced from the content data layer (no
+// hardcoded lists). Stored under the legacy `service_interest` key to preserve
+// the admin panel + webhook plumbing — the value is the product/service label.
+// The option values match the names the drawer tiles/rows send as prefill
+// (product.name / service.name), so a pre-selected value resolves cleanly.
+const INTEREST_GROUPS = [
+  { label: "Products", options: productsData.map((p) => p.name) },
+  { label: "Services", options: servicesData.map((s) => s.name) },
+];
+const GENERAL_ENQUIRY = "General Enquiry";
+
+// All valid interest values, used to validate an incoming prefill value.
+const INTEREST_VALUES = [
+  ...INTEREST_GROUPS.flatMap((group) => group.options),
+  GENERAL_ENQUIRY,
 ];
 
-// North-East India state options (the campaign's target geography).
-const STATE_OPTIONS = [
-  "Assam",
-  "Arunachal Pradesh",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "Nagaland",
-  "Tripura",
-  "Sikkim",
-  "Other",
-];
+// State options: the 8 Northeast states we serve (from locationData) + "Other".
+const STATE_OPTIONS = [...locationData.servingStates, "Other"];
 
 // Initial form state
 const initialFormState = {
@@ -83,7 +82,8 @@ const initialErrorState = {
   message: "",
 };
 
-// Privacy Policy Content Component
+// Privacy Policy Content — Nilachal Infracon enquiry data policy.
+// Kept aligned with the Footer's policy copy (prompt 05).
 const PrivacyPolicyContent = () => (
   <div style={{ padding: "0 8px" }}>
     <section style={{ marginBottom: "24px" }}>
@@ -98,12 +98,9 @@ const PrivacyPolicyContent = () => (
         Introduction
       </h3>
       <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#374151" }}>
-        Channabasaveshwara Institute of Technology (CIT), Tumakuru, together
-        with Assam Digital, the marketing partner running this 2026 B.E.
-        admissions campaign ("we," "our," or "us"), respects your privacy and is
-        committed to protecting the information you share with us. This Privacy
-        Policy explains how we collect, use, and safeguard your information
-        when you submit an admission enquiry through this landing page.
+        {siteConfig.legalName} (“we”, “us”) respects your privacy. This policy
+        explains what information we collect when you send an enquiry through
+        this website, how we use it, and how you can ask us to remove it.
       </p>
     </section>
 
@@ -126,7 +123,8 @@ const PrivacyPolicyContent = () => (
           marginBottom: "8px",
         }}
       >
-        Through the enquiry form on this page we collect:
+        When you submit an enquiry or request a callback, we collect only the
+        details you choose to share with us:
       </p>
       <ul
         style={{
@@ -138,16 +136,19 @@ const PrivacyPolicyContent = () => (
         }}
       >
         <li style={{ marginBottom: "6px" }}>
-          <strong>Contact details:</strong> your full name, mobile number, and
-          email address.
+          <strong>Your name</strong> — so we know who to address.
         </li>
         <li style={{ marginBottom: "6px" }}>
-          <strong>Admission preferences:</strong> the B.E. course you are
-          interested in and the state you are applying from.
+          <strong>Your phone number</strong> — so our team can call or message
+          you back.
+        </li>
+        <li style={{ marginBottom: "6px" }}>
+          <strong>Your email address</strong> — an optional way for us to reach
+          you.
         </li>
         <li>
-          <strong>Optional message:</strong> any question you choose to add
-          about admission, hostel, or fees.
+          <strong>Your enquiry details</strong> — the products, services or
+          project you would like to discuss.
         </li>
       </ul>
     </section>
@@ -163,16 +164,6 @@ const PrivacyPolicyContent = () => (
       >
         How We Use Your Information
       </h3>
-      <p
-        style={{
-          fontSize: "14px",
-          lineHeight: 1.6,
-          color: "#374151",
-          marginBottom: "8px",
-        }}
-      >
-        We use the information you submit to:
-      </p>
       <ul
         style={{
           fontSize: "14px",
@@ -183,60 +174,12 @@ const PrivacyPolicyContent = () => (
         }}
       >
         <li style={{ marginBottom: "6px" }}>
-          Provide personalised guidance on CIT's 2026 B.E. direct-admission
-          process.
-        </li>
-        <li style={{ marginBottom: "6px" }}>
-          Contact you by phone, WhatsApp, SMS, or email about your enquiry.
+          To respond to your enquiry and help you with the products and services
+          offered by {siteConfig.flagshipBrand} and {siteConfig.brandName}.
         </li>
         <li>
-          Share course, fee, hostel, and placement details relevant to your
-          enquiry.
-        </li>
-      </ul>
-    </section>
-
-    <section style={{ marginBottom: "24px" }}>
-      <h3
-        style={{
-          fontSize: "16px",
-          fontWeight: 600,
-          marginBottom: "12px",
-          color: "#16324F",
-        }}
-      >
-        Information Sharing
-      </h3>
-      <p
-        style={{
-          fontSize: "14px",
-          lineHeight: 1.6,
-          color: "#374151",
-          marginBottom: "8px",
-        }}
-      >
-        Your enquiry is shared with:
-      </p>
-      <ul
-        style={{
-          fontSize: "14px",
-          lineHeight: 1.6,
-          color: "#374151",
-          paddingLeft: "20px",
-          margin: 0,
-        }}
-      >
-        <li style={{ marginBottom: "6px" }}>
-          <strong>CIT admission office, Tumakuru:</strong> so the admission
-          team can follow up with you.
-        </li>
-        <li style={{ marginBottom: "6px" }}>
-          <strong>Assam Digital:</strong> the marketing partner managing this
-          campaign and the North-East admission desk.
-        </li>
-        <li>
-          <strong>Service providers:</strong> trusted vendors that help us host
-          the website and send communications.
+          To share availability, brands, pricing and project guidance you have
+          asked about.
         </li>
       </ul>
       <p
@@ -247,7 +190,8 @@ const PrivacyPolicyContent = () => (
           marginTop: "8px",
         }}
       >
-        We do not sell your personal information to third parties.
+        Your details are used <strong>only to respond to your enquiry</strong>.
+        We do not use them for anything else.
       </p>
     </section>
 
@@ -260,13 +204,12 @@ const PrivacyPolicyContent = () => (
           color: "#16324F",
         }}
       >
-        Data Security
+        Storage &amp; Sharing
       </h3>
       <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#374151" }}>
-        We use reasonable technical and organisational measures to protect your
-        information against unauthorised access, alteration, or disclosure. No
-        method of internet transmission is fully secure, so we cannot guarantee
-        absolute security.
+        Enquiries are stored on this website’s own server so our team can follow
+        up with you. We <strong>never sell or rent</strong> your information, and
+        we do not share it with advertising platforms or data brokers.
       </p>
     </section>
 
@@ -279,76 +222,42 @@ const PrivacyPolicyContent = () => (
           color: "#16324F",
         }}
       >
-        Your Rights
-      </h3>
-      <p
-        style={{
-          fontSize: "14px",
-          lineHeight: 1.6,
-          color: "#374151",
-          marginBottom: "8px",
-        }}
-      >
-        You can, at any time:
-      </p>
-      <ul
-        style={{
-          fontSize: "14px",
-          lineHeight: 1.6,
-          color: "#374151",
-          paddingLeft: "20px",
-          margin: 0,
-        }}
-      >
-        <li style={{ marginBottom: "6px" }}>
-          Request a copy of the data we hold about you.
-        </li>
-        <li style={{ marginBottom: "6px" }}>
-          Ask us to correct inaccurate information.
-        </li>
-        <li style={{ marginBottom: "6px" }}>
-          Ask us to delete your enquiry data (subject to any legal obligations).
-        </li>
-        <li>
-          Opt out of further admission communication from CIT or Assam Digital.
-        </li>
-      </ul>
-    </section>
-
-    <section style={{ marginBottom: "24px" }}>
-      <h3
-        style={{
-          fontSize: "16px",
-          fontWeight: 600,
-          marginBottom: "12px",
-          color: "#16324F",
-        }}
-      >
-        Contact Us
+        Removing Your Data
       </h3>
       <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#374151" }}>
-        For any privacy questions or to exercise your rights, please contact
-        the CIT admission office:
-      </p>
-      <p
-        style={{
-          fontSize: "14px",
-          lineHeight: 1.6,
-          color: "#374151",
-          marginTop: "8px",
-        }}
-      >
-        <strong>Channabasaveshwara Institute of Technology (CIT)</strong>
-        <br />
-        NH 206, B.H. Road, Gubbi, Tumakuru – 572 216, Karnataka
-        <br />
-        Phone: +91 8069645014
+        You can ask us to delete the details you submitted at any time. Email us
+        at{" "}
+        <a
+          href={`mailto:${siteConfig.email}`}
+          style={{ color: "#1E7B45", fontWeight: 600 }}
+        >
+          {siteConfig.email}
+        </a>{" "}
+        and we will remove your enquiry from our records.
       </p>
     </section>
 
-    <p style={{ fontSize: "12px", color: "#6B7280", fontStyle: "italic" }}>
-      Last Updated: January 2026
-    </p>
+    <section style={{ marginBottom: "24px" }}>
+      <h3
+        style={{
+          fontSize: "16px",
+          fontWeight: 600,
+          marginBottom: "12px",
+          color: "#16324F",
+        }}
+      >
+        Contact
+      </h3>
+      <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#374151" }}>
+        <strong>{siteConfig.legalName}</strong>
+        <br />
+        {fullAddress}
+        <br />
+        Phone: {siteConfig.phoneDisplay}
+        <br />
+        Email: {siteConfig.email}
+      </p>
+    </section>
   </div>
 );
 
@@ -455,39 +364,36 @@ const PrivacyPolicyModal = ({ isOpen, onClose }) => {
   );
 };
 
-// Contextual header text based on source
+// Contextual header defaults (used only when showTitle/showSubtitle are on;
+// the drawer and Contact section pass their own headers and hide these).
 const getHeaderDefaults = (source) => {
   switch (source) {
-    case "hero":
-      return {
-        title: "Apply for Direct B.E. Admission 2026",
-        subtitle: "Get personal guidance from CIT's admission team",
-      };
     case "contact":
       return {
         title: "Request a Callback",
-        subtitle: "Our admission team will call you within 24 hours",
+        subtitle: "Share your details and our team will call you back.",
       };
     default:
       return {
-        title: "Enquire About 2026 Admission",
-        subtitle: "Fill the form — we'll guide you",
+        title: "Send an Enquiry",
+        subtitle: "Tell us what you need — we usually respond within 24 hours.",
       };
   }
 };
 
 const UnifiedLeadForm = ({
-  variant = "default", // 'default', 'dark', 'hero', 'drawer'
+  variant = "default", // 'default', 'dark', 'drawer' (hero is a dormant path)
   source = "default",
   title: titleProp,
   subtitle: subtitleProp,
-  submitButtonText = "Apply for 2026 Admission",
+  submitButtonText = "Send Enquiry",
   showTitle = true,
   showSubtitle = true,
-  showCourseFields = true,
-  showTrustBadges = true,
+  showInterestFields = true, // renders the "Interested In" + "State" selects
+  showTrustBadges = true, // repurposed: renders the quiet reassurance line
   showConsent = true,
   showPhoneButton = false,
+  prefill = {}, // e.g. { service_interest: 'Steel Doors' } from drawer tiles/rows
   onClose, // Called when drawer should close (for drawer variant)
   onSubmitSuccess,
   className = "",
@@ -498,12 +404,25 @@ const UnifiedLeadForm = ({
   const subtitle = subtitleProp || headerDefaults.subtitle;
   const navigate = useNavigate();
 
-  // Form state
-  const [formData, setFormData] = useState(initialFormState);
+  // Resolve a valid prefilled interest (ignore anything not in the option list).
+  const prefilledInterest =
+    prefill && INTEREST_VALUES.includes(prefill.service_interest)
+      ? prefill.service_interest
+      : "";
+
+  // Form state — seed the interest from any prefill the drawer passed in. The
+  // form remounts each time the drawer opens, so this initializer re-runs with
+  // the fresh prefill value.
+  const [formData, setFormData] = useState(() => ({
+    ...initialFormState,
+    service_interest: prefilledInterest,
+  }));
   const [errors, setErrors] = useState(initialErrorState);
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
+
+  const isDarkSurface = variant === "dark" || variant === "drawer";
 
   // Refs for input focus management
   const nameRef = useRef(null);
@@ -563,12 +482,12 @@ const UnifiedLeadForm = ({
           }
           break;
         case "service_interest":
-          if (showCourseFields && !formData.service_interest) {
-            errorMessage = "Please select a course";
+          if (showInterestFields && !formData.service_interest) {
+            errorMessage = "Please tell us what you're interested in";
           }
           break;
         case "state":
-          if (showCourseFields && !formData.state) {
+          if (showInterestFields && !formData.state) {
             errorMessage = "Please select your state";
           }
           break;
@@ -586,7 +505,7 @@ const UnifiedLeadForm = ({
         [field]: errorMessage,
       }));
     },
-    [formData, showCourseFields]
+    [formData, showInterestFields]
   );
 
   // Validate entire form
@@ -596,11 +515,11 @@ const UnifiedLeadForm = ({
       mobile: getMobileErrorMessage(formData.mobile),
       email: formData.email ? getEmailErrorMessage(formData.email) : "",
       service_interest:
-        showCourseFields && !formData.service_interest
-          ? "Please select a course"
+        showInterestFields && !formData.service_interest
+          ? "Please tell us what you're interested in"
           : "",
       state:
-        showCourseFields && !formData.state
+        showInterestFields && !formData.state
           ? "Please select your state"
           : "",
       message:
@@ -620,7 +539,7 @@ const UnifiedLeadForm = ({
     });
 
     return Object.values(newErrors).every((error) => !error);
-  }, [formData, showCourseFields]);
+  }, [formData, showInterestFields]);
 
   // Handle form submission
   const handleSubmit = async (event) => {
@@ -643,28 +562,27 @@ const UnifiedLeadForm = ({
     setIsSubmitting(true);
 
     try {
-      // Prepare lead data
-      // `service_interest` holds the selected B.E. course (legacy key kept
-      // for admin panel compatibility — see COURSE_OPTIONS above).
+      // Prepare lead data. `service_interest` holds the selected product/service
+      // (or "General Enquiry") — the legacy key is kept for admin compatibility.
       const leadData = {
         name: formData.name.trim(),
         mobile: formData.mobile.trim(),
         email: formData.email.trim(),
-        service_interest: formData.service_interest || '',
-        state: formData.state || '',
-        message: formData.message || '',
-        source: formId || 'general',
+        service_interest: formData.service_interest || "",
+        state: formData.state || "",
+        message: formData.message || "",
+        source: formId || "general",
       };
 
       // Submit to the shared server-side lead store (single source of truth).
       const result = await submitLeadToWebhook(leadData);
 
-      // The server dedupes by mobile/email across all devices — surface a
-      // friendly "already registered" message instead of a second lead.
+      // The server dedupes by mobile across all devices — surface a friendly
+      // "already received" message instead of creating a second lead.
       if (result.duplicate) {
         await showInfo(
-          'Already Registered!',
-          'An enquiry with this mobile number has already been submitted. Our team will contact you soon.'
+          "Already received!",
+          `We have your earlier enquiry — our team will contact you shortly. Need it faster? Call ${siteConfig.phoneDisplay}.`
         );
         return;
       }
@@ -676,8 +594,8 @@ const UnifiedLeadForm = ({
 
         // Show success alert ON TOP of drawer
         await showSuccess(
-          'Thank You!',
-          "Our admission team will call you shortly to guide you through the 2026 B.E. direct-admission process."
+          "Enquiry received!",
+          `Thanks for reaching out to ${siteConfig.brandName}. Our team will contact you within 24 hours.`
         );
 
         // THEN reset form
@@ -696,15 +614,15 @@ const UnifiedLeadForm = ({
         }
 
         // THEN navigate to thank you page
-        navigate('/thank-you');
+        navigate("/thank-you");
       } else {
-        await showError('Oops!', result.message);
+        await showError("Something went wrong", result.message);
       }
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error("Form submission error:", error);
       await showError(
-        'Something went wrong',
-        'Please try again or call us directly at +91 8069645014.'
+        "Something went wrong",
+        `Please try again or call us directly at ${siteConfig.phoneDisplay}.`
       );
     } finally {
       setIsSubmitting(false);
@@ -735,6 +653,33 @@ const UnifiedLeadForm = ({
     }
   };
 
+  // Placeholder text for empty selects, dimmed appropriately for the surface.
+  const selectPlaceholder = (label) => (
+    <span
+      style={{
+        color: isDarkSurface ? "#FFFFFF80" : undefined,
+        opacity: isDarkSurface ? 1 : 0.5,
+      }}
+    >
+      {label}
+    </span>
+  );
+
+  const selectMenuProps = {
+    PaperProps: {
+      sx: { zIndex: 99999, maxHeight: 360 },
+    },
+    disablePortal: false,
+    style: { zIndex: 99999 },
+  };
+
+  const selectSx = isDarkSurface
+    ? { color: "#FFFFFF", "& .MuiSelect-icon": { color: "#FFFFFF80" } }
+    : undefined;
+
+  // Framer stagger index base — selects add two extra rows.
+  const submitIndex = showInterestFields ? 6 : 3;
+
   return (
     <div
       className={`${styles.formContainer} ${getVariantClass()} ${className}`}
@@ -751,11 +696,7 @@ const UnifiedLeadForm = ({
             <Typography
               variant="body2"
               className={styles.formSubtitle}
-              sx={
-                variant === "dark" || variant === "drawer"
-                  ? { color: "#FFFFFFB3 !important" }
-                  : undefined
-              }
+              sx={isDarkSurface ? { color: "#FFFFFFB3 !important" } : undefined}
             >
               {subtitle}
             </Typography>
@@ -771,7 +712,7 @@ const UnifiedLeadForm = ({
         noValidate
         autoComplete="off"
       >
-        {/* Name Field */}
+        {/* Full Name */}
         <motion.div
           custom={0}
           variants={fieldVariants}
@@ -781,7 +722,7 @@ const UnifiedLeadForm = ({
           <TextField
             inputRef={nameRef}
             fullWidth
-            placeholder="Your Full Name"
+            placeholder="Full Name"
             variant="outlined"
             value={formData.name}
             onChange={handleChange("name")}
@@ -796,23 +737,19 @@ const UnifiedLeadForm = ({
                   <Icon
                     icon="mdi:account-outline"
                     className={styles.inputIcon}
-                    style={
-                      variant === "dark" || variant === "drawer"
-                        ? { color: "#FFFFFF80" }
-                        : undefined
-                    }
+                    style={isDarkSurface ? { color: "#FFFFFF80" } : undefined}
                   />
                 </InputAdornment>
               ),
             }}
             inputProps={{
-              "aria-label": "Your name",
+              "aria-label": "Full name",
               maxLength: 50,
             }}
           />
         </motion.div>
 
-        {/* Mobile Field */}
+        {/* Mobile Number */}
         <motion.div
           custom={1}
           variants={fieldVariants}
@@ -822,7 +759,7 @@ const UnifiedLeadForm = ({
           <TextField
             inputRef={mobileRef}
             fullWidth
-            placeholder="XXXXX XXXXX"
+            placeholder="Mobile Number"
             variant="outlined"
             value={formData.mobile}
             onChange={handleChange("mobile")}
@@ -841,7 +778,7 @@ const UnifiedLeadForm = ({
                     variant="body2"
                     className={styles.countryCode}
                     sx={
-                      variant === "dark" || variant === "drawer"
+                      isDarkSurface
                         ? { color: "#FFFFFFCC !important" }
                         : undefined
                     }
@@ -850,11 +787,7 @@ const UnifiedLeadForm = ({
                   </Typography>
                   <span
                     className={styles.prefixDivider}
-                    style={
-                      variant === "dark" || variant === "drawer"
-                        ? { color: "#FFFFFF4D" }
-                        : undefined
-                    }
+                    style={isDarkSurface ? { color: "#FFFFFF4D" } : undefined}
                   >
                     -
                   </span>
@@ -870,7 +803,7 @@ const UnifiedLeadForm = ({
           />
         </motion.div>
 
-        {/* Email Field */}
+        {/* Email (optional) */}
         <motion.div
           custom={2}
           variants={fieldVariants}
@@ -880,7 +813,7 @@ const UnifiedLeadForm = ({
           <TextField
             inputRef={emailRef}
             fullWidth
-            placeholder="your@email.com"
+            placeholder="Email (optional)"
             type="email"
             variant="outlined"
             value={formData.email}
@@ -896,11 +829,7 @@ const UnifiedLeadForm = ({
                   <Icon
                     icon="mdi:email-outline"
                     className={styles.inputIcon}
-                    style={
-                      variant === "dark" || variant === "drawer"
-                        ? { color: "#FFFFFF80" }
-                        : undefined
-                    }
+                    style={isDarkSurface ? { color: "#FFFFFF80" } : undefined}
                   />
                 </InputAdornment>
               ),
@@ -911,8 +840,8 @@ const UnifiedLeadForm = ({
           />
         </motion.div>
 
-        {/* Course Interested In Field */}
-        {showCourseFields && (
+        {/* Interested In (grouped select) */}
+        {showInterestFields && (
           <motion.div
             custom={3}
             variants={fieldVariants}
@@ -934,47 +863,33 @@ const UnifiedLeadForm = ({
                 startAdornment={
                   <InputAdornment position="start">
                     <Icon
-                      icon="mdi:school-outline"
+                      icon="mdi:tag-outline"
                       className={styles.inputIcon}
-                      style={
-                        variant === "dark" || variant === "drawer"
-                          ? { color: "#FFFFFF80" }
-                          : undefined
-                      }
+                      style={isDarkSurface ? { color: "#FFFFFF80" } : undefined}
                     />
                   </InputAdornment>
                 }
-                renderValue={(selected) => {
-                  if (!selected) {
-                    return (
-                      <span style={{ color: variant === "dark" || variant === "drawer" ? "#FFFFFF80" : undefined, opacity: variant === "dark" || variant === "drawer" ? 1 : 0.5 }}>
-                        Course Interested In
-                      </span>
-                    );
-                  }
-                  return selected;
-                }}
-                MenuProps={{
-                  PaperProps: {
-                    sx: { zIndex: 99999 },
-                  },
-                  disablePortal: false,
-                  style: { zIndex: 99999 },
-                }}
-                inputProps={{
-                  "aria-label": "Course interested in",
-                }}
-                sx={
-                  variant === "dark" || variant === "drawer"
-                    ? { color: "#FFFFFF", "& .MuiSelect-icon": { color: "#FFFFFF80" } }
-                    : undefined
+                renderValue={(selected) =>
+                  selected ? selected : selectPlaceholder("Interested In")
                 }
+                MenuProps={selectMenuProps}
+                inputProps={{ "aria-label": "Interested in" }}
+                sx={selectSx}
               >
-                {COURSE_OPTIONS.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
+                {INTEREST_GROUPS.map((group) => [
+                  <ListSubheader
+                    key={group.label}
+                    className={styles.selectGroupLabel}
+                  >
+                    {group.label}
+                  </ListSubheader>,
+                  ...group.options.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  )),
+                ])}
+                <MenuItem value={GENERAL_ENQUIRY}>{GENERAL_ENQUIRY}</MenuItem>
               </Select>
               {touched.service_interest && errors.service_interest && (
                 <FormHelperText>{errors.service_interest}</FormHelperText>
@@ -983,8 +898,8 @@ const UnifiedLeadForm = ({
           </motion.div>
         )}
 
-        {/* State Field (NE states) */}
-        {showCourseFields && (
+        {/* State */}
+        {showInterestFields && (
           <motion.div
             custom={4}
             variants={fieldVariants}
@@ -1008,39 +923,16 @@ const UnifiedLeadForm = ({
                     <Icon
                       icon="mdi:map-marker-outline"
                       className={styles.inputIcon}
-                      style={
-                        variant === "dark" || variant === "drawer"
-                          ? { color: "#FFFFFF80" }
-                          : undefined
-                      }
+                      style={isDarkSurface ? { color: "#FFFFFF80" } : undefined}
                     />
                   </InputAdornment>
                 }
-                renderValue={(selected) => {
-                  if (!selected) {
-                    return (
-                      <span style={{ color: variant === "dark" || variant === "drawer" ? "#FFFFFF80" : undefined, opacity: variant === "dark" || variant === "drawer" ? 1 : 0.5 }}>
-                        Your State
-                      </span>
-                    );
-                  }
-                  return selected;
-                }}
-                MenuProps={{
-                  PaperProps: {
-                    sx: { zIndex: 99999 },
-                  },
-                  disablePortal: false,
-                  style: { zIndex: 99999 },
-                }}
-                inputProps={{
-                  "aria-label": "Your state",
-                }}
-                sx={
-                  variant === "dark" || variant === "drawer"
-                    ? { color: "#FFFFFF", "& .MuiSelect-icon": { color: "#FFFFFF80" } }
-                    : undefined
+                renderValue={(selected) =>
+                  selected ? selected : selectPlaceholder("State")
                 }
+                MenuProps={selectMenuProps}
+                inputProps={{ "aria-label": "State" }}
+                sx={selectSx}
               >
                 {STATE_OPTIONS.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -1055,7 +947,7 @@ const UnifiedLeadForm = ({
           </motion.div>
         )}
 
-        {/* Brief Message Field */}
+        {/* Message (optional) */}
         <motion.div
           custom={5}
           variants={fieldVariants}
@@ -1065,7 +957,7 @@ const UnifiedLeadForm = ({
           <TextField
             inputRef={messageRef}
             fullWidth
-            placeholder="Any question about admission, hostel, or fees? (optional)"
+            placeholder="Tell us about your requirement…"
             variant="outlined"
             value={formData.message}
             onChange={handleChange("message")}
@@ -1079,21 +971,20 @@ const UnifiedLeadForm = ({
             className={`${styles.textField} ${styles.messageField}`}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start" className={styles.messageAdornment}>
+                <InputAdornment
+                  position="start"
+                  className={styles.messageAdornment}
+                >
                   <Icon
                     icon="mdi:message-text-outline"
                     className={styles.inputIcon}
-                    style={
-                      variant === "dark" || variant === "drawer"
-                        ? { color: "#FFFFFF80" }
-                        : undefined
-                    }
+                    style={isDarkSurface ? { color: "#FFFFFF80" } : undefined}
                   />
                 </InputAdornment>
               ),
             }}
             inputProps={{
-              "aria-label": "Brief message",
+              "aria-label": "Message",
               maxLength: 500,
             }}
           />
@@ -1101,7 +992,7 @@ const UnifiedLeadForm = ({
 
         {/* Submit Button */}
         <motion.div
-          custom={showCourseFields ? 6 : 3}
+          custom={submitIndex}
           variants={fieldVariants}
           initial="hidden"
           animate="visible"
@@ -1117,66 +1008,39 @@ const UnifiedLeadForm = ({
             {isSubmitting ? (
               <Box className={styles.loadingState}>
                 <CircularProgress size={20} color="inherit" />
-                <span>Submitting...</span>
+                <span>Sending…</span>
               </Box>
             ) : (
               <>
-                <Icon icon="mdi:calendar-check" className={styles.submitIcon} />
+                <Icon icon="mdi:send-outline" className={styles.submitIcon} />
                 <span>{submitButtonText}</span>
               </>
             )}
           </Button>
         </motion.div>
 
-        {/* Trust Badges */}
+        {/* Quiet reassurance line (replaces the old trust-badge row) */}
         {showTrustBadges && (
           <motion.div
-            custom={showCourseFields ? 7 : 4}
+            custom={submitIndex + 1}
             variants={fieldVariants}
             initial="hidden"
             animate="visible"
-            className={styles.trustBadges}
           >
-            <div
-              className={styles.trustBadge}
-              style={
-                variant === "dark" || variant === "drawer"
-                  ? { color: "#FFFFFF99" }
-                  : undefined
-              }
+            <Typography
+              variant="caption"
+              className={styles.reassurance}
+              sx={isDarkSurface ? { color: "#FFFFFF99 !important" } : undefined}
             >
-              <Icon icon="mdi:gift-outline" className={styles.trustIcon} />
-              <span>100% Free Guidance</span>
-            </div>
-            <div
-              className={styles.trustBadge}
-              style={
-                variant === "dark" || variant === "drawer"
-                  ? { color: "#FFFFFF99" }
-                  : undefined
-              }
-            >
-              <Icon icon="mdi:seat-outline" className={styles.trustIcon} />
-              <span>Limited 2026 Seats</span>
-            </div>
-            <div
-              className={styles.trustBadge}
-              style={
-                variant === "dark" || variant === "drawer"
-                  ? { color: "#FFFFFF99" }
-                  : undefined
-              }
-            >
-              <Icon icon="mdi:certificate-outline" className={styles.trustIcon} />
-              <span>NAAC Accredited</span>
-            </div>
+              We respond within 24 hours. Your details stay private.
+            </Typography>
           </motion.div>
         )}
 
         {/* Consent Text */}
         {showConsent && (
           <motion.div
-            custom={showCourseFields ? 8 : 5}
+            custom={submitIndex + 2}
             variants={fieldVariants}
             initial="hidden"
             animate="visible"
@@ -1184,14 +1048,10 @@ const UnifiedLeadForm = ({
             <Typography
               variant="caption"
               className={styles.consentText}
-              sx={
-                variant === "dark" || variant === "drawer"
-                  ? { color: "#FFFFFF99 !important" }
-                  : undefined
-              }
+              sx={isDarkSurface ? { color: "#FFFFFF99 !important" } : undefined}
             >
-              By submitting, I agree to be contacted by CIT / Assam Digital
-              about 2026 B.E. admissions and to the{" "}
+              By submitting, I agree to be contacted by {siteConfig.brandName}{" "}
+              regarding my enquiry. See our{" "}
               <button
                 type="button"
                 onClick={() => setPrivacyModalOpen(true)}
@@ -1203,7 +1063,7 @@ const UnifiedLeadForm = ({
                   cursor: "pointer",
                 }}
               >
-                Terms & Conditions and Privacy Policy
+                Privacy Policy
               </button>
               .
             </Typography>
@@ -1220,9 +1080,9 @@ const UnifiedLeadForm = ({
           >
             Or call us directly
           </Typography>
-          <a href="tel:+918069645014" className={styles.phoneLink}>
+          <a href={telHref} className={styles.phoneLink}>
             <Icon icon="mdi:phone" />
-            <span>+91 8069645014</span>
+            <span>{siteConfig.phoneDisplay}</span>
           </a>
         </div>
       )}
