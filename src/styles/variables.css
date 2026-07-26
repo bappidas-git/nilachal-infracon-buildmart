@@ -275,26 +275,30 @@
 }
 
 /* ========== Admin Panel Colors ==========
-   The admin panel keeps its own named block for now; prompt 13 restyles it.
-   Values are moved off the retired CIT hexes onto Nilachal navy/green plus
-   semantic amber/red so no legacy brand colors remain. */
+   The admin panel shares the Nilachal design system: deep steel navy
+   (--admin-primary), Nilachal green (--admin-accent), an off-white app
+   background, white cards with thin 1px borders, and the single soft
+   elevation token. Green is used sparingly (primary CTAs + key highlights). */
 :root {
   --admin-primary: #16324F;
   --admin-primary-light: #274B6E;
   --admin-primary-dark: #0F2438;
   --admin-accent: #1E7B45;
   --admin-accent-light: #2E9A5C;
+  --admin-accent-dark: #176437;
+  --admin-accent-tint: #E8F5EE;
   --admin-magenta: #1E7B45;
   --admin-magenta-light: #2E9A5C;
   --admin-cyan: #274B6E;
   --admin-cyan-light: #3A6389;
   --admin-gradient: linear-gradient(135deg, #16324F 0%, #274B6E 100%);
   --admin-gradient-accent: linear-gradient(135deg, #16324F 0%, #1E7B45 100%);
-  --admin-bg: #F2F5F8;
+  --admin-bg: #F5F7FA;
   --admin-card-bg: #FFFFFF;
-  --admin-border: #E2E8F0;
+  --admin-border: #E5EAF0;
+  --admin-shadow: 0 8px 30px rgba(16, 28, 41, 0.06);
   --admin-text-primary: #101C29;
-  --admin-text-secondary: #5A6B7F;
+  --admin-text-secondary: #4A5A6A;
   --admin-text-muted: #8E9BAD;
   --admin-success: #1E8E5A;
   --admin-warning: #E0A100;

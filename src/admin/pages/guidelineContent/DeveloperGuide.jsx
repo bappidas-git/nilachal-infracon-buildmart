@@ -138,7 +138,7 @@ npm start
 
 # 5. Access admin panel
 # Go to http://localhost:3000/admin
-# Credentials: citadmin / cit@admissions2026`}
+# Credentials: set REACT_APP_ADMIN_USERNAME / REACT_APP_ADMIN_PASSWORD in .env`}
         </pre>
 
         <div className={styles.guideNote}>
@@ -164,28 +164,33 @@ npm start
           <tbody>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>.env</code></td>
-              <td className={styles.guideTableCell}>Institution name, phone, email, admin credentials</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_NAME="CIT Admissions 2026"</code></td>
+              <td className={styles.guideTableCell}>Business name, phone, email, admin credentials</td>
+              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_NAME="Nilachal Infracon"</code></td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/data/servicesData.js</code></td>
-              <td className={styles.guideTableCell}>B.E. course cards (legacy filename — holds the 7 CIT B.E. branches)</td>
-              <td className={styles.guideTableCell}>Branch name, badge, description, features</td>
+              <td className={styles.guideTableCell}>Construction &amp; infrastructure service cards</td>
+              <td className={styles.guideTableCell}>Service name, badge, description, features</td>
+            </tr>
+            <tr>
+              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/data/productsData.js</code></td>
+              <td className={styles.guideTableCell}>North East Buildmart product categories</td>
+              <td className={styles.guideTableCell}>Category name, description, items</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/data/featuresData.js</code></td>
-              <td className={styles.guideTableCell}>Infrastructure / "Why CIT" highlight items</td>
-              <td className={styles.guideTableCell}>Labs, accreditations, campus features</td>
+              <td className={styles.guideTableCell}>Why-choose-us highlight items</td>
+              <td className={styles.guideTableCell}>Quality, delivery, expertise points</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/data/statsData.js</code></td>
-              <td className={styles.guideTableCell}>Placement &amp; outcome stats</td>
-              <td className={styles.guideTableCell}>"25 Years", "85%+ Placement", "15 LPA"</td>
+              <td className={styles.guideTableCell}>Company metrics band</td>
+              <td className={styles.guideTableCell}>Years, projects, states served</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/data/locationData.js</code></td>
-              <td className={styles.guideTableCell}>Campus address, phone, WhatsApp, nearby cities</td>
-              <td className={styles.guideTableCell}>Tumakuru campus + admission office contact</td>
+              <td className={styles.guideTableCell}>Office address, phone, WhatsApp, states served</td>
+              <td className={styles.guideTableCell}>Nagaon office + serving states</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/styles/variables.css</code></td>
@@ -281,19 +286,19 @@ npm start
           <tbody>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>--admin-primary</code></td>
-              <td className={styles.guideTableCell}>#1A3A6B (Assam Digital deep blue)</td>
+              <td className={styles.guideTableCell}>#16324F (Steel Navy)</td>
               <td className={styles.guideTableCell}>Admin panel primary</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>--admin-accent</code></td>
-              <td className={styles.guideTableCell}>#2B7BD5 (Assam Digital blue)</td>
+              <td className={styles.guideTableCell}>#1E7B45 (Nilachal Green)</td>
               <td className={styles.guideTableCell}>Admin panel accent</td>
             </tr>
           </tbody>
         </table>
 
-        <div className={styles.guideNoteWarning}>
-          <strong>IMPORTANT:</strong> Admin panel colors are CONSTANT across all landing pages — do NOT change them. They represent the Assam Digital brand.
+        <div className={styles.guideNote}>
+          <strong>Note:</strong> The admin panel shares the Nilachal design system — deep steel navy, Nilachal green, off-white background, and white cards with thin borders. Keep the <code className={styles.guideInlineCode}>--admin-*</code> tokens in <code className={styles.guideInlineCode}>variables.css</code> aligned with the landing-page palette.
         </div>
       </div>
 
@@ -305,14 +310,14 @@ npm start
         </p>
 
         <pre className={styles.guideCode}>
-{`Applicant fills UnifiedLeadForm → handleSubmit()
+{`Visitor fills UnifiedLeadForm → handleSubmit()
   ↓
 Form validation (validators.js)
-  Fields: name, mobile, email, service_interest (course), state, message
+  Fields: name, mobile, email, service_interest (product/service), state, message
   ↓
 submitLeadToWebhook() in webhookSubmit.js
   └── POST /api/leads.php?action=create  (shared server store = single source of truth)
-       Server dedupes by mobile → duplicate response shown as "Already Registered"
+       Server dedupes by mobile → duplicate response shown as "Already Submitted"
   ↓
 sessionStorage.setItem('lead_submitted', 'true')
   ↓
@@ -390,14 +395,14 @@ Navigate to /thank-you`}
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_ADMIN_USERNAME</code></td>
               <td className={styles.guideTableCell}>Yes</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>citadmin</code></td>
+              <td className={styles.guideTableCell}>Set in <code className={styles.guideInlineCode}>.env</code></td>
               <td className={styles.guideTableCell}>Admin login username</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_ADMIN_PASSWORD</code></td>
               <td className={styles.guideTableCell}>Yes</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>cit@admissions2026</code></td>
-              <td className={styles.guideTableCell}>Admin login password</td>
+              <td className={styles.guideTableCell}>Set in <code className={styles.guideInlineCode}>.env</code></td>
+              <td className={styles.guideTableCell}>Admin login password (never commit a real one to docs)</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_SALES_PHONE</code></td>
@@ -457,8 +462,8 @@ Navigate to /thank-you`}
           <li className={styles.guideListItem}>Mobile navigation mechanics (<code className={styles.guideInlineCode}>MobileNavigation</code>, <code className={styles.guideInlineCode}>MobileDrawer</code>)</li>
           <li className={styles.guideListItem}>Drawer/modal behavior (<code className={styles.guideInlineCode}>ModalContext</code>)</li>
           <li className={styles.guideListItem}>Video background system</li>
-          <li className={styles.guideListItem}>Admin panel theme (Assam Digital branding is constant)</li>
-          <li className={styles.guideListItem}>Guideline page content (constant across all landing pages)</li>
+          <li className={styles.guideListItem}>Lead API contract and admin sync mechanics (cache/poll/BroadcastChannel)</li>
+          <li className={styles.guideListItem}>Persisted lead status keys and lead record field keys</li>
         </ul>
 
         <div className={styles.guideNoteWarning}>

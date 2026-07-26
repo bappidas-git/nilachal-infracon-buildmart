@@ -79,7 +79,7 @@ tabs in sync), so every browser and device sees the same leads.
 **There is no localStorage copy of leads.** Configure with
 `REACT_APP_LEADS_API_URL` + `REACT_APP_LEADS_ADMIN_KEY` in `.env` (the key must
 match `ADMIN_API_KEY` in `public/api/config.php`, or the committed fallback in
-`public/api/leads.php` / `telecalls.php`). The admin key is **rotated in prompt
+`public/api/leads.php`). The admin key is **rotated in prompt
 10** — when deploying, any live `public/api/config.php` must set the same
 `ADMIN_API_KEY` value as `.env`.
 
@@ -97,21 +97,41 @@ product/service label. Section tiles/rows open the drawer pre-filled: they pass
 **State** field lists `locationData.servingStates` + "Other". Never rename the
 lead record keys — only labels/options change.
 
-## Tele-Calling Module
+## Admin Panel
 
-> _This module is scheduled for removal in prompt 13; it is documented here only
-> until then._
+The admin panel (`/admin/*`) is **Dashboard + Lead Management only** — clean,
+professional, and styled with the Nilachal design system via the `--admin-*`
+tokens in `variables.css`. Auth is `AdminAuthContext` + `ProtectedRoute`
+(`REACT_APP_ADMIN_USERNAME` / `REACT_APP_ADMIN_PASSWORD`).
 
-The **Tele-Calling** admin module (`/admin/tele-calling`) mirrors Lead Management
-but its records are entered manually by telecallers (not the public form). It has
-its own server store `public/api/telecalls.php` (`data/telecalls.json`), service
-`src/admin/utils/telecallService.js`, status config
-`src/admin/utils/telecallStatus.js`, list page `TeleCalling.jsx`, detail page
-`TeleCallDetail.jsx`, and shared add/edit form
-`src/admin/components/TelecallFormDialog.jsx`. It uses the same cross-device sync
-pattern as leads (in-memory cache hydrated from the server, 15s poll,
-BroadcastChannel for same-browser tabs) and reuses `REACT_APP_LEADS_ADMIN_KEY`
-for auth (configure the endpoint with `REACT_APP_TELECALLS_API_URL`).
+- **Shell** — `AdminLayout` (lazy routes + server warm-up) and `AdminTopbar`
+  (Nilachal logo, nav = Dashboard · Leads · Guidelines, user chip + logout).
+  `AdminLogin` is the centered Nilachal login card.
+- **Dashboard** (`/admin/dashboard`) — stat tiles (Total Enquiries · New Today ·
+  This Week · Conversion Rate), a hand-rolled 14-day SVG enquiry-trend sparkline,
+  a status-breakdown row, and a recent-enquiries table (5 rows). Quick actions:
+  View All Leads, Export CSV. All data comes from `getLeadStats()` /
+  `getLeads()`; the 15s poll + BroadcastChannel sync is untouched.
+- **Lead Management** (`/admin/lms`, detail at `/admin/lms/lead/:leadId`) —
+  filterable/sortable enquiry table, stat cards, bulk actions, and CSV
+  export/import. `LeadDetail` shows Contact Details, Enquiry, Source, Notes, and
+  an Activity timeline, with the status `Select`.
+- **Guidelines** (`/admin/guideline`) — password-gated hub with four tabs (Lead
+  Storage · SEO Setup · Deployment · For Developers).
+
+**Lead status taxonomy** — labels/colors are display-only; the persisted `value`
+keys (in `leadStatus.js`) are **never renamed**. A lead is "converted" when its
+status reaches the terminal `completed` key (this is what the dashboard
+Conversion Rate counts):
+
+| Persisted key | Label | Color |
+|---|---|---|
+| `new` | New | blue |
+| `contacted` | Contacted | teal |
+| `consultation_booked` | Quote Sent | amber |
+| `procedure_scheduled` | Follow-Up | violet |
+| `completed` | Converted | green |
+| `not_interested` | Not Interested | grey |
 
 ## Brand Color System
 
@@ -144,7 +164,9 @@ To customize colors, update `src/styles/variables.css`, `src/theme/muiTheme.js`
 are used via `sx`), and the CSS variables in `.module.css` files. The legacy
 alias names (`--accent-gold*` → navy, `--accent-orange*`/`--accent-amber*` →
 green) are kept so existing `.module.css` references stay valid. Admin `--admin-*`
-tokens keep their own block (restyled in prompt 13).
+tokens keep their own block, aligned with the Nilachal system (navy `--admin-primary`,
+green `--admin-accent`, `#F5F7FA` bg, white cards with `#E5EAF0` borders + the
+soft `--admin-shadow` token).
 
 ## Animations
 

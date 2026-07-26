@@ -41,12 +41,12 @@ const AdminLogin = () => {
         <div className={styles.loginHeader}>
           <div className={styles.loginLogo}>
             <img
-              src="https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669113/logo-cit_ykpxvd.png"
-              alt="CIT Admin"
+              src="https://res.cloudinary.com/dn9gyaiik/image/upload/v1784965863/nilachal-logo_v2lolq.png"
+              alt="Nilachal Infracon"
             />
           </div>
-          <h1 className={styles.loginTitle}>CIT Admissions Admin</h1>
-          <p className={styles.loginSubtitle}>Lead Management System</p>
+          <h1 className={styles.loginTitle}>Nilachal Infracon</h1>
+          <p className={styles.loginSubtitle}>Admin Panel</p>
         </div>
 
         <form onSubmit={handleSubmit} className={styles.form}>

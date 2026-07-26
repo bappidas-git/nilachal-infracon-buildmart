@@ -76,14 +76,14 @@ const formatShortDate = (dateStr) => {
 };
 
 // Columns config — `service_interest` is the canonical key (kept from the
-// public form), displayed as "Course Interested" in the UI.
+// public form), displayed as "Interested In" in the UI.
 const COLUMNS = [
   { id: "name", label: "Name", sortable: true },
   { id: "mobile", label: "Mobile", sortable: true, width: 130 },
   { id: "email", label: "Email", sortable: true, hideTablet: true },
   {
     id: "service_interest",
-    label: "Course Interested",
+    label: "Interested In",
     sortable: true,
     hideTablet: true,
   },
@@ -393,9 +393,9 @@ const LeadManagement = () => {
       {/* Page Header */}
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>Admission Leads</h1>
+          <h1 className={styles.pageTitle}>Enquiry Leads</h1>
           <p className={styles.pageSubtitle}>
-            View and manage all 2026 B.E. admission leads in one place.
+            View and manage every enquiry from your website in one place.
           </p>
         </div>
         <div className={styles.headerActions}>
@@ -568,7 +568,7 @@ const LeadManagement = () => {
         <div className={styles.filtersBar}>
           <TextField
             size="small"
-            placeholder="Search by name, email, mobile, course, or state..."
+            placeholder="Search by name, email, mobile, interest, or state..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -829,11 +829,11 @@ const LeadManagement = () => {
             <div className={styles.emptyIcon}>
               <Icon icon="mdi:account-group-outline" width={64} height={64} />
             </div>
-            <p className={styles.emptyText}>No admission leads found</p>
+            <p className={styles.emptyText}>No enquiry leads found</p>
             <p className={styles.emptySubtext}>
               {hasActiveFilters
                 ? "No results match your current filters. Try adjusting your search or filters."
-                : "New admission leads will appear here as they come in from your landing page forms."}
+                : "New enquiry leads will appear here as they come in from your website forms."}
             </p>
             {hasActiveFilters && (
               <Button

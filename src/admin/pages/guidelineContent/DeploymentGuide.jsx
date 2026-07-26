@@ -197,7 +197,7 @@ cp -r build/* /home/master/applications/your-app/public_html/`}
           Your landing page is a Single Page Application (SPA) — all routes (<code className={styles.guideInlineCode}>/thank-you</code>, <code className={styles.guideInlineCode}>/admin/dashboard</code>) are handled by JavaScript, not by separate HTML files.
         </p>
         <p className={styles.guideParagraph}>
-          When someone directly visits <code className={styles.guideInlineCode}>landing.cittumkur.org/admin/login</code>, the server looks for a file at <code className={styles.guideInlineCode}>/admin/login</code> — which doesn't exist. The solution is to tell the server to always serve <code className={styles.guideInlineCode}>index.html</code> for any URL, and let React Router handle the routing.
+          When someone directly visits <code className={styles.guideInlineCode}>www.nilachalinfracon.com/admin/login</code>, the server looks for a file at <code className={styles.guideInlineCode}>/admin/login</code> — which doesn't exist. The solution is to tell the server to always serve <code className={styles.guideInlineCode}>index.html</code> for any URL, and let React Router handle the routing.
         </p>
 
         <h3 className={styles.guideSubtitle}>Routing Fixes by Platform</h3>
@@ -350,7 +350,7 @@ REACT_APP_LEADS_ADMIN_KEY="Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE"`}
             <tr>
               <td className={styles.guideTableCell}>5</td>
               <td className={styles.guideTableCell}>Admin panel accessible at <code className={styles.guideInlineCode}>/admin</code></td>
-              <td className={styles.guideTableCell}>Visit <code className={styles.guideInlineCode}>landing.cittumkur.org/admin</code></td>
+              <td className={styles.guideTableCell}>Visit <code className={styles.guideInlineCode}>www.nilachalinfracon.com/admin</code></td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}>6</td>
@@ -375,31 +375,21 @@ REACT_APP_LEADS_ADMIN_KEY="Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE"`}
             </tr>
             <tr>
               <td className={styles.guideTableCell}>8</td>
-              <td className={styles.guideTableCell}>Google Sheets updated</td>
-              <td className={styles.guideTableCell}>Check your connected sheet</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}>9</td>
-              <td className={styles.guideTableCell}>Email notification received</td>
-              <td className={styles.guideTableCell}>Check your inbox</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}>10</td>
               <td className={styles.guideTableCell}>Mobile layout works</td>
               <td className={styles.guideTableCell}>Test on a real phone</td>
             </tr>
             <tr>
-              <td className={styles.guideTableCell}>11</td>
+              <td className={styles.guideTableCell}>9</td>
               <td className={styles.guideTableCell}>SSL certificate active</td>
               <td className={styles.guideTableCell}>Look for lock icon in browser URL bar</td>
             </tr>
             <tr>
-              <td className={styles.guideTableCell}>12</td>
+              <td className={styles.guideTableCell}>10</td>
               <td className={styles.guideTableCell}>OG image shows on sharing</td>
               <td className={styles.guideTableCell}>Share URL on WhatsApp/Slack → check preview</td>
             </tr>
             <tr>
-              <td className={styles.guideTableCell}>13</td>
+              <td className={styles.guideTableCell}>11</td>
               <td className={styles.guideTableCell}>Page speed score &gt; 80</td>
               <td className={styles.guideTableCell}>Run Lighthouse in Chrome DevTools</td>
             </tr>

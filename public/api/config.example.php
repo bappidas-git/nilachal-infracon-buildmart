@@ -13,10 +13,10 @@
 // panel build. Generate a long (40+ char) random
 // string.
 //
-// This file is OPTIONAL: leads.php / telecalls.php
-// ship a committed fallback key that already matches
-// the REACT_APP_LEADS_ADMIN_KEY in .env, so
-// cross-device sync works out of the box. Define
+// This file is OPTIONAL: leads.php ships a committed
+// fallback key that already matches the
+// REACT_APP_LEADS_ADMIN_KEY in .env, so cross-device
+// sync works out of the box. Define
 // ADMIN_API_KEY here (in a real config.php) ONLY to
 // override that default with your own private key —
 // and if you do, rotate REACT_APP_LEADS_ADMIN_KEY to
