@@ -369,3 +369,36 @@ the single unreleased version below as each prompt is merged.
   committed fallback constant in both `public/api/leads.php` and
   `public/api/telecalls.php`, plus the guidance in `config.example.php`. Any
   live `public/api/config.php` must set the same `ADMIN_API_KEY` on deploy.
+
+### 11 — Contact section, map & final page assembly
+
+**Changed**
+- **Rebuilt `ContactSection`** (`#contact`) as an Apple-minimal two-column
+  "Get in Touch": left = eyebrow + headline, quiet hairline-separated contact
+  rows (Registered Office / Phone `tel:` / Email `mailto:` / a WhatsApp chip),
+  a **lazy Google-Maps embed** (`output=embed`, no API key,
+  `title="Nilachal Infracon location"`, 20px radius, ~300px tall) and the eight
+  Northeast serving states as quiet pills; right = the shared `UnifiedLeadForm`
+  (`variant='default'`, `formId='contact-form'`) under a "Send us an Enquiry"
+  heading in a white 1px-bordered soft-shadow card. Both columns reveal once via
+  GSAP `useReveal`. Every fact comes from `siteConfig` / `locationData`.
+- Finalized the one-pager assembly in `App.jsx` (order Hero → About → Products →
+  Services → Stats → Brands → WhyUs → FAQ → Contact; `useIdlePreload` list
+  matches). **Restyled the back-to-top button to design tokens** and added a
+  **desktop-only floating WhatsApp FAB** (green, bottom-right, `wa.me` from
+  `siteConfig`, GSAP fade-in past the hero, `aria-label`; mobile keeps WhatsApp
+  in the bottom nav).
+- Polish pass: added `text-wrap: balance` to the section headlines to avoid
+  orphan widows, keeping the shared eyebrow / headline / 6–7rem (desktop) /
+  4rem (mobile) padding rhythm and the white / `--color-bg-subtle` alternation
+  with Stats as the intentional dark break.
+
+**Removed**
+- **Pruned the legacy CIT drawer-key aliases** (`apply-now`, `get-details`,
+  `request-callback`, `book-meeting`, `download-brochure`, `fees-scholarship`)
+  from `DRAWER_TITLES`; no callers remained.
+- Removed the dormant real-estate **modal system** — `MODAL_TYPES`, `openModal`
+  and its shorthand openers, and the modal state — from `ModalContext.jsx`
+  (nothing used `openModal`), and deleted the now-orphaned
+  `components/common/Modal/` and the legacy `components/common/LeadForm/`
+  wrapper. `ModalContext` now drives only the enquiry drawer.
