@@ -1,11 +1,11 @@
 {
-  "short_name": "CIT 2026",
-  "name": "CIT — Direct B.E. Admissions 2026",
-  "description": "Direct B.E. Engineering Admissions 2026 at Channabasaveshwara Institute of Technology, Tumakuru — guided admission pathway for students across North East India.",
+  "short_name": "Nilachal",
+  "name": "Nilachal Infracon",
+  "description": "Nilachal Infracon Private Limited — premium building materials (North East Buildmart) and construction services across Nagaon, Assam and Northeast India.",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "16x16 32x32 48x48",
       "type": "image/x-icon"
     },
     {
@@ -26,7 +26,7 @@
   "orientation": "portrait-primary",
   "theme_color": "#16324F",
   "background_color": "#FFFFFF",
-  "categories": ["education", "business"],
+  "categories": ["business", "shopping"],
   "lang": "en",
   "dir": "ltr",
   "scope": "/",

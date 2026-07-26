@@ -118,6 +118,15 @@ export function removeSchema(id) {
 // =========================================
 
 /**
+ * Map a list of state names to schema.org areaServed State entries.
+ * @param {string[]} states - State names (e.g. seoConfig.organization.areaServed)
+ * @returns {Array<Object>} Array of { '@type': 'State', name }
+ */
+function mapAreaServed(states) {
+  return states.map((name) => ({ '@type': 'State', name }));
+}
+
+/**
  * Generate Organization schema from seoConfig.
  * @param {Object} [config] - Override seoConfig.organization
  * @returns {Object} JSON-LD Organization schema
@@ -126,8 +135,9 @@ export function generateOrganizationSchema(config) {
   const org = config || seoConfig.organization;
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'CollegeOrUniversity',
+    '@type': org.schemaType || 'Organization',
     name: org.name,
+    ...(org.legalName && { legalName: org.legalName }),
     alternateName: org.alternateName,
     url: org.url,
     logo: org.logo,
@@ -144,29 +154,16 @@ export function generateOrganizationSchema(config) {
     },
   };
 
+  if (org.areaServed && org.areaServed.length > 0) {
+    schema.areaServed = mapAreaServed(org.areaServed);
+  }
+
   if (org.sameAs && org.sameAs.length > 0) {
     schema.sameAs = org.sameAs;
   }
 
   if (org.foundingDate) {
     schema.foundingDate = org.foundingDate;
-  }
-
-  if (org.courses && org.courses.length > 0) {
-    schema.hasOfferingCatalog = {
-      '@type': 'OfferCatalog',
-      name: 'B.E. Engineering Programs',
-      itemListElement: org.courses.map((course) => ({
-        '@type': 'Course',
-        name: course.name,
-        description: course.description,
-        provider: {
-          '@type': 'CollegeOrUniversity',
-          name: org.name,
-          sameAs: org.url,
-        },
-      })),
-    };
   }
 
   return schema;
@@ -205,8 +202,10 @@ export function generateLocalBusinessSchema(config) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': biz.type,
+    ...(biz.additionalType && { additionalType: biz.additionalType }),
     name: org.name,
     image: org.logo,
+    logo: org.logo,
     telephone: org.phone,
     email: org.email,
     address: {
@@ -242,16 +241,8 @@ export function generateLocalBusinessSchema(config) {
     schema.hasMap = biz.hasMap;
   }
 
-  if (org.courses && org.courses.length > 0) {
-    schema.hasOfferingCatalog = {
-      '@type': 'OfferCatalog',
-      name: 'B.E. Engineering Programs',
-      itemListElement: org.courses.map((course) => ({
-        '@type': 'Course',
-        name: course.name,
-        description: course.description,
-      })),
-    };
+  if (org.areaServed && org.areaServed.length > 0) {
+    schema.areaServed = mapAreaServed(org.areaServed);
   }
 
   return schema;
@@ -312,9 +303,16 @@ export function generateWebPageSchema(config) {
  * @returns {Object} JSON-LD Service schema (ItemList)
  */
 export function generateServiceSchema(services) {
+  const org = seoConfig.organization;
+  const areaServed =
+    org.areaServed && org.areaServed.length > 0
+      ? mapAreaServed(org.areaServed)
+      : undefined;
+
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
+    name: 'Construction & Infrastructure Services',
     itemListElement: services.map((service, index) => ({
       '@type': 'ListItem',
       position: index + 1,
@@ -322,19 +320,13 @@ export function generateServiceSchema(services) {
         '@type': 'Service',
         name: service.name,
         description: service.description,
+        serviceType: service.name,
         provider: {
           '@type': 'Organization',
-          name: seoConfig.organization.name,
+          name: org.name,
+          url: org.url,
         },
-        ...((service.scope || service.duration) && {
-          offers: {
-            '@type': 'Offer',
-            price: '0',
-            priceCurrency: 'INR',
-            description: service.scope || service.duration,
-            availability: 'https://schema.org/InStock',
-          },
-        }),
+        ...(areaServed && { areaServed }),
       },
     })),
   };

@@ -402,3 +402,63 @@ the single unreleased version below as each prompt is merged.
   (nothing used `openModal`), and deleted the now-orphaned
   `components/common/Modal/` and the legacy `components/common/LeadForm/`
   wrapper. `ModalContext` now drives only the enquiry drawer.
+
+### 12 — SEO overhaul (index.html, schemas, sitemap, favicons, OG)
+
+**Changed**
+- **Rewrote `src/config/seo.js`** for Nilachal Infracon, generated from the
+  single sources of truth: `siteConfig.js` (name/contact/logo/site URL),
+  `locationData.js` (`areaServed` = the 8 Northeast states), and `faqData.js`
+  (so the FAQPage schema matches the visible FAQ exactly). New site
+  name/URL/`en_IN` locale, trimmed title, ~155-char description mentioning North
+  East Buildmart, `organization` (legalName, color logo, Nagaon address,
+  `foundingDate 2026`, areaServed, empty `sameAs`), `localBusiness`
+  (`["LocalBusiness","HomeAndConstructionBusiness"]` + building-material
+  `additionalType`, `₹₹`, Nagaon geo, Mon–Sat 09:00–19:00 **TODO** hours,
+  `hasMap`), and `pages` (home index,follow; thankYou/admin noindex).
+- **De-CIT'd `src/utils/seo.js`** — removed the hard-coded `CollegeOrUniversity`
+  types and the `B.E. Engineering Programs` / `Course` offer-catalog blocks.
+  Organization/LocalBusiness `@type` and `areaServed` now come from config;
+  `generateServiceSchema` emits an `ItemList` of `Service` (provider =
+  organization, `areaServed` NE states, no bogus `₹0` offers). `updatePageSEO` /
+  `injectSchema` / `removeSchema` mechanics untouched.
+- **Rewrote the `public/index.html` head** (static fallback layer): new
+  title/description/keywords/author, `robots index,follow`, Open Graph + Twitter
+  cards (absolute `og:image` → `/og-image.png`, 1200×630 + alt), geo tags
+  (`IN-AS`, Nagaon, `26.3489;92.6820`), and the five JSON-LD blocks rewritten
+  with the same element ids (Organization, LocalBusiness/HomeAndConstruction,
+  FAQPage with all 7 Q&As, single-crumb BreadcrumbList, WebPage/WebSite — no
+  SearchAction). Removed the broken icon links (`apple-touch-icon-152/167/180`,
+  `safari-pinned-tab.svg`); kept the Inter preloads, Iconify preconnect, inline
+  critical CSS, and Nilachal splash loader.
+- **`public/manifest.json`**: name "Nilachal Infracon" / short_name "Nilachal",
+  new description, `theme_color #16324F`, `background_color #FFFFFF`, categories
+  `["business","shopping"]`, icons `favicon.ico` + `logo192`/`logo512`
+  (`any maskable`).
+- **`public/robots.txt`**: allow all, disallow `/admin/` + `/thank-you`, correct
+  `Sitemap:` URL, dropped the non-standard `Host:` line.
+- **`public/sitemap.xml`**: single `https://www.nilachalinfracon.com/` URL,
+  `lastmod 2026-07-26`, `changefreq monthly`, `priority 1.0`.
+
+**Added**
+- **Favicons + PWA icons** generated from the Nilachal color logo (cropped to
+  the emblem for small-size legibility): `favicon.png` (32), `favicon.ico`
+  (16/32/48), `apple-touch-icon.png` (180, padded on white), and maskable-safe
+  `logo192.png` / `logo512.png` — replacing the old CIT shield files.
+- **`public/og-image.png`** (1200×630, ~70 KB): navy `#0F2438`, white logo,
+  green accent, headline "Building the Future of Northeast India", tagline +
+  site URL.
+- **`scripts/generate-icons.js`** and **`scripts/generate-og.js`** (committed,
+  reproducible) with `npm run generate:icons` / `generate:og`; added `sharp` +
+  `png-to-ico` dev deps.
+- Rewrote **`SEO_GUIDE.md`** for Nilachal (purged the earlier Monjoven client)
+  with a post-launch checklist (GSC verify + submit sitemap + request indexing,
+  Bing Webmaster, Rich Results / schema validators). Added a **SEO** section to
+  `CLAUDE.md`.
+
+**Semantics**
+- Verified on-page hierarchy: single `<h1>` (hero), `<h2>` per section, `<h3>`
+  for card/pillar titles; all public images carry meaningful `alt`; anchor nav
+  uses real `<a href="#…">`; `SEOHead` still noindexes `/thank-you` and
+  `/admin*`. No violations found. (Admin panel still shows CIT logos/labels —
+  that rebrand is prompt 13.)

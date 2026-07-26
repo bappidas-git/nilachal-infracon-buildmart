@@ -168,12 +168,41 @@ correctly, and **no-ops to the final state instantly** when
 `prefers-reduced-motion` is set. Import from the barrel:
 `import { useReveal } from '../../../animations'`.
 
+## SEO
+
+The SEO system is **dual-layer** and generated from the data layer (never
+hard-code business facts in schemas):
+
+- **Static layer** — `public/index.html` holds the meta tags, Open Graph /
+  Twitter cards, geo tags, and five JSON-LD blocks (`schema-organization`,
+  `schema-localbusiness` = `["LocalBusiness","HomeAndConstructionBusiness"]`,
+  `schema-faq`, `schema-breadcrumb`, `schema-webpage`). This is the fallback for
+  crawlers/scrapers that don't run JS.
+- **Runtime layer** — `SEOHead` (`src/components/common/SEO/`) calls
+  `src/utils/seo.js` generators, which read `src/config/seo.js` and re-inject the
+  same-id schemas at runtime, plus set title/description/canonical per route and
+  `noindex` `/thank-you` + `/admin*`. `ServicesSection` injects a sixth schema,
+  `schema-services` (`ItemList` of `Service`), from `servicesData`.
+
+`src/config/seo.js` derives from the single sources of truth —
+`siteConfig.js` (company/contact facts), `locationData.js` (`areaServed` = 8 NE
+states), and `faqData.js`. The **FAQPage schema must match the visible FAQ
+section exactly** (Google guideline); both read `faqData.js`, so edit that file
+and mirror the change into the static `#schema-faq` block. Coordinates/hours in
+`localBusiness` are Nagaon placeholders — confirm with the client.
+
+**Favicons / PWA icons / OG image** are generated from the logo by committed
+scripts (dev deps `sharp` + `png-to-ico`): `npm run generate:icons` and
+`npm run generate:og` write into `public/` (see `SEO_GUIDE.md`). `robots.txt`
+and `sitemap.xml` cover the single `/` URL; full guide + post-launch checklist
+in `SEO_GUIDE.md`.
+
 ## Customization Guide
 
 1. **Content**: Update data files in `src/data/` and hard-coded text in section components
 2. **Branding**: The header, footer, and mobile drawer read the logo from `src/data/siteConfig.js` (`logo` for light backgrounds, `logoWhite` for dark) — update it there. The `public/index.html` splash logo is set separately.
 3. **Contact Info**: Update `src/data/siteConfig.js` (the single source of truth — `locationData.js` derives from it) and the matching values in `.env`
-4. **SEO**: Update meta tags, JSON-LD schemas, `src/config/seo.js`, and `public/sitemap.xml`
+4. **SEO**: Edit the data layer (`siteConfig.js` / `faqData.js` / `servicesData.js`), then `src/config/seo.js` and the matching static blocks in `public/index.html`; update `public/sitemap.xml`. See the SEO section above and `SEO_GUIDE.md`
 5. **Forms**: Leads POST to the server store (`/api/leads.php`) via `src/utils/webhookSubmit.js` — usually leave the default endpoint
 6. **Admin**: Update `REACT_APP_ADMIN_USERNAME` and `REACT_APP_ADMIN_PASSWORD` in `.env`
 

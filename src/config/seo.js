@@ -1,179 +1,134 @@
 /* ============================================
    SEO Configuration
-   Central configuration for all SEO-related
-   settings, schemas, and page metadata.
+   --------------------------------------------
+   Central configuration for all SEO-related settings, schemas, and page
+   metadata for the Nilachal Infracon website.
+
+   Everything here is generated from the single sources of business truth so
+   the schemas can never drift from the visible site:
+     - contact / company facts  → src/data/siteConfig.js
+     - the Northeast states served → src/data/locationData.js
+     - the FAQ Q&As (must match the FAQ section exactly) → src/data/faqData.js
+
+   The runtime SEO utilities (src/utils/seo.js) consume this config and inject
+   matching JSON-LD at runtime, overriding the static fallbacks in
+   public/index.html (which share the same element ids).
    ============================================ */
+
+import { siteConfig, fullAddress } from "../data/siteConfig";
+import { locationData } from "../data/locationData";
+import { faqData } from "../data/faqData";
+
+// The 8 Northeast states Nilachal Infracon serves — used for areaServed.
+const areaServed = locationData.servingStates;
+
+// PostalAddress parts, shaped for schema.org from the siteConfig address.
+const address = {
+  streetAddress: `${siteConfig.address.line1}, ${siteConfig.address.line2}`,
+  addressLocality: siteConfig.address.city,
+  addressRegion: siteConfig.address.state,
+  postalCode: siteConfig.address.pincode,
+  addressCountry: "IN",
+};
 
 export const seoConfig = {
   // =========================================
   // Site-level Settings
   // =========================================
-  siteName: "CIT Admissions",
-  siteUrl: "https://www.cittumkur.org",
+  siteName: "Nilachal Infracon",
+  siteUrl: siteConfig.siteUrl, // https://www.nilachalinfracon.com
   defaultTitle:
-    "CIT Tumakuru | Direct B.E. Engineering Admission 2026 — North East India",
-  titleTemplate: "%s | CIT Tumakuru",
+    "Nilachal Infracon — Building Materials & Construction, Northeast India",
+  titleTemplate: "%s | Nilachal Infracon",
   defaultDescription:
-    "Direct B.E. Engineering Admission 2026 at Channabasaveshwara Institute of Technology (CIT), Tumakuru — NAAC, AICTE, VTU-affiliated. Guided pathway, hostel & strong placements for North East students.",
-  defaultImage:
-    "https://placehold.co/1200x630/16324F/FFFFFF?text=CIT+Admissions+2026",
+    "North East Buildmart by Nilachal Infracon: premium building materials & construction services in Nagaon, Assam & across Northeast India. Get a quote today.",
+  defaultImage: `${siteConfig.siteUrl}/og-image.png`,
   locale: "en_IN",
   language: "en",
 
   // =========================================
-  // Organization Details (Educational)
+  // Organization Details
   // =========================================
   organization: {
-    name: "Channabasaveshwara Institute of Technology",
-    alternateName: "CIT Tumakuru",
-    url: "https://www.cittumkur.org",
-    logo: "https://res.cloudinary.com/dn9gyaiik/image/upload/v1779669113/logo-cit_ykpxvd.png",
-    phone: "+91 8069645014",
+    // schema.org @type for the Organization JSON-LD block.
+    schemaType: "Organization",
+    name: siteConfig.legalName,
+    legalName: siteConfig.legalName,
+    alternateName: siteConfig.flagshipBrand, // North East Buildmart
+    url: siteConfig.siteUrl,
+    logo: siteConfig.logo, // color logo for light backgrounds
+    phone: siteConfig.phoneDisplay,
+    email: siteConfig.email,
     description:
-      "Channabasaveshwara Institute of Technology (CIT), Tumakuru is a NAAC-accredited, AICTE-approved engineering college affiliated to VTU, Belagavi. Celebrating 25 years of academic excellence with strong placements and guided direct B.E. admissions for the 2026 intake.",
-    address: {
-      streetAddress: "NH 206, B.H. Road, Gubbi",
-      addressLocality: "Tumakuru",
-      addressRegion: "Karnataka",
-      postalCode: "572216",
-      addressCountry: "IN",
-    },
-    sameAs: [],
-    foundingDate: "2001",
-    // 7 B.E. programs offered (used for hasOfferingCatalog)
-    courses: [
-      {
-        name: "B.E. — Artificial Intelligence & Data Science",
-        description:
-          "Four-year B.E. program in Artificial Intelligence & Data Science, affiliated to VTU.",
-      },
-      {
-        name: "B.E. — Computer Science & Engineering",
-        description:
-          "Four-year B.E. program in Computer Science & Engineering, affiliated to VTU.",
-      },
-      {
-        name: "B.E. — Information Science & Engineering",
-        description:
-          "Four-year B.E. program in Information Science & Engineering, affiliated to VTU.",
-      },
-      {
-        name: "B.E. — Electronics & Communication Engineering",
-        description:
-          "Four-year B.E. program in Electronics & Communication Engineering, affiliated to VTU.",
-      },
-      {
-        name: "B.E. — Electrical & Electronics Engineering",
-        description:
-          "Four-year B.E. program in Electrical & Electronics Engineering, affiliated to VTU.",
-      },
-      {
-        name: "B.E. — Mechanical Engineering",
-        description:
-          "Four-year B.E. program in Mechanical Engineering, affiliated to VTU.",
-      },
-      {
-        name: "B.E. — Civil Engineering",
-        description:
-          "Four-year B.E. program in Civil Engineering, affiliated to VTU.",
-      },
-    ],
+      "Nilachal Infracon Private Limited is an infrastructure and building-materials company in Nagaon, Assam. Through its flagship retail brand North East Buildmart it supplies premium construction materials, and delivers residential, commercial and institutional construction projects across Northeast India.",
+    address,
+    sameAs: [], // fill when the client's social profiles exist
+    foundingDate: "2026",
+    areaServed,
   },
 
   // =========================================
   // Page-specific SEO Settings
+  // (SEOHead reads pages.home / pages.thankYou / pages.admin)
   // =========================================
   pages: {
     home: {
       title:
-        "CIT Tumakuru | Direct B.E. Engineering Admission 2026 — North East India",
+        "Nilachal Infracon — Building Materials & Construction, Northeast India",
       description:
-        "Apply for Direct B.E. Engineering Admission 2026 at CIT Tumakuru. NAAC-accredited, AICTE-approved, VTU-affiliated. Hostel, scholarships & 85%+ placements. Guidance for NE students.",
+        "North East Buildmart by Nilachal Infracon: premium building materials & construction services in Nagaon, Assam & across Northeast India. Get a quote today.",
       keywords:
-        "cit tumakuru, direct be admission 2026, engineering admission karnataka, b.e. admission northeast india, vtu engineering college, naac engineering college, cit channabasaveshwara, engineering college tumakuru, hostel engineering karnataka, direct admission b.e.",
+        "Nilachal Infracon, North East Buildmart, building materials Nagaon, construction materials Assam, building materials supplier Northeast India, construction company Nagaon Assam, TMT bars, cement, tiles, sanitaryware, UPVC doors Assam",
+      robots: "index, follow",
     },
     thankYou: {
-      title: "Thank You | CIT Tumakuru B.E. Admissions 2026",
+      title: "Thank You — Nilachal Infracon",
       description:
-        "Thanks for your interest in CIT Tumakuru's Direct B.E. Admissions 2026. Our admission team will call you shortly to guide you through the process.",
+        "Thanks for reaching out to Nilachal Infracon. Our team will call or WhatsApp you within 24 hours with your quotation or consultation.",
       robots: "noindex, nofollow",
     },
     admin: {
-      title: "Admin Panel | CIT Admissions",
+      title: "Admin Panel — Nilachal Infracon",
       robots: "noindex, nofollow",
     },
   },
 
   // =========================================
-  // FAQ Schema Data (Admissions)
+  // FAQ Schema Data
+  // --------------------------------------------
+  // Derived from src/data/faqData.js so the FAQPage schema exactly matches the
+  // visible FAQ section (a Google structured-data requirement). Only the
+  // question/answer text is needed for the schema.
   // =========================================
-  faqs: [
-    {
-      question:
-        "Who is eligible for direct B.E. admission at CIT Tumakuru for 2026?",
-      answer:
-        "Students who have passed 10+2 (Class 12) with Physics and Mathematics as compulsory subjects, plus one of Chemistry, Biology, Computer Science, Biotechnology or Electronics, are eligible to apply for Direct B.E. admission for the 2026 intake. North East students can apply through the guided admission pathway — contact our admission team for branch-specific eligibility.",
-    },
-    {
-      question: "How do I apply for direct B.E. admission at CIT?",
-      answer:
-        "Submit the enquiry form on this page with your name, mobile, preferred B.E. branch and state. Our admission team will call you, explain the documents needed, share the application form and guide you end-to-end — no confusing counselling trips required.",
-    },
-    {
-      question: "Which B.E. courses are offered at CIT Tumakuru?",
-      answer:
-        "CIT offers seven B.E. branches: Artificial Intelligence & Data Science, Computer Science & Engineering, Information Science & Engineering, Electronics & Communication Engineering, Electrical & Electronics Engineering, Mechanical Engineering and Civil Engineering — all affiliated to VTU, Belagavi.",
-    },
-    {
-      question: "What about fees and scholarships?",
-      answer:
-        "Fee structure varies by B.E. branch and is set as per VTU/AICTE norms. Merit-based fee assistance may be available for eligible students. Please contact our admission team for the latest 2026 fee details and scholarship guidance.",
-    },
-    {
-      question: "Is hostel accommodation available for North East students?",
-      answer:
-        "Yes. CIT offers safe, supervised hostel and mess facilities for outstation students, including those from North East India. The hostel is on campus with full boarding, study spaces and round-the-clock security.",
-    },
-    {
-      question: "How strong are CIT's placements?",
-      answer:
-        "Over 90+ reputed companies visit CIT every year with 85%+ overall placement for eligible students, sustained over the last 8 years. Recruiters include Accenture, Infosys, Deloitte, HCLTech, TCS, Tech Mahindra, Wipro and more. Highest CTC is 15 LPA with a median of 5 LPA.",
-    },
-    {
-      question: "Is CIT recognised and accredited?",
-      answer:
-        "Yes. CIT is NAAC accredited, ISO 9001:2015 certified, approved by AICTE, New Delhi, and affiliated to Visvesvaraya Technological University (VTU), Belagavi. CET Code: E101 · COMED-K Code: E035.",
-    },
-    {
-      question: "What is the last date to apply for 2026 B.E. admission?",
-      answer:
-        "Seats for the 2026 B.E. intake are limited and filled on a first-come, first-served basis. We recommend applying early. For the exact closing date, please contact our admission team.",
-    },
-  ],
+  faqs: faqData.map(({ question, answer }) => ({ question, answer })),
 
   // =========================================
-  // CollegeOrUniversity Schema Settings
+  // LocalBusiness / HomeAndConstructionBusiness Schema Settings
   // =========================================
   localBusiness: {
-    type: "CollegeOrUniversity",
-    priceRange: "$$",
+    type: ["LocalBusiness", "HomeAndConstructionBusiness"],
+    // additionalType hint that this business supplies building materials.
+    additionalType: "https://www.productontology.org/id/Building_material",
+    priceRange: "₹₹",
     openingHours: {
-      days: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
+      // TODO: confirm exact business hours with the client.
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       opens: "09:00",
-      closes: "17:00",
+      closes: "19:00",
     },
     geo: {
-      latitude: "13.3133",
-      longitude: "76.9971",
+      // Approximate — Nagaon town / Lawkhowa Road area (town centre ≈
+      // 26.3504, 92.6796). Refine with the exact store coordinates when known.
+      latitude: "26.3489",
+      longitude: "92.6820",
     },
-    hasMap:
-      "https://www.google.com/maps/search/?api=1&query=Channabasaveshwara+Institute+of+Technology+Tumakuru",
+    hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      siteConfig.mapsQuery,
+    )}`,
   },
+
+  // Convenience: the full one-line postal address (from siteConfig helper).
+  fullAddress,
 };
+
+export default seoConfig;

@@ -3,5 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /thank-you
 
-Sitemap: https://www.cittumkur.org/sitemap.xml
-Host: https://www.cittumkur.org
+Sitemap: https://www.nilachalinfracon.com/sitemap.xml
