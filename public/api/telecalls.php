@@ -87,7 +87,7 @@ if ($adminKey === '') {
 }
 if ($adminKey === '') {
     // Default — keep in sync with REACT_APP_LEADS_ADMIN_KEY in .env.
-    $adminKey = 'skdfjsdfweiormcnzxmzdlkfjds';
+    $adminKey = 'idpFeRFMVsr80CkF8S6jGmcpAFagTIycB5GXa9GGi1z8LKP8';
 }
 
 // ----- Helpers -----

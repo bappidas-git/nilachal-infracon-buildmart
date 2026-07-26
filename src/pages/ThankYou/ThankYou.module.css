@@ -1,573 +1,261 @@
 /* ============================================
-   ThankYou Page Styles
-   Post lead submission confirmation page
+   ThankYou Page Styles — Nilachal Infracon
+   Minimal navy-on-white confirmation, consistent with the
+   site's Apple-like design language (generous whitespace,
+   thin hairlines, green used sparingly).
    ============================================ */
 
 .thankYouPage {
   min-height: 100vh;
-  background: linear-gradient(180deg, #0F2438 0%, #16324F 50%, #0F2438 100%);
-  position: relative;
-  overflow: hidden;
-  padding: 60px 0 80px;
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
 }
 
-/* Background Elements */
-.bgPattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: radial-gradient(rgba(30, 123, 69, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-}
-
-.bgGlow1 {
-  position: absolute;
-  top: -200px;
-  left: -200px;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(30, 123, 69, 0.18) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.bgGlow2 {
-  position: absolute;
-  bottom: -150px;
-  right: -150px;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(30, 123, 69, 0.12) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-/* Content Container */
 .content {
-  position: relative;
-  z-index: 1;
   text-align: center;
+  max-width: 560px;
+  margin: 0 auto;
 }
 
-/* Success Icon */
+/* ============================================
+   Animated checkmark + soft green burst
+   ============================================ */
 .successIcon {
   position: relative;
   width: 120px;
   height: 120px;
-  margin: 0 auto 32px;
-}
-
-.iconWrapper {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #1E8E5A 0%, #4FB07F 100%);
-  border-radius: 50%;
+  margin: 0 auto 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 12px 40px rgba(30, 142, 90, 0.4);
 }
 
-.iconWrapper svg {
-  font-size: 64px;
-  color: #FFFFFF;
-}
-
-.iconRing {
+.burst {
   position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  border: 3px solid rgba(30, 142, 90, 0.3);
+  inset: -10px;
   border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
+  background: radial-gradient(
+    circle,
+    var(--color-accent-tint) 0%,
+    rgba(30, 123, 69, 0) 70%
+  );
+  transform-origin: center;
+  opacity: 0.4;
+  pointer-events: none;
 }
 
-.iconRing2 {
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
-  border: 2px solid rgba(30, 142, 90, 0.15);
-  border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite 0.5s;
+.checkSvg {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  z-index: 1;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.5;
-  }
+.checkRing {
+  fill: var(--color-accent-tint);
+  stroke: var(--color-accent);
+  stroke-width: 4;
 }
 
-/* Thank You Message */
-.thankYouMessage {
-  margin-bottom: 32px;
+.checkMark {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
+/* ============================================
+   Heading + greeting
+   ============================================ */
 .title {
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   font-weight: 700 !important;
-  font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem) !important;
-  color: #FFFFFF !important;
+  font-size: clamp(1.75rem, 1.4rem + 1.75vw, 2.5rem) !important;
+  letter-spacing: -0.02em !important;
+  color: var(--color-ink) !important;
   margin-bottom: 12px !important;
-  line-height: 1.2 !important;
+  line-height: 1.15 !important;
 }
 
 .subtitle {
-  font-size: 1.125rem !important;
-  color: #FFFFFFB3 !important;
-  font-weight: 400 !important;
-}
-
-/* Response Notice */
-.responseNotice {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: linear-gradient(135deg, rgba(30, 123, 69, 0.18) 0%, rgba(30, 123, 69, 0.08) 100%);
-  border: 1px solid rgba(30, 123, 69, 0.35);
-  border-radius: 20px;
-  padding: 24px 28px;
-  margin: 0 auto 40px;
-  max-width: 600px;
-  text-align: left;
-}
-
-.noticeIcon {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #1E7B45 0%, #2E9A5C 100%);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.noticeIcon svg {
-  font-size: 26px;
-  color: #0F2438;
-}
-
-.noticeContent {
-  flex: 1;
-}
-
-.noticeTitle {
   font-size: 1.0625rem !important;
-  font-weight: 600 !important;
-  color: #1E7B45 !important;
-  margin-bottom: 6px !important;
+  color: var(--color-slate) !important;
+  line-height: 1.6 !important;
+  margin: 0 auto 40px !important;
+  max-width: 460px;
 }
 
-.noticeDesc {
-  font-size: 0.9375rem !important;
-  color: #FFFFFFA6 !important;
-  line-height: 1.5 !important;
+/* ============================================
+   Next-steps card
+   ============================================ */
+.stepsCard {
+  text-align: left;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 36px;
 }
 
-/* Next Steps Section */
-.nextStepsSection {
-  margin-bottom: 40px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+.stepsHeading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 18px;
 }
 
-.nextStepsList {
+.stepsList {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
-.nextStepItem {
+.stepItem {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  padding: 16px 20px;
-  text-align: left;
 }
 
-.stepNumber {
+.stepNum {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #1E7B45 0%, #2E9A5C 100%);
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
+  background: var(--color-accent-tint);
+  color: var(--color-accent-dark);
+  font-size: 0.875rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #0F2438;
 }
 
 .stepText {
   font-size: 0.9375rem;
-  font-weight: 400;
-  color: #FFFFFFCC;
+  color: var(--color-primary);
   line-height: 1.5;
 }
 
-/* Highlights Section */
-.highlightsSection {
-  margin-bottom: 40px;
-}
-
-.sectionLabel {
-  font-size: 0.75rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.15em !important;
-  text-transform: uppercase !important;
-  color: #FFFFFF80 !important;
-  margin-bottom: 20px !important;
-}
-
-.highlightsGrid {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.highlightCard {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 14px;
-  padding: 14px 20px;
-  cursor: default;
-  transition: all 0.2s ease;
-}
-
-.highlightIcon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.highlightIcon svg {
-  font-size: 22px;
-}
-
-.highlightLabel {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #FFFFFF;
-}
-
-/* Contact Card */
-.contactCard {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 24px;
-  padding: 32px;
-  margin-bottom: 40px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.contactHeader {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
-.companyBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(30, 123, 69, 0.18);
-  border: 1px solid rgba(30, 123, 69, 0.4);
-  border-radius: 20px;
-  padding: 8px 16px;
-  margin-bottom: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #1E7B45;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.companyBadge svg {
-  font-size: 16px;
-}
-
-.companyName {
-  font-family: 'Inter', sans-serif !important;
-  font-weight: 700 !important;
-  font-size: clamp(1.5rem, 1.25rem + 1.25vw, 2rem) !important;
-  color: #FFFFFF !important;
-}
-
-.contactGrid {
-  text-align: left;
-}
-
-.contactItem {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.addressItem {
-  margin-top: 8px;
-}
-
-.contactIconWrapper {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  background: rgba(30, 123, 69, 0.15);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.contactIconWrapper svg {
-  font-size: 24px;
-  color: #1E7B45;
-}
-
-.contactDetails {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.contactLabel {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #FFFFFF80 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.contactValue {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #FFFFFF;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.contactValue:hover {
-  color: #1E7B45;
-}
-
-.contactValueAlt {
-  font-size: 0.9375rem;
-  color: #FFFFFFB3 !important;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.contactValueAlt:hover {
-  color: #1E7B45;
-}
-
-/* CTA Section */
+/* ============================================
+   CTAs
+   ============================================ */
 .ctaSection {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-top: 20px;
 }
 
-.backHomeBtn {
+.callBtn,
+.whatsappBtn,
+.homeBtn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: linear-gradient(135deg, #1E7B45 0%, #2E9A5C 100%);
-  border: 2px solid #1E7B45;
-  border-radius: 50px;
-  padding: 14px 28px;
-  color: #0F2438 !important;
-  font-size: 0.9375rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 6px 18px rgba(30, 123, 69, 0.35);
-}
-
-.backHomeBtn:hover {
-  background: linear-gradient(135deg, #176437 0%, #1E7B45 100%);
-  border-color: #176437;
-  color: #0F2438 !important;
-  box-shadow: 0 8px 22px rgba(30, 123, 69, 0.45);
-}
-
-.backHomeBtn svg {
-  font-size: 20px;
-}
-
-/* WhatsApp Button */
-.whatsappBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #25D366;
-  border: 2px solid #25D366;
-  border-radius: 50px;
-  padding: 14px 28px;
-  color: #FFFFFF;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 13px 22px;
   font-size: 0.9375rem;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.callBtn {
+  background: var(--color-accent);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(30, 123, 69, 0.24);
+}
+
+.callBtn:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-1px);
+}
+
+.callBtn svg {
+  font-size: 20px;
+}
+
+.whatsappBtn {
+  background: #ffffff;
+  color: var(--color-primary);
+  border-color: var(--color-border);
 }
 
 .whatsappBtn:hover {
-  background: #1ebe5d;
-  border-color: #1ebe5d;
-  color: #FFFFFF;
+  border-color: var(--color-accent);
+  color: var(--color-accent-dark);
+  transform: translateY(-1px);
 }
 
 .whatsappBtn svg {
   font-size: 20px;
+  color: #25d366;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
+.homeBtn {
+  background: transparent;
+  color: var(--color-slate);
+}
+
+.homeBtn:hover {
+  color: var(--color-primary);
+}
+
+.homeBtn svg {
+  font-size: 20px;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 600px) {
   .thankYouPage {
-    padding: 40px 0 60px;
+    padding: 56px 0;
   }
 
   .successIcon {
     width: 100px;
     height: 100px;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
 
-  .iconWrapper svg {
-    font-size: 52px;
+  .checkSvg {
+    width: 100px;
+    height: 100px;
   }
 
-  .responseNotice {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .noticeContent {
-    text-align: center;
-  }
-
-  .highlightsGrid {
-    gap: 12px;
-  }
-
-  .highlightCard {
-    padding: 12px 16px;
-  }
-
-  .highlightIcon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .highlightLabel {
-    font-size: 0.8125rem;
-  }
-
-  .contactCard {
-    padding: 24px 20px;
-  }
-
-  .contactItem {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .contactDetails {
-    align-items: center;
-  }
-
-  .nextStepItem {
-    padding: 14px 16px;
+  .stepsCard {
+    padding: 22px 20px;
   }
 
   .ctaSection {
     flex-direction: column;
-    align-items: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .thankYouPage {
-    padding: 32px 0 48px;
   }
 
-  .successIcon {
-    width: 80px;
-    height: 80px;
-  }
-
-  .iconWrapper svg {
-    font-size: 44px;
-  }
-
-  .title {
-    font-size: 1.75rem !important;
-  }
-
-  .subtitle {
-    font-size: 1rem !important;
-  }
-
-  .highlightCard {
-    width: calc(50% - 6px);
-    flex-direction: column;
-    padding: 14px;
-    gap: 8px;
-    text-align: center;
-  }
-
-  .companyName {
-    font-size: 1.375rem !important;
-  }
-
-  .backHomeBtn,
-  .whatsappBtn {
+  .callBtn,
+  .whatsappBtn,
+  .homeBtn {
     width: 100%;
     justify-content: center;
-    padding: 14px 24px;
   }
 }
 
-/* Reduced Motion */
+/* Reduced motion — no hover lifts. */
 @media (prefers-reduced-motion: reduce) {
-  .iconRing,
-  .iconRing2 {
-    animation: none;
+  .callBtn:hover,
+  .whatsappBtn:hover,
+  .homeBtn:hover {
+    transform: none;
   }
 }

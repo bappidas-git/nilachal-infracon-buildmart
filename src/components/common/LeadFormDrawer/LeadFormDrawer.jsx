@@ -18,6 +18,7 @@ const LeadFormDrawer = ({
   title = 'Request a Quote',
   subtitle = 'Tell us what you need and our team will get back within 24 hours.',
   source = 'general',
+  serviceInterest = '', // preselects the "Interested In" field (from tiles/rows)
   onSubmitSuccess,
 }) => {
   // Handle body scroll lock
@@ -146,11 +147,12 @@ const LeadFormDrawer = ({
                 source={source}
                 showTitle={false}
                 showSubtitle={false}
-                showCourseFields={true}
+                showInterestFields={true}
                 showTrustBadges={true}
                 showConsent={true}
                 showPhoneButton={true}
                 submitButtonText="Send Enquiry"
+                prefill={{ service_interest: serviceInterest }}
                 onClose={onClose}
                 onSubmitSuccess={onSubmitSuccess}
                 formId={`drawer-form-${source}`}

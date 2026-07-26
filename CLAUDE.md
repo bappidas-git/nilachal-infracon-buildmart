@@ -72,7 +72,24 @@ submission there, and the admin panel reads/writes only the server
 tabs in sync), so every browser and device sees the same leads.
 **There is no localStorage copy of leads.** Configure with
 `REACT_APP_LEADS_API_URL` + `REACT_APP_LEADS_ADMIN_KEY` in `.env` (the key must
-match `ADMIN_API_KEY` in `public/api/config.php`).
+match `ADMIN_API_KEY` in `public/api/config.php`, or the committed fallback in
+`public/api/leads.php` / `telecalls.php`). The admin key is **rotated in prompt
+10** — when deploying, any live `public/api/config.php` must set the same
+`ADMIN_API_KEY` value as `.env`.
+
+## Enquiry Form
+
+The single enquiry form is `src/components/common/UnifiedLeadForm/` (used by
+`LeadFormDrawer`, and by the Contact section from prompt 11). Its **"Interested
+In"** field is a grouped MUI `Select` built from the data layer — **Products**
+(the `productsData` categories) and **Services** (the `servicesData` names) plus
+a "General Enquiry" option — so the value stored under `service_interest` is the
+product/service label. Section tiles/rows open the drawer pre-filled: they pass
+`service_interest` through `openLeadDrawer(titleKey, extraData)` →
+`drawerConfig` → `LeadFormDrawer`'s `serviceInterest` prop →
+`UnifiedLeadForm`'s `prefill` prop, which preselects the matching option. The
+**State** field lists `locationData.servingStates` + "Other". Never rename the
+lead record keys — only labels/options change.
 
 ## Tele-Calling Module
 

@@ -11,6 +11,8 @@
    authoritative and the admin reads straight from it.
    ============================================ */
 
+import { siteConfig } from "../data/siteConfig";
+
 // =============================================
 // CONFIGURATION
 // Server-side lead storage endpoint. The admin panel reads leads from here,
@@ -19,6 +21,10 @@
 // endpoint lives elsewhere.
 // =============================================
 const LEADS_API_URL = process.env.REACT_APP_LEADS_API_URL || "/api/leads.php";
+
+// Phone number surfaced in user-facing fallback messages when a submission
+// cannot be saved. Sourced from siteConfig (single source of business truth).
+const CONTACT_PHONE = siteConfig.phoneDisplay;
 
 // Server-side tele-calling storage endpoint. Telecallers enter records from
 // inside the admin panel and they sync across every device, exactly like
@@ -43,10 +49,10 @@ const generateUUID = () => {
  * @param {string} leadData.name - Applicant's full name
  * @param {string} leadData.mobile - Mobile number (10 digits, +91 added separately)
  * @param {string} [leadData.email] - Email address (optional)
- * @param {string} leadData.service_interest - Selected B.E. course (legacy key — value is
- *   the course label, e.g. "B.E. — Computer Science & Engineering"). Kept as
+ * @param {string} leadData.service_interest - Selected interest (legacy key — value is
+ *   the product/service label, e.g. "Steel Doors", or "General Enquiry"). Kept as
  *   `service_interest` to preserve the existing admin panel mapping.
- * @param {string} leadData.state - Applicant's home state (NE India + "Other")
+ * @param {string} leadData.state - Enquirer's home state (NE India + "Other")
  * @param {string} [leadData.message] - Optional free-text question
  * @param {string} leadData.source - Form source identifier (e.g., 'hero-form', 'contact-form')
  * @returns {Promise<{success: boolean, duplicate?: boolean, message: string}>}
@@ -84,8 +90,7 @@ export const submitLeadToWebhook = async (leadData) => {
     console.error("[LeadsAPI] No lead endpoint configured");
     return {
       success: false,
-      message:
-        "Submissions aren't configured yet. Please call us at +91 8069645014.",
+      message: `Submissions aren't configured yet. Please call us at ${CONTACT_PHONE}.`,
     };
   }
 
@@ -114,8 +119,7 @@ export const submitLeadToWebhook = async (leadData) => {
     console.error("[LeadsAPI] create returned", response.status);
     return {
       success: false,
-      message:
-        "We couldn't submit your enquiry right now. Please try again or call us at +91 8069645014.",
+      message: `We couldn't submit your enquiry right now. Please try again or call us at ${CONTACT_PHONE}.`,
     };
   } catch (error) {
     // Network-level failure (offline, DNS error, etc.). Surface honestly so
@@ -123,8 +127,7 @@ export const submitLeadToWebhook = async (leadData) => {
     console.error("[LeadsAPI] create failed:", error);
     return {
       success: false,
-      message:
-        "Network error. Please check your connection and try again, or call us at +91 8069645014.",
+      message: `Network error. Please check your connection and try again, or call us at ${CONTACT_PHONE}.`,
     };
   }
 };
