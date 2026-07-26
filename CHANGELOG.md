@@ -277,3 +277,55 @@ the single unreleased version below as each prompt is merged.
   five rows now stack naturally on mobile. `swiper` becomes an unused dependency,
   pruned in prompt 14. Dropped the Framer-Motion card variants and the leftover
   course-flavored markup/CSS class names (`.courseCard` → service-row naming).
+
+### 09 — Stats band, Brands strip, Why-Choose-Us & FAQ
+
+**Added**
+- Added **BrandsSection** (`id="brands"`) — a calm partner-brands strip on white:
+  a centered eyebrow (`TRUSTED BRANDS WE DEAL IN`) + one quiet subtitle, then the
+  12 `brandsData` brands as a 6×2 grid (4×3 tablet, 2-col mobile) of hairline
+  cells. Each cell tries the brand logo from `/images/brands/<slug>.png` and, until
+  that file loads (via `onLoad`/`onError`), shows a styled text wordmark instead —
+  so no broken images or placeholders appear while the logo files are still being
+  collected; real logos are grayscale and colour on hover. Below the grid sits the
+  page's single mid-page CTA moment — "Looking for a specific brand or product?" +
+  a green **"Request a Quote"** button (`request-quote` drawer). `useReveal` fades
+  the header up; `useStaggerReveal` staggers the cells.
+- Added **WhyUsSection** (`id="why-us"`) — replacing the tabbed `FeaturesSection`:
+  a centered eyebrow (`WHY CHOOSE US`) + headline, then the 5 `featuresData` value
+  props as a single clean row (green Iconify icon on a `--color-accent-tint`
+  circle, title, short description) on white with generous padding. Tablet wraps to
+  3 + 2, mobile to a 2-col grid with the fifth prop full-width. `useReveal` +
+  `useStaggerReveal`, reduced-motion aware.
+- Added **FAQSection** (`id="faq"`) — a minimal accordion on `--color-bg-subtle`,
+  ~800px centered: eyebrow (`FREQUENTLY ASKED QUESTIONS`) + headline, then the 7
+  `faqData` entries as hairline-separated rows. Each question is a full-width
+  `button` with `aria-expanded` + `aria-controls`; a plus icon rotates 45° (GSAP)
+  and the answer panel tweens its height to/from `auto` with GSAP. One row is open
+  at a time; fully keyboard-accessible. The same `faqData` will feed the FAQPage
+  JSON-LD in prompt 12.
+- Wired `BrandsSection`, `WhyUsSection`, and `FAQSection` into `App.jsx` in order
+  after Services (Stats → Brands → Why-Us → FAQ → Contact) with lazy imports +
+  `ErrorBoundary`/`Suspense` wrappers + `useIdlePreload` entries, so the header
+  `#brands`, `#why-us`, and `#faq` anchors now resolve.
+
+**Changed**
+- Rebuilt **StatsSection** as a minimal, full-width deep-navy metrics band (no
+  section id — it is not a nav target): all 5 `statsData` metrics in one row with a
+  big white number (Inter 700, 56–72px) driven by **GSAP `useCountUp`** (honouring
+  the `10+` / `5000+` / `100%` prefix/suffix format, firing once on scroll into
+  view), a slate-on-dark label below, and thin vertical hairlines between items.
+  Wraps to a centered 2×2 + 1 grid on mobile. `useStaggerReveal` fades the items
+  up; counters render their final value instantly under `prefers-reduced-motion`.
+
+**Removed**
+- Deleted the tabbed **FeaturesSection** (folder + `App.jsx` lazy import,
+  `useIdlePreload` entry, and JSX/ErrorBoundary/Suspense block) — the category-tab
+  UI, awards timeline, and 3-category data model are all gone, replaced by
+  `WhyUsSection`.
+- Removed the recruiter logo wall (`placehold.co` URLs), the Apply CTA, the
+  `HEADLINE_STAT_IDS` filtering, and the CIT copy from `StatsSection`; it now uses
+  GSAP `useCountUp` instead of `AnimatedCounter` (the `AnimatedCounter` component
+  itself stays for now — prompt 14 deletes it if it is left unused).
+- Removed the temporary `featuresCategories` compatibility export from
+  `featuresData.js` (the 3-tab mirror added in prompt 04).

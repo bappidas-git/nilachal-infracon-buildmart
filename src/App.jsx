@@ -40,7 +40,9 @@ const AboutSection = lazy(() => import('./components/sections/AboutSection/About
 const ProductsSection = lazy(() => import('./components/sections/ProductsSection/ProductsSection'));
 const ServicesSection = lazy(() => import('./components/sections/ServicesSection/ServicesSection'));
 const StatsSection = lazy(() => import('./components/sections/StatsSection/StatsSection'));
-const FeaturesSection = lazy(() => import('./components/sections/FeaturesSection/FeaturesSection'));
+const BrandsSection = lazy(() => import('./components/sections/BrandsSection/BrandsSection'));
+const WhyUsSection = lazy(() => import('./components/sections/WhyUsSection/WhyUsSection'));
+const FAQSection = lazy(() => import('./components/sections/FAQSection/FAQSection'));
 const ContactSection = lazy(() => import('./components/sections/ContactSection/ContactSection'));
 
 // ===========================================
@@ -310,7 +312,9 @@ const useIdlePreload = () => {
         () => import('./components/sections/ProductsSection/ProductsSection'),
         () => import('./components/sections/ServicesSection/ServicesSection'),
         () => import('./components/sections/StatsSection/StatsSection'),
-        () => import('./components/sections/FeaturesSection/FeaturesSection'),
+        () => import('./components/sections/BrandsSection/BrandsSection'),
+        () => import('./components/sections/WhyUsSection/WhyUsSection'),
+        () => import('./components/sections/FAQSection/FAQSection'),
         () => import('./components/sections/ContactSection/ContactSection'),
       ];
 
@@ -433,14 +437,26 @@ const HomePageContent = () => {
         </ErrorBoundary>
 
         <ErrorBoundary>
-          <Suspense fallback={<SectionLoader height={500} variant="skeleton" />}>
+          <Suspense fallback={<SectionLoader height={300} variant="skeleton" />}>
             <StatsSection />
           </Suspense>
         </ErrorBoundary>
 
         <ErrorBoundary>
-          <Suspense fallback={<SectionLoader height={600} variant="skeleton" />}>
-            <FeaturesSection />
+          <Suspense fallback={<SectionLoader height={500} variant="skeleton" />}>
+            <BrandsSection />
+          </Suspense>
+        </ErrorBoundary>
+
+        <ErrorBoundary>
+          <Suspense fallback={<SectionLoader height={400} variant="skeleton" />}>
+            <WhyUsSection />
+          </Suspense>
+        </ErrorBoundary>
+
+        <ErrorBoundary>
+          <Suspense fallback={<SectionLoader height={500} variant="skeleton" />}>
+            <FAQSection />
           </Suspense>
         </ErrorBoundary>
 
