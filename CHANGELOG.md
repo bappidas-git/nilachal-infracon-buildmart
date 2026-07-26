@@ -1,10 +1,14 @@
 # Changelog
 
 All notable changes to the **Nilachal Infracon Private Limited** website. This
-project follows the rebuild prompt series in `prompts/`; entries accumulate under
-the single unreleased version below as each prompt is merged.
+project was rebuilt through the prompt series in `prompts/`; the entries below
+accumulate per prompt under the 1.0.0 release.
 
-## [1.0.0] — Unreleased — Nilachal Infracon rebuild
+Historical note: sections 01–13 describe removing the previous site's identity
+and tracking. They intentionally name what was removed and are kept verbatim as
+the rebuild record.
+
+## [1.0.0] — 2026-07-26 — Nilachal Infracon rebuild
 
 ### 01 — Project reset & new identity
 
@@ -507,3 +511,37 @@ the single unreleased version below as each prompt is merged.
   `.env`/`.env.example`, `TELECALLS_API_URL` from `getConfig()` in
   `webhookSubmit.js`, and its documentation from `CLAUDE.md`/`README.md`. Any
   deployed `api/data/telecalls.json` can be archived/deleted server-side.
+
+### 14 — Final cleanup, zero-trace audit & QA
+
+**Removed**
+- Dead files left over from the migration (all grep-verified unimported before
+  deletion): the empty `src/hooks/useLocalStorage.js` and `src/utils/helpers.js`,
+  the superseded `src/hooks/useInView.js` and `src/hooks/useScrollPosition.js`,
+  `src/utils/formatters.js`, and the unused components
+  `src/components/common/AnimatedCounter/`, `Card/`, and `SectionTitle/`
+  (GSAP hooks and section-local markup replaced them all). `Button/` stays —
+  `UnifiedLeadForm` renders it.
+- Six unused dependencies: `swiper`, `canvas-confetti`,
+  `react-intersection-observer`, `sweetalert2-react-content`, `@mui/lab`, and
+  `@mui/icons-material` (icons are Iconify `mdi:*`; alerts use plain
+  `sweetalert2`). `framer-motion` and `web-vitals` stay — both are still used.
+- Dead env plumbing: `REACT_APP_NAME`, `REACT_APP_SALES_PHONE`,
+  `REACT_APP_WHATSAPP_NUMBER`, `REACT_APP_SALES_EMAIL`, and
+  `REACT_APP_HERO_VIDEO_URL` from `.env`/`.env.example` and the docs — no code
+  reads them (business facts live in `src/data/siteConfig.js`). The app reads
+  exactly four env vars: admin username/password + leads API URL/key.
+
+**Changed**
+- Zero-trace pass: reworded the two English-word grep false-positives
+  ("explicit" in `responsive.css` / `SEO_GUIDE.md`), swept the remaining
+  "Landing Page Boilerplate" file headers, and updated the admin Developer &
+  SEO guides (tech-stack table now lists GSAP; boilerplate clone URL, stale
+  Swiper/Confetti/video rows, and unused env rows removed; structure listing
+  matches the final tree).
+- Docs final pass: `CUSTOMIZATION_GUIDE.md` rewritten as the Nilachal
+  maintenance guide (content editing via `src/data/*`, brand tokens, logo swap,
+  admin credentials, PHP deploy steps with the `config.php` `ADMIN_API_KEY`
+  pairing, SPA redirect rules per host, post-deploy checklist);
+  `README.md`/`CLAUDE.md` updated to the final codebase (rebuild banners
+  retired, env reference corrected); this changelog dated for release.

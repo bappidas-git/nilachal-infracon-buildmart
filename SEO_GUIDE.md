@@ -182,7 +182,7 @@ npm run generate:og      # → public/og-image.png (1200×630)
 
 - Lazy-loaded, code-split sections (`React.lazy()`), skeleton loaders (low CLS).
 - Inter font preloaded with async swap; preconnect to font + Iconify hosts.
-- Images set explicit `width`/`height`/`alt` and `loading="lazy"`.
+- Images always declare `width`/`height`/`alt` and `loading="lazy"`.
 - Core Web Vitals tracked via `src/reportWebVitals.js`.
 - Single `<h1>` (hero), `<h2>` per section, `<h3>` for card/pillar titles.
 

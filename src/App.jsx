@@ -1,5 +1,5 @@
 /* ============================================
-   App Component - Landing Page Boilerplate
+   App Component — Nilachal Infracon
    Main application component with providers,
    lazy loading, and performance optimizations
    ============================================ */
@@ -562,17 +562,6 @@ const App = () => {
     // Only scroll to top if there's no hash in the URL
     if (!window.location.hash) {
       window.scrollTo(0, 0);
-    }
-  }, []);
-
-  // Register service worker for offline capability (if available)
-  useEffect(() => {
-    if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js').catch(() => {
-          // Service worker registration failed
-        });
-      });
     }
   }, []);
 

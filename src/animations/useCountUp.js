@@ -5,7 +5,7 @@
    the formatted value into the element's textContent.
    Supports prefix / suffix (e.g. '10+', '100%',
    '₹50,000'). Respects reduced motion (jumps to final
-   value). Will replace AnimatedCounter usage in prompt 09.
+   value).
    ============================================ */
 
 import { useRef } from 'react';

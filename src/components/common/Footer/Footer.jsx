@@ -270,7 +270,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.whatsappChip}
-                  aria-label={`Chat with ${siteConfig.brandName} on WhatsApp`}
+                  aria-label={`WhatsApp Us — chat with ${siteConfig.brandName}`}
                 >
                   <Icon icon="mdi:whatsapp" />
                   <span>WhatsApp Us</span>

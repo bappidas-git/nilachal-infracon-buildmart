@@ -874,6 +874,12 @@ const UnifiedLeadForm = ({
                 }
                 MenuProps={selectMenuProps}
                 inputProps={{ "aria-label": "Interested in" }}
+                SelectDisplayProps={{
+                  "aria-describedby":
+                    touched.service_interest && errors.service_interest
+                      ? `${formId}-service-interest-error`
+                      : undefined,
+                }}
                 sx={selectSx}
               >
                 {INTEREST_GROUPS.map((group) => [
@@ -892,7 +898,9 @@ const UnifiedLeadForm = ({
                 <MenuItem value={GENERAL_ENQUIRY}>{GENERAL_ENQUIRY}</MenuItem>
               </Select>
               {touched.service_interest && errors.service_interest && (
-                <FormHelperText>{errors.service_interest}</FormHelperText>
+                <FormHelperText id={`${formId}-service-interest-error`}>
+                  {errors.service_interest}
+                </FormHelperText>
               )}
             </FormControl>
           </motion.div>
@@ -932,6 +940,12 @@ const UnifiedLeadForm = ({
                 }
                 MenuProps={selectMenuProps}
                 inputProps={{ "aria-label": "State" }}
+                SelectDisplayProps={{
+                  "aria-describedby":
+                    touched.state && errors.state
+                      ? `${formId}-state-error`
+                      : undefined,
+                }}
                 sx={selectSx}
               >
                 {STATE_OPTIONS.map((option) => (
@@ -941,7 +955,9 @@ const UnifiedLeadForm = ({
                 ))}
               </Select>
               {touched.state && errors.state && (
-                <FormHelperText>{errors.state}</FormHelperText>
+                <FormHelperText id={`${formId}-state-error`}>
+                  {errors.state}
+                </FormHelperText>
               )}
             </FormControl>
           </motion.div>

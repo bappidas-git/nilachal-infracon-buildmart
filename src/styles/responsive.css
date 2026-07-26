@@ -1,5 +1,5 @@
 /* ============================================
-   Responsive Styles - Landing Page Boilerplate
+   Responsive Styles — Nilachal Infracon
    Franchise Landing Page
    ============================================ */
 
@@ -440,7 +440,7 @@
 /* ========== Dark Mode Media Query ========== */
 @media (prefers-color-scheme: dark) {
   /* Auto dark mode styles could go here */
-  /* Currently disabled - using explicit theme toggle */
+  /* Currently disabled - using the manual theme toggle */
 }
 
 /* ========== Reduced Motion ========== */

@@ -24,7 +24,7 @@ const SEOSetupGuide = ({ styles }) => {
         <h3 className={styles.guideSubtitle}>Update the Title Tag</h3>
         <ol className={styles.guideStepList}>
           <li className={styles.guideStepItem}>
-            Find line ~171: <code className={styles.guideInlineCode}>{`<title>Your Business Name | Landing Page</title>`}</code>
+            Find the <code className={styles.guideInlineCode}>{`<title>`}</code> tag near the top of the SEO block
           </li>
           <li className={styles.guideStepItem}>
             Replace with your actual title (keep under 60 characters)
@@ -201,7 +201,7 @@ localBusiness.geo       → Nagaon office latitude and longitude (get from Googl
       <h2 className={styles.guideTitle}>7. Performance SEO (Already Handled)</h2>
       <div className={styles.guideSection}>
         <p className={styles.guideParagraph}>
-          The landing page boilerplate already includes these performance optimizations — no action needed:
+          The site already includes these performance optimizations — no action needed:
         </p>
         <ul style={{ paddingLeft: '24px', marginBottom: '16px' }}>
           <li className={styles.guideStepItem}>Lazy loading of below-the-fold sections</li>

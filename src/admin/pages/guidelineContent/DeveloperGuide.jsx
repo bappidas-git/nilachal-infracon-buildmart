@@ -30,9 +30,14 @@ const DeveloperGuide = ({ styles }) => {
               <td className={styles.guideTableCell}>Component library</td>
             </tr>
             <tr>
+              <td className={styles.guideTableCell}>GSAP + ScrollTrigger</td>
+              <td className={styles.guideTableCell}>v3.15</td>
+              <td className={styles.guideTableCell}>Page-section animations (reveals, counters, parallax)</td>
+            </tr>
+            <tr>
               <td className={styles.guideTableCell}>Framer Motion</td>
               <td className={styles.guideTableCell}>v11</td>
-              <td className={styles.guideTableCell}>Animations and transitions</td>
+              <td className={styles.guideTableCell}>Drawer/modal mechanics + hover micro-interactions</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}>React Router</td>
@@ -53,16 +58,6 @@ const DeveloperGuide = ({ styles }) => {
               <td className={styles.guideTableCell}>SweetAlert2</td>
               <td className={styles.guideTableCell}>v11</td>
               <td className={styles.guideTableCell}>Success/error alert modals</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}>Swiper</td>
-              <td className={styles.guideTableCell}>v11</td>
-              <td className={styles.guideTableCell}>Mobile carousels</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}>Canvas Confetti</td>
-              <td className={styles.guideTableCell}>v1.9</td>
-              <td className={styles.guideTableCell}>Thank You page confetti</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}>Web Vitals</td>
@@ -94,13 +89,14 @@ const DeveloperGuide = ({ styles }) => {
 │   │   ├── pages/            # Dashboard, LeadManagement, LeadDetail, Guideline
 │   │   │   └── guidelineContent/  # Tab content components for Guideline page
 │   │   └── utils/            # adminAuth, leadService, leadStatus
+│   ├── animations/           # GSAP + ScrollTrigger hooks: useReveal, useStaggerReveal, useCountUp, useParallax
 │   ├── components/
-│   │   ├── common/           # Reusable: Header, Footer, LeadForm, Button, Card, Modal, etc.
-│   │   └── sections/         # Page sections: Hero, About, Services, Features, CTA, etc.
+│   │   ├── common/           # Reusable: Header, Footer, UnifiedLeadForm, LeadFormDrawer, Button, etc.
+│   │   └── sections/         # Page sections: Hero, About, Products, Services, Stats, Brands, WhyUs, FAQ, Contact
 │   ├── config/               # seo.js (SEO configuration)
-│   ├── context/              # ModalContext (drawer/modal state), ThemeContext
-│   ├── data/                 # Content data: services, features, stats, locations
-│   ├── hooks/                # Custom hooks: useInView, useMediaQuery
+│   ├── context/              # ModalContext (enquiry drawer state), ThemeContext
+│   ├── data/                 # Content data: siteConfig, products, services, stats, brands, features, about, faq, location
+│   ├── hooks/                # Custom hooks: useMediaQuery
 │   ├── pages/                # Full pages: ThankYou
 │   ├── styles/               # Global CSS: variables.css, global.css, animations.css, responsive.css
 │   ├── theme/                # MUI theme configuration (muiTheme.js)
@@ -123,8 +119,8 @@ const DeveloperGuide = ({ styles }) => {
 
         <pre className={styles.guideCode}>
 {`# 1. Clone the repository
-git clone https://github.com/your-org/landing-page-boilerplate.git
-cd landing-page-boilerplate
+git clone https://github.com/bappidas-git/nilachal-infracon-buildmart.git
+cd nilachal-infracon-buildmart
 
 # 2. Install dependencies
 npm install
@@ -142,15 +138,15 @@ npm start
         </pre>
 
         <div className={styles.guideNote}>
-          <strong>Note:</strong> Make sure you have Node.js (v16+) and npm installed before starting. Edit the <code className={styles.guideInlineCode}>.env</code> file with your business details before deploying.
+          <strong>Note:</strong> Make sure you have Node.js (v16+) and npm installed before starting. Set the admin credentials and leads admin key in <code className={styles.guideInlineCode}>.env</code> before deploying.
         </div>
       </div>
 
-      {/* Section 4: Key Files to Modify for a New Landing Page */}
-      <h2 className={styles.guideTitle}>4. Key Files to Modify for a New Landing Page</h2>
+      {/* Section 4: Key Files to Modify */}
+      <h2 className={styles.guideTitle}>4. Key Files to Modify</h2>
       <div className={styles.guideSection}>
         <p className={styles.guideParagraph}>
-          When creating a new landing page from this boilerplate, these are the files you need to update:
+          When updating site content or branding, these are the files to touch:
         </p>
 
         <table className={styles.guideTable}>
@@ -164,8 +160,8 @@ npm start
           <tbody>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>.env</code></td>
-              <td className={styles.guideTableCell}>Business name, phone, email, admin credentials</td>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_NAME="Nilachal Infracon"</code></td>
+              <td className={styles.guideTableCell}>Admin credentials + leads API URL/key</td>
+              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_ADMIN_USERNAME</code></td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/data/servicesData.js</code></td>
@@ -223,14 +219,9 @@ npm start
               <td className={styles.guideTableCell}>Your headlines, descriptions</td>
             </tr>
             <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/components/common/Header/Header.jsx</code></td>
-              <td className={styles.guideTableCell}>Logo URL</td>
-              <td className={styles.guideTableCell}>Your logo image URL</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/components/common/Footer/Footer.jsx</code></td>
-              <td className={styles.guideTableCell}>Footer links, contact, logo</td>
-              <td className={styles.guideTableCell}>Your footer content</td>
+              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>src/data/siteConfig.js</code></td>
+              <td className={styles.guideTableCell}>Company facts, contact details, logo URLs</td>
+              <td className={styles.guideTableCell}>Header/Footer/drawer read logo + contacts from here</td>
             </tr>
           </tbody>
         </table>
@@ -373,7 +364,7 @@ Navigate to /thank-you`}
       <h2 className={styles.guideTitle}>8. Environment Variables Reference</h2>
       <div className={styles.guideSection}>
         <p className={styles.guideParagraph}>
-          Complete list of all <code className={styles.guideInlineCode}>.env</code> variables used in this project:
+          Complete list of the <code className={styles.guideInlineCode}>.env</code> variables the app reads (company/contact facts live in <code className={styles.guideInlineCode}>src/data/siteConfig.js</code>, not <code className={styles.guideInlineCode}>.env</code>):
         </p>
 
         <table className={styles.guideTable}>
@@ -387,12 +378,6 @@ Navigate to /thank-you`}
           </thead>
           <tbody>
             <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_NAME</code></td>
-              <td className={styles.guideTableCell}>Yes</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Business name displayed on the page</td>
-            </tr>
-            <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_ADMIN_USERNAME</code></td>
               <td className={styles.guideTableCell}>Yes</td>
               <td className={styles.guideTableCell}>Set in <code className={styles.guideInlineCode}>.env</code></td>
@@ -403,30 +388,6 @@ Navigate to /thank-you`}
               <td className={styles.guideTableCell}>Yes</td>
               <td className={styles.guideTableCell}>Set in <code className={styles.guideInlineCode}>.env</code></td>
               <td className={styles.guideTableCell}>Admin login password (never commit a real one to docs)</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_SALES_PHONE</code></td>
-              <td className={styles.guideTableCell}>Yes</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Sales phone number</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_WHATSAPP_NUMBER</code></td>
-              <td className={styles.guideTableCell}>Yes</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>WhatsApp number (no dashes)</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_SALES_EMAIL</code></td>
-              <td className={styles.guideTableCell}>Yes</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Sales email</td>
-            </tr>
-            <tr>
-              <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_HERO_VIDEO_URL</code></td>
-              <td className={styles.guideTableCell}>No</td>
-              <td className={styles.guideTableCell}>—</td>
-              <td className={styles.guideTableCell}>Hero background video URL</td>
             </tr>
             <tr>
               <td className={styles.guideTableCell}><code className={styles.guideInlineCode}>REACT_APP_LEADS_API_URL</code></td>
@@ -450,24 +411,23 @@ Navigate to /thank-you`}
       <h2 className={styles.guideTitle}>9. DO NOT MODIFY List</h2>
       <div className={styles.guideSection}>
         <p className={styles.guideParagraph}>
-          These files and features should not be changed when customizing for a new landing page:
+          These files and features should not be changed when maintaining the site:
         </p>
 
         <ul className={styles.guideList}>
           <li className={styles.guideListItem}>Component structure and layout patterns</li>
-          <li className={styles.guideListItem}>Animation system (Framer Motion variants)</li>
+          <li className={styles.guideListItem}>Animation system (GSAP + ScrollTrigger hooks in <code className={styles.guideInlineCode}>src/animations/</code>)</li>
           <li className={styles.guideListItem}>Form validation logic (<code className={styles.guideInlineCode}>validators.js</code>)</li>
           <li className={styles.guideListItem}>Lead submission flow (<code className={styles.guideInlineCode}>webhookSubmit.js</code> — posts to the server store; usually leave as-is)</li>
           <li className={styles.guideListItem}>SweetAlert configuration (<code className={styles.guideInlineCode}>swalHelper.js</code>)</li>
           <li className={styles.guideListItem}>Mobile navigation mechanics (<code className={styles.guideInlineCode}>MobileNavigation</code>, <code className={styles.guideInlineCode}>MobileDrawer</code>)</li>
           <li className={styles.guideListItem}>Drawer/modal behavior (<code className={styles.guideInlineCode}>ModalContext</code>)</li>
-          <li className={styles.guideListItem}>Video background system</li>
           <li className={styles.guideListItem}>Lead API contract and admin sync mechanics (cache/poll/BroadcastChannel)</li>
           <li className={styles.guideListItem}>Persisted lead status keys and lead record field keys</li>
         </ul>
 
         <div className={styles.guideNoteWarning}>
-          <strong>Warning:</strong> Modifying these core files may break functionality across all landing pages built from this boilerplate. If changes are needed, create new components instead of modifying existing ones.
+          <strong>Warning:</strong> Modifying these core files may break the enquiry form, the admin panel, or the sync between them. If changes are needed, create new components instead of modifying existing ones.
         </div>
       </div>
 

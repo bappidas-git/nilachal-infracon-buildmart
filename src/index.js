@@ -138,24 +138,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ===========================================
-// Service Worker Registration (PWA)
-// ===========================================
-
-// Register service worker for offline support
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/service-worker.js')
-      .then((registration) => {
-        console.log('SW registered:', registration.scope);
-      })
-      .catch((error) => {
-        console.log('SW registration failed:', error);
-      });
-  });
-}
-
-// ===========================================
 // Hot Module Replacement (Development)
 // ===========================================
 

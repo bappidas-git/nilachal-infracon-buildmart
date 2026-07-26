@@ -1,5 +1,5 @@
 /* ============================================
-   Validators - Landing Page Boilerplate
+   Validators — Nilachal Infracon
    Form validation utilities
    ============================================ */
 

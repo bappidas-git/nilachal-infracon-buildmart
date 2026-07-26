@@ -11,12 +11,11 @@ that feeds a server-side lead store, and an admin panel with a **Dashboard** and
 **Lead Management**. Built with React 18 (CRA / react-scripts 5), Material UI v5,
 and CSS Modules.
 
-> **Rebuild in progress.** This repository is being converted from its previous
-> life (a legacy admissions landing page) into the Nilachal Infracon site
-> via an ordered prompt series in `prompts/`. Run the prompts one at a time, in
-> numeric order — see `prompts/README.md` for the plan and series-wide
-> conventions. Earlier prompts are assumed merged into `main` before later ones
-> run.
+> **Rebuild complete.** This repository was converted from its previous life
+> as an unrelated legacy landing page into the Nilachal Infracon site via the
+> ordered prompt series in `prompts/` (kept as the rebuild record — see
+> `prompts/README.md`). All fourteen prompts have run; treat the codebase
+> described below as the final state.
 
 ## Business Facts
 
@@ -62,7 +61,7 @@ _(Paths evolve across the rebuild series; update this list as later prompts move
 - `src/config/` — Site/SEO configuration
 - `src/context/` — React context providers (`ModalContext` drives the enquiry
   drawer; `ThemeContext`)
-- `src/hooks/` — Custom hooks (useInView, useMediaQuery, etc.)
+- `src/hooks/` — Custom hooks (useMediaQuery)
 - `src/utils/` — Utility functions (webhook submit, validators, etc.)
 - `src/admin/` — Admin panel (components, pages, context, utils)
 - `src/pages/` — Full pages (ThankYou)
@@ -79,9 +78,9 @@ tabs in sync), so every browser and device sees the same leads.
 **There is no localStorage copy of leads.** Configure with
 `REACT_APP_LEADS_API_URL` + `REACT_APP_LEADS_ADMIN_KEY` in `.env` (the key must
 match `ADMIN_API_KEY` in `public/api/config.php`, or the committed fallback in
-`public/api/leads.php`). The admin key is **rotated in prompt
-10** — when deploying, any live `public/api/config.php` must set the same
-`ADMIN_API_KEY` value as `.env`.
+`public/api/leads.php`). The admin key was **rotated during the rebuild**
+(prompt 10) — when deploying, any live `public/api/config.php` must set the
+same `ADMIN_API_KEY` value as `.env`.
 
 ## Enquiry Form
 

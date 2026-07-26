@@ -1,5 +1,5 @@
 /* ============================================
-   Theme Context - Landing Page Boilerplate
+   Theme Context — Nilachal Infracon
    Handles theme preferences (light/dark mode)
    ============================================ */
 
