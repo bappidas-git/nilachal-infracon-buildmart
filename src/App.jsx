@@ -4,13 +4,20 @@
    lazy loading, and performance optimizations
    ============================================ */
 
-import React, { Suspense, lazy, useEffect, useState, memo } from 'react';
+import React, { Suspense, lazy, useEffect, useState, useRef, memo } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { CircularProgress, useMediaQuery, useTheme, Skeleton, Box } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Icon } from '@iconify/react';
 
 // App Styles
 import './App.css';
+
+// Animation foundation (GSAP)
+import { gsap, prefersReducedMotion } from './animations';
+
+// Business config (single source of truth)
+import { siteConfig, waHref } from './data/siteConfig';
 
 // Context Providers
 import { ThemeProvider as CustomThemeProvider } from './context/ThemeContext';
@@ -20,7 +27,6 @@ import { ModalProvider, useModal } from './context/ModalContext';
 import Header from './components/common/Header/Header';
 import HeroSection from './components/sections/HeroSection/HeroSection';
 import Footer from './components/common/Footer/Footer';
-import Modal from './components/common/Modal/Modal';
 import MobileNavigation from './components/common/MobileNavigation/MobileNavigation';
 import MobileDrawer from './components/common/MobileDrawer/MobileDrawer';
 import LeadFormDrawer from './components/common/LeadFormDrawer/LeadFormDrawer';
@@ -260,28 +266,10 @@ const BackToTopButton = memo(() => {
           initial={{ opacity: 0, scale: 0.5, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.5, y: 20 }}
-          whileHover={{ scale: 1.1, backgroundColor: '#0F2438' }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
           onClick={scrollToTop}
-          style={{
-            position: 'fixed',
-            bottom: '100px',
-            right: '20px',
-            width: '48px',
-            height: '48px',
-            borderRadius: '50%',
-            backgroundColor: '#16324F',
-            color: '#FFFFFF',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            cursor: 'pointer',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            zIndex: 1000,
-          }}
+          className="back-to-top"
           aria-label="Back to top"
         >
           <svg
@@ -299,6 +287,57 @@ const BackToTopButton = memo(() => {
 });
 
 BackToTopButton.displayName = 'BackToTopButton';
+
+// ===========================================
+// Floating WhatsApp Button (desktop only)
+// Mobile already has WhatsApp in the bottom nav. Appears (GSAP) once
+// the user scrolls past the hero; links to wa.me from siteConfig.
+// ===========================================
+const WhatsAppFab = memo(() => {
+  const fabRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      // Reveal after scrolling roughly one hero-height down.
+      setIsVisible(window.pageYOffset > window.innerHeight * 0.8);
+    };
+    toggleVisibility();
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  useEffect(() => {
+    const el = fabRef.current;
+    if (!el) return;
+    if (prefersReducedMotion()) {
+      gsap.set(el, { autoAlpha: isVisible ? 1 : 0, scale: 1 });
+      return;
+    }
+    gsap.to(el, {
+      autoAlpha: isVisible ? 1 : 0,
+      scale: isVisible ? 1 : 0.6,
+      duration: 0.3,
+      ease: 'power3.out',
+    });
+  }, [isVisible]);
+
+  return (
+    <a
+      ref={fabRef}
+      href={waHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="whatsapp-fab"
+      aria-label={`Chat with ${siteConfig.brandName} on WhatsApp`}
+      style={{ visibility: 'hidden', opacity: 0 }}
+    >
+      <Icon icon="mdi:whatsapp" aria-hidden="true" />
+    </a>
+  );
+});
+
+WhatsAppFab.displayName = 'WhatsAppFab';
 
 // ===========================================
 // Preload Manager - Preload sections on idle
@@ -491,8 +530,8 @@ const HomePageContent = () => {
       {/* Back to Top Button */}
       <BackToTopButton />
 
-      {/* Global Modal */}
-      <Modal />
+      {/* Floating WhatsApp button — desktop only (mobile uses the bottom nav) */}
+      {!isMobile && <WhatsAppFab />}
     </>
   );
 };

@@ -38,14 +38,19 @@ Single source of truth for identity details used across the site, SEO, and docs:
 
 _(Paths evolve across the rebuild series; update this list as later prompts move things.)_
 
-- `src/components/sections/` — Page sections. Currently mounted on the one-pager:
-  `HeroSection`, `AboutSection` (Welcome + Mission/Vision/Values/Commitment),
-  `ProductsSection` (North East Buildmart product categories),
-  `ServicesSection` (construction & infrastructure services),
-  `StatsSection` (dark metrics band), `BrandsSection` (partner-brand strip +
-  mid-page CTA), `WhyUsSection` (why-choose-us value props),
-  `FAQSection` (FAQ accordion), `ContactSection` (Contact is rebuilt in 11)
-- `src/components/common/` — Reusable components (Header, Footer, LeadForm, etc.)
+- `src/components/sections/` — Page sections, in final one-pager order (anchor
+  ids in parentheses):
+  `HeroSection` (`#home`), `AboutSection` (`#about` — Welcome +
+  Mission/Vision/Values/Commitment), `ProductsSection` (`#products` — North East
+  Buildmart product categories), `ServicesSection` (`#services` — construction &
+  infrastructure services), `StatsSection` (dark metrics band, no anchor),
+  `BrandsSection` (`#brands` — partner-brand strip + mid-page CTA),
+  `WhyUsSection` (`#why-us` — why-choose-us value props),
+  `FAQSection` (`#faq` — FAQ accordion), `ContactSection` (`#contact` — Get in
+  Touch: contact rows + lazy Google-Maps embed + serving-state pills, and the
+  embedded `UnifiedLeadForm`). Header scroll offset is 80px.
+- `src/components/common/` — Reusable components (Header, Footer,
+  UnifiedLeadForm, LeadFormDrawer, etc.)
 - `src/data/` — Centralized content layer. `siteConfig.js` is the **single
   source of business truth** (company/contact facts + `telHref` / `waHref` /
   `mailHref` / `fullAddress` helpers) — never hardcode contact/company facts in
@@ -55,7 +60,8 @@ _(Paths evolve across the rebuild series; update this list as later prompts move
   `aboutData.js` (welcome + Mission/Vision/Values/Commitment), `faqData.js`,
   `locationData.js` (office + states served, derived from `siteConfig`).
 - `src/config/` — Site/SEO configuration
-- `src/context/` — React context providers (Modal, Theme)
+- `src/context/` — React context providers (`ModalContext` drives the enquiry
+  drawer; `ThemeContext`)
 - `src/hooks/` — Custom hooks (useInView, useMediaQuery, etc.)
 - `src/utils/` — Utility functions (webhook submit, validators, etc.)
 - `src/admin/` — Admin panel (components, pages, context, utils)
