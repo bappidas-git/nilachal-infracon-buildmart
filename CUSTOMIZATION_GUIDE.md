@@ -1,202 +1,191 @@
-# Customization Guide
+# Nilachal Infracon — Maintenance Guide
 
-A step-by-step guide to create a new landing page from this boilerplate.
+How to keep the Nilachal Infracon website up to date: changing copy, branding,
+credentials, and deploying. Written for whoever maintains the site after
+launch.
 
-## 1. Clone & Install
+> **Golden rule:** business facts (name, phone, email, address, logos, CIN,
+> site URL) live in **`src/data/siteConfig.js`** — the single source of truth.
+> Components, the footer, the contact section, and the SEO layer all read from
+> it. Never hardcode a phone number or address in a component.
 
-```bash
-git clone <your-repo-url> my-landing-page
-cd my-landing-page
-npm install
+## 1. Changing Site Copy & Content
+
+All structured content lives in `src/data/`. Edit the file, run `npm start` to
+check, then rebuild and redeploy.
+
+| File | Drives | Notes |
+|------|--------|-------|
+| `siteConfig.js` | Company facts, contact details, logo URLs, maps query | Also feeds SEO schemas + helpers `telHref`/`waHref`/`mailHref`/`fullAddress` |
+| `productsData.js` | North East Buildmart product categories (`#products`) | Category labels also populate the enquiry form's "Interested In" options |
+| `servicesData.js` | Construction & infrastructure services (`#services`) | Service names also populate "Interested In" + the `schema-services` JSON-LD |
+| `statsData.js` | Dark metrics band (counters) | Numbers animate via `useCountUp` |
+| `brandsData.js` | Partner-brand strip (`#brands`) | Logo files are optional — see `public/images/brands/README.md` |
+| `featuresData.js` | Why-choose-us points (`#why-us`) | |
+| `aboutData.js` | Welcome + Mission/Vision/Values/Commitment (`#about`) | |
+| `faqData.js` | FAQ accordion (`#faq`) | **Must stay in sync** with the static `#schema-faq` block in `public/index.html` (Google requires the FAQPage schema to match the visible FAQs) |
+| `locationData.js` | Office + serving states (contact section pills, State dropdown) | Derives contact facts from `siteConfig` |
+
+Section headlines and short paragraphs that aren't data-driven are hardcoded in
+the section components under `src/components/sections/`.
+
+**After editing content that appears in schemas** (`siteConfig`, `faqData`,
+`servicesData`): mirror the change in the static JSON-LD blocks in
+`public/index.html` (see `SEO_GUIDE.md`).
+
+## 2. Brand Colors & Typography
+
+Design tokens live in **`src/styles/variables.css`** and are mirrored in
+**`src/theme/muiTheme.js`** (keep the two in sync):
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--color-primary` | `#16324F` | Deep steel navy — headings, header, footer |
+| `--color-primary-dark` | `#0F2438` | Darkest navy — footer bg, hero scrim |
+| `--color-accent` | `#1E7B45` | Nilachal green — CTAs, highlights, links |
+| `--color-accent-dark` | `#176437` | CTA hover |
+| `--color-accent-tint` | `#E8F5EE` | Light green wash for chips/backgrounds |
+| `--color-ink` | `#101C29` | Body headings text |
+| `--color-slate` | `#4A5A6A` | Secondary text |
+| `--color-bg-subtle` | `#F5F7FA` | Alternating section background |
+| `--color-border` | `#E5EAF0` | Thin 1px borders |
+
+Notes:
+
+- Green is used **sparingly** (primary CTAs and key highlights only) — that
+  restraint is the design system.
+- Legacy alias names (`--accent-gold*` → navy, `--accent-orange*` /
+  `--accent-amber*` → green) are kept so older `.module.css` references stay
+  valid. Don't delete them.
+- Admin panel colors are the separate `--admin-*` block in `variables.css`.
+- Typography is **Inter** everywhere (weights 300–800), loaded in
+  `public/index.html`.
+
+## 3. Swapping the Logo
+
+1. Upload the new logo (color + white variants) to your CDN/Cloudinary.
+2. Update `logo` (light backgrounds) and `logoWhite` (dark backgrounds) in
+   `src/data/siteConfig.js` — the header, footer, mobile drawer, and admin
+   login all read from there.
+3. Update the splash-loader `<img>` and the JSON-LD `logo` URLs in
+   `public/index.html` (they are static and set separately).
+4. Regenerate favicons/PWA icons and the OG image from the new logo:
+   ```bash
+   npm run generate:icons   # favicon.ico/png, logo192/512, apple-touch-icon
+   npm run generate:og      # og-image.png (1200×630)
+   ```
+5. Rebuild and redeploy.
+
+## 4. Admin Panel Credentials
+
+Set in `.env` (baked in at build time — rebuild after changing):
+
+```env
+REACT_APP_ADMIN_USERNAME="..."
+REACT_APP_ADMIN_PASSWORD="..."   # 16+ chars, unique
 ```
 
-## 2. Configure Environment Variables
+> `.env` is committed in this repo (agency workflow), so treat anything in it
+> as exposed: use strong values and **rotate them before/after go-live**.
 
-Copy the example and fill in your business details:
+## 5. Lead Storage (the part that must not break)
 
-```bash
-cp .env.example .env
+Every enquiry is stored server-side by `public/api/leads.php` in a JSON file
+(`public/api/data/leads.json` on the server). The admin panel reads/writes only
+the server (15-second poll + BroadcastChannel between same-browser tabs), so
+every device sees the same leads. There is **no localStorage copy**.
+
+Client configuration (in `.env`):
+
+```env
+REACT_APP_LEADS_API_URL="/api/leads.php"
+REACT_APP_LEADS_ADMIN_KEY="<long random string>"
 ```
 
-Key variables to update:
+Server configuration: `REACT_APP_LEADS_ADMIN_KEY` must exactly match the
+server's `ADMIN_API_KEY`. The committed fallback key inside `leads.php` already
+matches the committed `.env`, so it works out of the box — but for production
+you should set your **own private pair**:
 
-| Variable | Description |
-|----------|-------------|
-| `REACT_APP_NAME` | Your business name |
-| `REACT_APP_PROJECT_NAME` | Project/product name |
-| `REACT_APP_SALES_PHONE` | Sales phone number |
-| `REACT_APP_WHATSAPP_NUMBER` | WhatsApp number (no dashes) |
-| `REACT_APP_SALES_EMAIL` | Sales email address |
-| `REACT_APP_OFFICE_ADDRESS` | Full office address |
-| `REACT_APP_ADMIN_USERNAME` | Admin panel username (default: `monjoven`) |
-| `REACT_APP_ADMIN_PASSWORD` | Admin panel password (default: `monjoven@2026vip`) |
-| `REACT_APP_LEADS_API_URL` | Path to `leads.php` (default: `/api/leads.php`). Required for Admin Panel. |
-| `REACT_APP_LEADS_ADMIN_KEY` | Key shared with the `leads.php` API so the Admin Panel can read leads from any device. Has a working default; override it (plus `ADMIN_API_KEY` on the server) for a private key. |
-
-## 3. Update Brand Colors
-
-Edit `src/styles/variables.css`:
-
-```css
-:root {
-  --primary-color: #2D3561;      /* Your primary brand color */
-  --secondary-color: #2EC4B6;    /* Your secondary/accent color */
-  --accent-warm: #FF6B35;        /* CTA button color */
-  --light-bg: #E0F7F5;           /* Light background tint */
-  --text-color: #1B2A4A;         /* Main text color */
-}
-```
-
-Also update `src/theme/muiTheme.js` to match:
-
-```js
-primary: { main: '#2D3561' },
-secondary: { main: '#2EC4B6' },
-```
-
-## 4. Update Content Data Files
-
-Edit the files in `src/data/`:
-
-### `servicesData.js`
-Define your service/plan cards with titles, descriptions, prices, and features.
-
-### `serviceDetailsData.js`
-Add detailed information for each service (used in expanded views).
-
-### `featuresData.js`
-Define feature categories and individual feature items with icons.
-
-### `statsData.js`
-Set key statistics (e.g., "500+ Clients", "10 Years Experience").
-
-### `locationData.js`
-Update your office location, contact details, and map coordinates.
-
-## 5. Update Section Content
-
-Edit hardcoded text in `src/components/sections/`:
-
-- **HeroSection** — Main headline, subheadline, CTA text
-- **AboutSection** — About your business
-- **ServicesSection** — Section title, subtitle
-- **FeaturesSection** — Section title, subtitle
-- **CTASection** — Call-to-action messaging
-- **ContactSection** — Contact form heading, address
-- **SecondaryCTASection** — Secondary CTA messaging
-
-## 6. Replace Placeholder Images
-
-Search for `placehold.co` across the codebase and replace with your actual images:
-
-```bash
-grep -r "placehold.co" src/ public/
-```
-
-Key images to replace:
-- **Logo**: `Header.jsx`, `Footer.jsx`, `MobileDrawer.jsx`, `public/index.html`
-- **Hero background**: `HeroSection.jsx` or `HeroSection.module.css`
-- **OG image**: `public/index.html` (og:image meta tag)
-- **Favicon**: `public/favicon.png`, `public/favicon.ico`
-- **PWA icons**: `public/apple-touch-icon.png`, update `public/manifest.json`
-
-## 7. Update SEO & Schemas
-
-### `public/index.html`
-- Update `<title>` tag
-- Update `<meta name="description">` 
-- Update Open Graph tags (`og:title`, `og:description`, `og:image`)
-- Update Twitter Card tags
-- Update `<link rel="canonical">` with your domain
-- Update all JSON-LD schemas (Organization, LocalBusiness, FAQPage, etc.)
-
-### `src/config/seo.js`
-Update the SEO configuration object with your business details. This drives the dynamic `SEOHead` component.
-
-### `public/robots.txt`
-Replace `yourbusiness.com` with your actual domain.
-
-### `public/sitemap.xml`
-Replace `yourbusiness.com` with your actual domain. Add additional pages as needed.
-
-### `public/manifest.json`
-Update `name`, `short_name`, and theme colors.
-
-See `SEO_GUIDE.md` for detailed SEO configuration.
-
-## 8. Configure Lead Storage (Lead Capture + Admin Panel)
-
-The Admin Panel (`/admin`) must be able to see leads submitted from **any** device. To do this, the project stores every lead on your server in a small JSON file via `public/api/leads.php`. The admin panel polls this endpoint, so a lead submitted on a phone shows up in the admin panel on your laptop within ~15 seconds.
-
-**This works out of the box** — `leads.php` ships with a built-in admin key that matches the `REACT_APP_LEADS_ADMIN_KEY` already in `.env`, so you do **not** need to create `config.php` just to use Lead Management.
-
-To lock the API down to your **own** private key (recommended for production), change the key in two places so they match:
-
-1. On your server, copy **`public/api/config.example.php`** to **`public/api/config.php`** and set `ADMIN_API_KEY` to a long random string (this overrides the built-in default):
+1. On the server, copy `public/api/config.example.php` → `public/api/config.php`
+   and set:
    ```php
-   define('ADMIN_API_KEY', 'Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE');
+   define('ADMIN_API_KEY', '<long random string>');
    ```
-   _(Alternatively, set a `LEADS_ADMIN_KEY` environment variable in your Cloudways application settings — no file needed.)_
-2. Put the **same value** in your project's `.env` file:
-   ```env
-   REACT_APP_LEADS_API_URL="/api/leads.php"
-   REACT_APP_LEADS_ADMIN_KEY="Zk8pQ3mX9yL2wN7bV5rT1jH6cD4fG0aE"
-   ```
-3. Run `npm run build` and redeploy (env values are baked in at build time).
+   (Alternatively set a `LEADS_ADMIN_KEY` environment variable in your hosting
+   panel — no file needed.)
+2. Put the **same value** in `.env` as `REACT_APP_LEADS_ADMIN_KEY`.
+3. `npm run build` and redeploy (env values are baked in at build time).
 
-Make sure the `public/api/data/` folder is writable by the PHP process (usually automatic on Cloudways/cPanel).
+**Do not modify** the `leads.php` request/response contract, the lead record
+field keys (`lead_id`, `name`, `mobile`, `email`, `service_interest`, `state`,
+`message`, `source`, `status`, `submitted_at`, `updated_at`, `notes[]`,
+`activity[]`), or the persisted status keys in `leadStatus.js` — the admin
+panel and CSV export bind to them. Labels can change; keys cannot.
 
-> **Requirement:** Your hosting must support PHP (Cloudways, Hostinger, cPanel, etc. all do). If you're on Netlify/Vercel (static only), host `leads.php` on any cheap PHP host and use the full URL in `REACT_APP_LEADS_API_URL`.
+## 6. Deploying
 
-> **Single source of truth:** Every lead — and every admin action (status change, note, delete) — flows through `/api/leads.php`. There is no localStorage copy of leads, so all browsers and devices stay in sync automatically.
+### Requirements
 
-## 9. Deploy
+- Any **PHP-capable** host (Cloudways, Hostinger, cPanel shared hosting…) —
+  PHP 7.4+ with file write permission. Static-only hosts (Netlify/Vercel) can
+  serve the site, but then `leads.php` must be hosted separately on a PHP host
+  and `REACT_APP_LEADS_API_URL` pointed at its full URL.
+
+### Steps
 
 ```bash
-# Build production bundle
-npm run build
-
-# The build/ folder is ready to deploy
+npm install
+npm run build        # outputs to build/
 ```
 
-Deploy to any static hosting:
-- **Netlify**: Drag and drop `build/` folder or connect Git repo
-- **Vercel**: Connect Git repo, set build command to `npm run build`
-- **AWS S3**: Upload `build/` contents to S3 bucket with static hosting
-- **cPanel**: Upload `build/` contents to `public_html/`
+1. Upload the **contents of `build/`** to the web root (e.g. `public_html/`).
+   The build already contains `api/leads.php` + `api/config.example.php`
+   (copied from `public/`).
+2. Create `api/config.php` on the server with your real `ADMIN_API_KEY`
+   (section 5). Never commit the real key to git.
+3. Verify `api/data/` is **writable** by PHP — `leads.php` creates it on first
+   run (with an `.htaccess` deny) — and that
+   `https://yourdomain/api/data/leads.json` is **not** downloadable
+   (should return 403). On Nginx, deny the location yourself:
+   `location ^~ /api/data/ { deny all; }`.
+4. Submit a test enquiry, confirm it appears in `/admin`, then delete it.
 
-### Important: SPA Routing
+### SPA redirect rules (required for `/thank-you` and `/admin`)
 
-Since this is a single-page app with client-side routing, configure your hosting to redirect all requests to `index.html`. Without this, direct URL access to `/thank-you` or `/admin` will return 404.
+Client-side routes 404 on direct access unless all paths serve `index.html`:
 
-- **Netlify**: Add `public/_redirects` with `/* /index.html 200`
-- **Vercel**: Handled automatically
-- **Apache**: Add `.htaccess` with `RewriteRule` to `index.html`
-- **Nginx**: Add `try_files $uri /index.html`
+- **Apache/cPanel** — `.htaccess` in the web root:
+  ```apache
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+  ```
+  (The `!-f` condition keeps `/api/leads.php` reachable.)
+- **Nginx** — `try_files $uri /index.html;` (plus the `/api/` PHP location block).
+- **Netlify** — `_redirects` file: `/*  /index.html  200` (API hosted elsewhere).
+- **Vercel** — automatic for CRA (API hosted elsewhere).
 
-## 10. Post-Deploy Verification
+### Post-deploy checklist
 
-After deployment, verify:
+- [ ] Site loads at the domain; all sections render
+- [ ] Enquiry form submits → lead visible in `/admin` from another device
+- [ ] Status change in admin persists after refresh
+- [ ] `/thank-you` and `/admin` load on direct URL access (SPA redirect works)
+- [ ] `api/data/leads.json` not publicly downloadable
+- [ ] Run the **post-launch SEO checklist** in `SEO_GUIDE.md` (Search Console
+      verification + sitemap submission)
 
-- [ ] Landing page loads at your domain
-- [ ] All sections render correctly
-- [ ] UnifiedLeadForm submissions work (check the Admin Panel / `api/data/leads.json`)
-- [ ] Thank You page shows after form submission
-- [ ] Admin panel accessible at `/admin`
-- [ ] SEO schemas validate (use [Google Rich Results Test](https://search.google.com/test/rich-results))
-- [ ] Mobile layout works correctly
-- [ ] No console errors in production
-
-## Quick Reference: File Locations
+## 7. Quick Reference
 
 | What to change | Where |
-|---------------|-------|
-| Business name / text | `src/data/*.js`, section components |
-| Brand colors | `src/styles/variables.css`, `src/theme/muiTheme.js` |
-| Logo | `Header.jsx`, `Footer.jsx`, `MobileDrawer.jsx`, `index.html` |
-| Contact info | `.env`, `src/data/locationData.js` |
-| SEO meta tags | `public/index.html`, `src/config/seo.js` |
-| Leads API endpoint | `src/utils/webhookSubmit.js` (default `/api/leads.php`) |
-| Lead Management API key | `public/api/config.php` (server) + `.env` (`REACT_APP_LEADS_ADMIN_KEY`) |
-| Admin credentials | `.env` |
-| Favicon / icons | `public/` directory |
+|----------------|-------|
+| Company/contact facts, logos | `src/data/siteConfig.js` (+ static blocks in `public/index.html`) |
+| Products / services / FAQs / stats / brands | `src/data/*.js` |
+| Brand colors | `src/styles/variables.css` + `src/theme/muiTheme.js` |
+| Admin credentials | `.env` (rebuild required) |
+| Leads API endpoint + key | `.env` ↔ `public/api/config.php` |
+| SEO meta/schemas | `src/config/seo.js` + `public/index.html` (see `SEO_GUIDE.md`) |
+| Sitemap/robots | `public/sitemap.xml`, `public/robots.txt` |
+| Favicons / OG image | `npm run generate:icons` / `npm run generate:og` |

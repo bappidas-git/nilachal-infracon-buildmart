@@ -1,5 +1,5 @@
 /* ============================================
-   Button Component - Landing Page Boilerplate
+   Button Component — Nilachal Infracon
    Reusable button with multiple variants and animations
    ============================================ */
 

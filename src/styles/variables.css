@@ -31,7 +31,7 @@
   --primary-dark-lighter: #6E86A0;
 
   /* ========== Accent (legacy `--accent-gold*`) — remapped to navy ==========
-     The boilerplate used `--accent-gold` for structural accents.
+     Older stylesheets used `--accent-gold` for structural accents.
      We map them all to Nilachal navy so existing CSS references stay valid
      and the page reads as steel navy. */
   --accent-gold: #16324F;

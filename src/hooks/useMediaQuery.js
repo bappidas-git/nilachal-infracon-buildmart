@@ -1,5 +1,5 @@
 /* ============================================
-   useMediaQuery Hook - Landing Page Boilerplate
+   useMediaQuery Hook — Nilachal Infracon
    Custom hook for responsive design
    ============================================ */
 

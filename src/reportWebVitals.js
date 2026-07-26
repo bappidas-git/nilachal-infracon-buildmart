@@ -1,6 +1,6 @@
 /* ============================================
    Web Vitals Performance Monitoring
-   Landing Page Boilerplate
+   Nilachal Infracon
 
    Measures Core Web Vitals:
    - CLS (Cumulative Layout Shift)

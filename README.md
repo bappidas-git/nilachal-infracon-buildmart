@@ -9,20 +9,21 @@ server-side store and a lightweight admin panel.
 
 Built and maintained by **Assam Digital**.
 
-> **Rebuild in progress.** This codebase is being converted from a previous
-> landing page into the Nilachal Infracon site through an ordered prompt series
-> in [`prompts/`](prompts/README.md). Execute the prompts one at a time, in
-> numeric order — each is designed to run in a fresh session and open its own
-> pull request. See `prompts/README.md` for the full plan and conventions.
+> The site was rebuilt from a previous landing page through the ordered prompt
+> series in [`prompts/`](prompts/README.md), kept as the rebuild record. The
+> series is complete — see [`CHANGELOG.md`](CHANGELOG.md) for everything it
+> changed.
 
 ## Tech Stack
 
 - **React 18** (CRA / `react-scripts` 5, concurrent features, lazy loading)
 - **Material UI v5** + **Emotion**
 - **CSS Modules** + CSS custom properties
-- **GSAP + ScrollTrigger** for public-page scroll animations _(introduced in prompt 03)_
+- **GSAP + ScrollTrigger** for all public-page scroll animations
+  (**Framer Motion** remains only for drawer/modal mechanics and small hover
+  micro-interactions)
 - **React Router v7**
-- **Iconify** (`mdi:*` icons), **SweetAlert2**, **Swiper**
+- **Iconify** (`mdi:*` icons), **SweetAlert2**
 - **PHP** server-side lead store (`public/api/leads.php`)
 - **Web Vitals** monitoring
 
@@ -56,17 +57,18 @@ Admin credentials are configured through `.env` (`REACT_APP_ADMIN_USERNAME` /
 │   └── sitemap.xml         # Sitemap
 ├── src/
 │   ├── admin/              # Admin panel (components, pages, context, utils)
+│   ├── animations/         # GSAP hooks: useReveal, useStaggerReveal, useCountUp, useParallax
 │   ├── components/
-│   │   ├── common/         # Header, Footer, LeadForm, navigation, etc.
-│   │   └── sections/       # Hero, About, Services, and other page sections
+│   │   ├── common/         # Header, Footer, UnifiedLeadForm, LeadFormDrawer, navigation, etc.
+│   │   └── sections/       # Hero, About, Products, Services, Stats, Brands, WhyUs, FAQ, Contact
 │   ├── config/             # Site / SEO configuration
-│   ├── context/            # ModalContext, ThemeContext
-│   ├── data/               # Content data files (edit these first)
-│   ├── hooks/              # useInView, useMediaQuery, and other hooks
+│   ├── context/            # ModalContext (enquiry drawer), ThemeContext
+│   ├── data/               # Content data files (edit these first; siteConfig.js = business truth)
+│   ├── hooks/              # useMediaQuery
 │   ├── pages/              # ThankYou page
 │   ├── styles/             # Global CSS, variables, animations, responsive
 │   ├── theme/              # MUI theme configuration
-│   └── utils/              # webhookSubmit, validators, and helpers
+│   └── utils/              # webhookSubmit, validators, seo, swalHelper
 ├── prompts/                # The rebuild prompt series (run in order)
 ├── .env.example            # Environment variables template
 ├── CHANGELOG.md            # Changelog
@@ -103,26 +105,24 @@ and `REACT_APP_LEADS_ADMIN_KEY`; the key must match `ADMIN_API_KEY` in
 ## Environment Variables
 
 `.env` is committed to the repository as part of the existing agency workflow,
-so **every secret in it must be rotated during the rebuild series**. The core
-variables:
+so **every secret in it must be rotated before the site goes live**. The app
+reads exactly four variables (company/contact facts live in
+`src/data/siteConfig.js`, not `.env`):
 
 | Variable | Purpose |
 |----------|---------|
-| `REACT_APP_NAME` | App display name |
 | `REACT_APP_ADMIN_USERNAME` | Admin panel username |
 | `REACT_APP_ADMIN_PASSWORD` | Admin panel password (rotate before deploy) |
-| `REACT_APP_SALES_PHONE` | Public contact phone |
-| `REACT_APP_WHATSAPP_NUMBER` | WhatsApp number (digits only, with country code) |
-| `REACT_APP_SALES_EMAIL` | Public contact email |
-| `REACT_APP_HERO_VIDEO_URL` | Optional hero background video URL |
 | `REACT_APP_LEADS_API_URL` | Leads API endpoint (default `/api/leads.php`) |
 | `REACT_APP_LEADS_ADMIN_KEY` | Shared secret for admin lead operations — must match `ADMIN_API_KEY` in `public/api/config.php` |
 
 ## Documentation
 
-- **[prompts/README.md](prompts/README.md)** — The rebuild prompt series and series-wide conventions
+- **[CUSTOMIZATION_GUIDE.md](CUSTOMIZATION_GUIDE.md)** — Maintenance guide: editing content, branding, deploy steps
+- **[SEO_GUIDE.md](SEO_GUIDE.md)** — SEO architecture + post-launch checklist
 - **[CHANGELOG.md](CHANGELOG.md)** — What has changed
 - **[CLAUDE.md](CLAUDE.md)** — Project instructions and non-negotiable contracts
+- **[prompts/README.md](prompts/README.md)** — The rebuild prompt series (historical record)
 
 ## License
 
