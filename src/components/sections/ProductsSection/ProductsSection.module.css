@@ -94,11 +94,13 @@
   margin-top: 3rem;
 }
 
-/* ========== Tile (button reset + card) ========== */
+/* ========== Tile (anchor reset + card) ==========
+   The tile is a link to the North East Buildmart catalogue, so it has to
+   shed the global anchor colour/underline and keep its own text colours. */
 .tile {
-  appearance: none;
-  -webkit-appearance: none;
   font-family: inherit;
+  color: inherit;
+  text-decoration: none;
   cursor: pointer;
   display: flex;
   flex-direction: column;
