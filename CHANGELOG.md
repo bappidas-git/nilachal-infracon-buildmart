@@ -670,3 +670,41 @@ the rebuild record.
   with `target="_blank"` + `rel="noopener noreferrer"` and does not open the
   enquiry drawer; the primary still does. Console clean, production build
   passes.
+
+### 19 — Footer brand line links to the Buildmart catalogue
+
+**Added**
+- The footer's `North East Buildmart — A Brand of Nilachal Infracon Pvt. Ltd.`
+  line is now a route to the flagship catalogue. The brand name itself is a
+  link to `https://www.northeastbuildmart.com/products`, and a small circular
+  arrow chip (`mdi:arrow-top-right`) after `Pvt. Ltd.` points at the same URL.
+  Both open in a new tab with `rel="noopener noreferrer"`; the arrow carries an
+  `aria-label` announcing the destination and the new tab, and its icon is
+  `aria-hidden` so the label is not read twice.
+- The URL comes from the existing `buildmartProductsHref` helper in
+  `siteConfig.js`, so the catalogue address still lives only in the single
+  source of business truth — the same helper the Products tiles and the
+  "View All Our Products" CTA use.
+
+**Changed**
+- `.brandLineLink` lifts the brand name to `rgba(255,255,255,.82)` / 600 with a
+  hairline underline so it reads as a link against the dimmer `.brandLine`
+  text; hover moves it to `#5bc489`, the same AA-safe light green as
+  `.tagline` (7.3:1 on the footer navy). `.brandLineArrow` is a 22px green-tint
+  circle that inverts to solid green with a navy glyph on hover, plus a 1px
+  diagonal nudge. Both classed anchors sit outside the `a:not([class]):hover`
+  global from section 16, so no global rule can repaint them.
+- `Ltd.` and the arrow are wrapped in a `white-space: nowrap` span so the icon
+  can never wrap onto a line by itself.
+- Touch devices (`@media (pointer: coarse)`) grow the arrow to a 28px tap
+  target; print styles and the focus-visible outline group now cover both new
+  anchors.
+
+**Verified**
+- Dev server at 1280 / 768 / 375px: both anchors resolve to
+  `https://www.northeastbuildmart.com/products` with `target="_blank"` +
+  `rel="noopener noreferrer"`, the line still reads
+  `North East Buildmart — A Brand of Nilachal Infracon Pvt. Ltd.`, hit-testing
+  the centre of each lands on its own link, the arrow never wraps alone, and
+  there is no horizontal overflow at any width. No unscoped `a:hover` rule
+  targets them, and the production build passes.
