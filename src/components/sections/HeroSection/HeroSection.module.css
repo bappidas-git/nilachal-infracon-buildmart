@@ -179,35 +179,69 @@
   cursor: pointer;
   border: 1px solid transparent;
   transition: transform 0.25s ease, background 0.25s ease,
-    border-color 0.25s ease, box-shadow 0.25s ease;
+    border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+
+/* Both CTAs pin their label colour in every interactive state. The primary is
+   an <a>, and a bare `a:hover` rule outranks a single class — leaving the
+   colour to the base rule alone let the global link hover repaint the label
+   accent-dark on the accent-dark hover fill, i.e. invisible text. */
+.ctaPrimary,
+.ctaPrimary:link,
+.ctaPrimary:visited,
+.ctaPrimary:hover,
+.ctaPrimary:focus,
+.ctaPrimary:focus-visible,
+.ctaPrimary:active,
+.ctaSecondary,
+.ctaSecondary:hover,
+.ctaSecondary:focus,
+.ctaSecondary:focus-visible,
+.ctaSecondary:active {
+  color: #ffffff;
 }
 
 /* Primary — the one sparing use of green */
 .ctaPrimary {
   background: var(--color-accent, #1e7b45);
-  color: #ffffff;
   box-shadow: 0 8px 24px rgba(30, 123, 69, 0.35);
-}
-
-.ctaPrimary:hover {
-  background: var(--color-accent-dark, #176437);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(30, 123, 69, 0.45);
 }
 
 /* Secondary — ghost / white outline */
 .ctaSecondary {
   background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
   border-color: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
 
-.ctaSecondary:hover {
-  background: rgba(255, 255, 255, 0.14);
+/* Hover treatments only on real pointers — on touch, :hover latches after a
+   tap and leaves the CTA stuck in its hover fill. */
+@media (hover: hover) {
+  .ctaPrimary:hover {
+    background: var(--color-accent-dark, #176437);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(30, 123, 69, 0.45);
+  }
+
+  .ctaSecondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #ffffff;
+    transform: translateY(-2px);
+  }
+}
+
+/* Press feedback — the touch equivalent of the hover state */
+.ctaPrimary:active {
+  background: var(--color-accent-dark, #176437);
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(30, 123, 69, 0.35);
+}
+
+.ctaSecondary:active {
+  background: rgba(255, 255, 255, 0.18);
   border-color: #ffffff;
-  transform: translateY(-2px);
+  transform: translateY(0);
 }
 
 .ctaPrimary:focus-visible,
