@@ -634,3 +634,39 @@ the rebuild record.
   `href` / `target` / `rel`, the grid still lays out 5×2 / 3-col / 2-col with
   no horizontal overflow, tap targets stay ~162×189px on mobile, a tile click
   no longer opens the lead drawer, and the console is clean.
+
+### 18 — "View All Our Products" CTA in the Products section
+
+**Added**
+- A second CTA beside **Request Product Pricing** in `ProductsSection`: an
+  outline **View All Our Products** link to the flagship catalogue —
+  `https://www.northeastbuildmart.com/products` — opened in a new tab with
+  `rel="noopener noreferrer"` and an `aria-label` that announces the new tab.
+  It reuses the existing `buildmartProductsHref` helper from `siteConfig.js`,
+  so the URL still lives only in the single source of business truth.
+- `.ctaBtnSecondary`: an ink-on-white outline pill sharing the primary's
+  geometry (999px radius, 14/28 padding, 1rem/600 label). Its label colour is
+  pinned across `:link / :visited / :hover / :focus / :focus-visible /
+  :active`, matching the fix from section 16, so no global anchor rule can
+  repaint it. Hover (subtle wash, navy-tinted border, 2px lift, arrow nudge)
+  sits inside `@media (hover: hover)` and is paired with an `:active` press
+  state so a tap does not latch the hover look.
+
+**Changed**
+- The `.cta` row is now a wrapping, centered flex row with a 1rem gap. Below
+  620px — where the two pills no longer fit on one line — it switches to a
+  full-width vertical stack rather than a lopsided wrapped row, and under
+  375px both pills drop to 0.9375rem/13–20px padding.
+- The section's primary green CTA is unchanged: it still opens the
+  `product-enquiry` drawer, so the lead path is intact.
+- Reduced-motion now covers the new button (transition and hover transform
+  suppressed alongside the existing tile/primary rules).
+
+**Verified**
+- Dev server at 1280 / 768 / 620 / 375 / 320px: the pair sits on one centered
+  row down to 620px and stacks full-width below it (335×56 at 375px, 280×52 at
+  320px), with no horizontal overflow and no label wrapping at any width.
+- The secondary CTA resolves to `https://www.northeastbuildmart.com/products`
+  with `target="_blank"` + `rel="noopener noreferrer"` and does not open the
+  enquiry drawer; the primary still does. Console clean, production build
+  passes.
