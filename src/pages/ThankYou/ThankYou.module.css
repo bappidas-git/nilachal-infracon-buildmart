@@ -171,15 +171,33 @@
     transform 0.2s ease;
 }
 
+/* Colour pinned across states — the global `a:hover` rule outranks the single
+   class below, and would otherwise paint the label onto the hover fill. */
+.callBtn,
+.callBtn:link,
+.callBtn:visited,
+.callBtn:hover,
+.callBtn:focus,
+.callBtn:focus-visible,
+.callBtn:active {
+  color: #ffffff;
+}
+
 .callBtn {
   background: var(--color-accent);
-  color: #ffffff;
   box-shadow: 0 6px 18px rgba(30, 123, 69, 0.24);
 }
 
-.callBtn:hover {
+@media (hover: hover) {
+  .callBtn:hover {
+    background: var(--color-accent-dark);
+    transform: translateY(-1px);
+  }
+}
+
+.callBtn:active {
   background: var(--color-accent-dark);
-  transform: translateY(-1px);
+  transform: translateY(0);
 }
 
 .callBtn svg {

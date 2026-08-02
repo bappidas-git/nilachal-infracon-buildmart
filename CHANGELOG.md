@@ -582,3 +582,31 @@ the rebuild record.
   with a matching rebuild — with a troubleshooting note pointing at
   `?action=health` — instead of a required setup step whose example invited a
   mismatched key.
+
+### 16 — Fix: CTA labels disappeared on hover (global link-hover override)
+
+**Fixed**
+- Hovering the hero's **Explore Our Products** button turned it into a blank
+  green block. The button is an `<a>`, and `global.css` carried an unscoped
+  `a:hover { color: var(--color-accent-dark) }`. Because `a:hover` (0,1,1)
+  outranks the single class `.ctaPrimary` (0,1,0), and `.ctaPrimary:hover`
+  never re-declared `color`, the white label was repainted `#176437` on the
+  `#176437` hover fill — text and arrow icon the same colour as the
+  background. Scoped the global rule to `a:not([class]):hover` so plain inline
+  links keep it while anchors that own their styling are left alone.
+- Pinned the label colour across `:link / :visited / :hover / :focus /
+  :focus-visible / :active` on every anchor-styled-as-button, so the fix holds
+  regardless of future global rules: hero `.ctaPrimary` / `.ctaSecondary`,
+  Contact `.waChip`, Thank-You `.callBtn`, and the mobile drawer's Call /
+  WhatsApp chips (which were silently being recoloured green on hover).
+- The same override was flattening the admin Dashboard's solid **View All
+  Leads** action to dark-green-on-green; it now stays white.
+
+**Changed**
+- Hero and Thank-You hover treatments (lift, darker fill, deeper shadow) now
+  sit inside `@media (hover: hover)` and are paired with `:active` press
+  states, so a tap on a touch device no longer latches the CTA into its hover
+  appearance. Contact's `.waChip` already gated its hover and gained a
+  matching `:active`.
+- Added `color` to the hero CTA and `.waChip` transitions so the pinned label
+  colour animates with the rest of the state change.

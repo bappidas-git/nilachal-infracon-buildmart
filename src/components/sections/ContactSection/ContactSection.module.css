@@ -146,7 +146,18 @@
   }
 }
 
-/* WhatsApp chip */
+/* WhatsApp chip — colour pinned across states so the global `a:hover` rule
+   can't repaint the label onto the accent-dark hover fill. */
+.waChip,
+.waChip:link,
+.waChip:visited,
+.waChip:hover,
+.waChip:focus,
+.waChip:focus-visible,
+.waChip:active {
+  color: #ffffff;
+}
+
 .waChip {
   display: inline-flex;
   align-items: center;
@@ -156,11 +167,14 @@
   padding: 8px 16px;
   border-radius: 9999px;
   background: var(--color-accent, #1e7b45);
-  color: #ffffff;
   font-size: 0.875rem;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.waChip:active {
+  background: var(--color-accent-dark, #176437);
 }
 
 .waChipIcon {

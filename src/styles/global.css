@@ -99,7 +99,12 @@ a {
   transition: color var(--transition-fast);
 }
 
-a:hover {
+/* Only plain inline links take the global hover colour. Anchors that carry a
+   class of their own (button-style CTAs, nav links, chips) set their colour in
+   their own stylesheet — and `a:hover` (0,1,1) outranks a single class (0,1,0),
+   so an unscoped rule here repainted those labels accent-dark. On a CTA whose
+   hover fill is also accent-dark that made the label vanish. */
+a:not([class]):hover {
   color: var(--color-accent-dark);
 }
 

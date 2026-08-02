@@ -295,9 +295,18 @@
   border: 1px solid transparent;
 }
 
+/* Hover/visited colours pinned so the global `a:hover` rule doesn't recolour
+   these chips green on hover. */
+.unifiedActionCall,
+.unifiedActionCall:link,
+.unifiedActionCall:visited,
+.unifiedActionCall:hover,
+.unifiedActionCall:focus {
+  color: #16324F;
+}
+
 .unifiedActionCall {
   background: rgba(22, 50, 79, 0.1);
-  color: #16324F;
   border-color: rgba(22, 50, 79, 0.25);
 }
 
@@ -307,9 +316,16 @@
   transform: scale(0.98);
 }
 
+.unifiedActionWhatsapp,
+.unifiedActionWhatsapp:link,
+.unifiedActionWhatsapp:visited,
+.unifiedActionWhatsapp:hover,
+.unifiedActionWhatsapp:focus {
+  color: #1da851;
+}
+
 .unifiedActionWhatsapp {
   background: rgba(37, 211, 102, 0.12);
-  color: #1da851;
   border-color: rgba(37, 211, 102, 0.3);
 }
 
