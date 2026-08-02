@@ -54,6 +54,9 @@ export const mailHref = `mailto:${siteConfig.email}`;
 /** North East Buildmart product catalogue — opened from the product tiles. */
 export const buildmartProductsHref = `${siteConfig.flagshipBrandUrl}/products`;
 
+/** North East Buildmart home page — opened from the footer brand line. */
+export const buildmartHomeHref = `${siteConfig.flagshipBrandUrl}/`;
+
 /** Single-line, comma-joined postal address (skips any empty parts). */
 export const fullAddress = [
   siteConfig.address.line1,

@@ -16,7 +16,7 @@ import {
   mailHref,
   waHref,
   fullAddress,
-  buildmartProductsHref,
+  buildmartHomeHref,
 } from "../../../data/siteConfig";
 import styles from "./Footer.module.css";
 
@@ -217,12 +217,12 @@ const Footer = () => {
                   across Northeast India.
                 </p>
                 {/* Both the brand name and the trailing arrow link out to the
-                    North East Buildmart catalogue in a new tab (rel guards the
+                    North East Buildmart home page in a new tab (rel guards the
                     opener). "Ltd." + arrow are kept on one line so the icon
                     never wraps alone on narrow screens. */}
                 <p className={styles.brandLine}>
                   <a
-                    href={buildmartProductsHref}
+                    href={buildmartHomeHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.brandLineLink}
@@ -233,11 +233,11 @@ const Footer = () => {
                   <span className={styles.brandLineEnd}>
                     Ltd.
                     <a
-                      href={buildmartProductsHref}
+                      href={buildmartHomeHref}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={styles.brandLineArrow}
-                      aria-label={`Visit ${siteConfig.flagshipBrand} — view all our products (opens in a new tab)`}
+                      aria-label={`Visit the ${siteConfig.flagshipBrand} website (opens in a new tab)`}
                     >
                       <Icon icon="mdi:arrow-top-right" aria-hidden="true" />
                     </a>
