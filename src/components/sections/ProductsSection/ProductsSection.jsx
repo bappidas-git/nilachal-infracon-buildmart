@@ -3,8 +3,9 @@
    The flagship-brand moment: a centered header, a wide
    feature-image strip of premium materials, and a 10-tile
    category grid (green icon on a tint circle). Every tile is
-   a button that opens the product-enquiry drawer pre-filled
-   with the category, plus a single green pricing CTA.
+   a link out to the North East Buildmart catalogue, opened in
+   a new tab, plus a single green pricing CTA that still opens
+   the product-enquiry drawer.
 
    Apple-minimal — white background, generous whitespace,
    thin hairlines, green used only for icons and the CTA.
@@ -18,6 +19,7 @@
 import { Icon } from "@iconify/react";
 import { useReveal, useStaggerReveal } from "../../../animations";
 import { productsData } from "../../../data/productsData";
+import { buildmartProductsHref } from "../../../data/siteConfig";
 import { useModal } from "../../../context/ModalContext";
 import styles from "./ProductsSection.module.css";
 
@@ -36,14 +38,6 @@ const ProductsSection = () => {
   // hook refreshes ScrollTrigger so this lazy-mounted section measures correctly.
   const headerRef = useReveal();
   const gridRef = useStaggerReveal();
-
-  // Whole tile opens the enquiry drawer pre-filled with the category, so the
-  // form arrives with the right context (prompt 10 wires the prefill in).
-  const handleTileEnquiry = (product) =>
-    openLeadDrawer("product-enquiry", {
-      subtitle: product.name,
-      service_interest: product.name,
-    });
 
   return (
     <section className={styles.productsSection} id="products">
@@ -73,22 +67,24 @@ const ProductsSection = () => {
           />
         </div>
 
-        {/* 10-category tile grid */}
+        {/* 10-category tile grid — each tile opens the North East Buildmart
+            catalogue in a new tab (rel guards the opener on every device). */}
         <div ref={gridRef} className={styles.grid}>
           {productsData.map((product) => (
-            <button
+            <a
               key={product.id}
-              type="button"
+              href={buildmartProductsHref}
+              target="_blank"
+              rel="noopener noreferrer"
               className={styles.tile}
-              onClick={() => handleTileEnquiry(product)}
-              aria-label={`Enquire about ${product.name}`}
+              aria-label={`${product.name} — view on North East Buildmart (opens in a new tab)`}
             >
               <span className={styles.tileIcon}>
                 <Icon icon={product.icon} aria-hidden="true" />
               </span>
               <span className={styles.tileName}>{product.name}</span>
               <span className={styles.tileBlurb}>{product.blurb}</span>
-            </button>
+            </a>
           ))}
         </div>
 

@@ -10,6 +10,7 @@ export const siteConfig = {
   legalName: 'Nilachal Infracon Private Limited',
   brandName: 'Nilachal Infracon',
   flagshipBrand: 'North East Buildmart',
+  flagshipBrandUrl: 'https://www.northeastbuildmart.com',
   tagline: 'Building Tomorrow, Together.',
   cin: 'U46630AS2026PTC030754',
   phone: '+918638543526',
@@ -49,6 +50,9 @@ export const waHref = `https://wa.me/${siteConfig.whatsapp.replace(
 
 /** `mailto:` href for the company email. */
 export const mailHref = `mailto:${siteConfig.email}`;
+
+/** North East Buildmart product catalogue — opened from the product tiles. */
+export const buildmartProductsHref = `${siteConfig.flagshipBrandUrl}/products`;
 
 /** Single-line, comma-joined postal address (skips any empty parts). */
 export const fullAddress = [

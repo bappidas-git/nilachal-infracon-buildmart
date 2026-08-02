@@ -610,3 +610,27 @@ the rebuild record.
   matching `:active`.
 - Added `color` to the hero CTA and `.waChip` transitions so the pinned label
   colour animates with the rest of the state change.
+
+### 17 — Products tiles link to the North East Buildmart catalogue
+
+**Changed**
+- The ten product-category tiles in `ProductsSection` no longer open the
+  enquiry drawer. Each tile is now an `<a href>` to the flagship brand's
+  catalogue — `https://www.northeastbuildmart.com/products` — opened in a new
+  tab with `rel="noopener noreferrer"`, on desktop, tablet and mobile alike.
+  The section's green **Request Product Pricing** CTA still opens the
+  `product-enquiry` drawer, so the lead path is unchanged.
+- Added `flagshipBrandUrl` to `siteConfig.js` and derived a
+  `buildmartProductsHref` helper from it, keeping the URL in the single source
+  of business truth rather than hard-coded in the component.
+- Reworked the `.tile` rule from a button reset to an anchor reset
+  (`color: inherit`, `text-decoration: none`) so the global link colour and
+  underline never reach the tile's name/blurb. Hover lift and focus ring are
+  untouched, and the lift stays inside `@media (hover: hover)` so a tap on a
+  touch device does not latch the hover state.
+
+**Verified**
+- Dev server at 1280/768/375px: all ten tiles render as anchors with the right
+  `href` / `target` / `rel`, the grid still lays out 5×2 / 3-col / 2-col with
+  no horizontal overflow, tap targets stay ~162×189px on mobile, a tile click
+  no longer opens the lead drawer, and the console is clean.
