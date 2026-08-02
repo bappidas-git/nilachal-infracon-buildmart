@@ -55,7 +55,8 @@ _(Paths evolve across the rebuild series; update this list as later prompts move
 - `src/components/common/` — Reusable components (Header, Footer,
   UnifiedLeadForm, LeadFormDrawer, etc.). In the `Footer` brand column, the
   `North East Buildmart` name and the arrow chip after `Pvt. Ltd.` both link to
-  `buildmartProductsHref` in a new tab, like the Products tiles.
+  `buildmartHomeHref` (the Buildmart home page) in a new tab — the Products
+  tiles keep pointing at `buildmartProductsHref`.
 - `src/data/` — Centralized content layer. `siteConfig.js` is the **single
   source of business truth** (company/contact facts + `telHref` / `waHref` /
   `mailHref` / `fullAddress` helpers) — never hardcode contact/company facts in

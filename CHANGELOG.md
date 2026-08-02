@@ -708,3 +708,28 @@ the rebuild record.
   the centre of each lands on its own link, the arrow never wraps alone, and
   there is no horizontal overflow at any width. No unscoped `a:hover` rule
   targets them, and the production build passes.
+
+### 20 — Footer brand line points at the Buildmart home page
+
+**Changed**
+- The two links in the footer brand line — the `North East Buildmart` name and
+  the arrow chip after `Pvt. Ltd.` — now open
+  `https://www.northeastbuildmart.com/` instead of the `/products` catalogue.
+  Same markup, so the change applies at every breakpoint (desktop, tablet, and
+  the stacked mobile footer); target/rel and the nowrap wrapper are unchanged.
+- Added a `buildmartHomeHref` helper to `siteConfig.js`, derived from the same
+  `flagshipBrandUrl`, so the home-page address also lives only in the single
+  source of business truth. `buildmartProductsHref` stays as-is — the Products
+  tiles and the "View All Our Products" CTA still go to `/products`.
+- The arrow's `aria-label` now reads
+  `Visit the North East Buildmart website (opens in a new tab)` rather than
+  naming the product catalogue, matching the new destination; the neighbouring code
+  comments and the two `.brandLine*` CSS comments were updated to match.
+
+**Verified**
+- Dev server at 1280 / 768 / 375px: both anchors resolve to
+  `https://www.northeastbuildmart.com/` with `target="_blank"` +
+  `rel="noopener noreferrer"`, the line still reads
+  `North East Buildmart — A Brand of Nilachal Infracon Pvt. Ltd.`, the arrow
+  never wraps alone, and the Products tiles still point at `/products`.
+  Console clean, production build passes.

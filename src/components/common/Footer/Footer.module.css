@@ -72,7 +72,7 @@
   letter-spacing: 0.01em;
 }
 
-/* "North East Buildmart" → the Buildmart catalogue. Brighter than the rest of
+/* "North East Buildmart" → the Buildmart home page. Brighter than the rest of
    the line so it reads as a link, with a hairline underline instead of the
    default text-decoration. */
 .brandLineLink {
@@ -96,7 +96,7 @@
   white-space: nowrap;
 }
 
-/* Trailing arrow chip → the same Buildmart catalogue */
+/* Trailing arrow chip → the same Buildmart home page */
 .brandLineArrow {
   display: inline-flex;
   align-items: center;
