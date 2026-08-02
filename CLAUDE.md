@@ -42,8 +42,9 @@ _(Paths evolve across the rebuild series; update this list as later prompts move
   `HeroSection` (`#home`), `AboutSection` (`#about` — Welcome +
   Mission/Vision/Values/Commitment), `ProductsSection` (`#products` — North East
   Buildmart product categories; each tile is an external link to
-  `siteConfig.flagshipBrandUrl` + `/products`, opened in a new tab, while the
-  section's pricing CTA still opens the enquiry drawer),
+  `siteConfig.flagshipBrandUrl` + `/products`, opened in a new tab, as is the
+  section's secondary "View All Our Products" CTA, while its primary pricing
+  CTA still opens the enquiry drawer),
   `ServicesSection` (`#services` — construction &
   infrastructure services), `StatsSection` (dark metrics band, no anchor),
   `BrandsSection` (`#brands` — partner-brand strip + mid-page CTA),
@@ -104,9 +105,10 @@ product/service label. Section tiles/rows open the drawer pre-filled: they pass
 `service_interest` through `openLeadDrawer(titleKey, extraData)` →
 `drawerConfig` → `LeadFormDrawer`'s `serviceInterest` prop →
 `UnifiedLeadForm`'s `prefill` prop, which preselects the matching option.
-(Exception: the **Products** category tiles link out to the North East
-Buildmart catalogue instead of opening the drawer — only that section's
-"Request Product Pricing" CTA does.) The
+(Exception: the **Products** category tiles and the section's secondary
+"View All Our Products" CTA link out to the North East Buildmart catalogue
+instead of opening the drawer — only that section's "Request Product Pricing"
+CTA does.) The
 **State** field lists `locationData.servingStates` + "Other". Never rename the
 lead record keys — only labels/options change.
 

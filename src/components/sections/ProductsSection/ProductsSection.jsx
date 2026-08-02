@@ -4,8 +4,9 @@
    feature-image strip of premium materials, and a 10-tile
    category grid (green icon on a tint circle). Every tile is
    a link out to the North East Buildmart catalogue, opened in
-   a new tab, plus a single green pricing CTA that still opens
-   the product-enquiry drawer.
+   a new tab, plus a CTA pair — a green pricing button that
+   still opens the product-enquiry drawer and an outline link
+   to the full catalogue.
 
    Apple-minimal — white background, generous whitespace,
    thin hairlines, green used only for icons and the CTA.
@@ -88,7 +89,8 @@ const ProductsSection = () => {
           ))}
         </div>
 
-        {/* Section CTA */}
+        {/* Section CTAs — green primary opens the enquiry drawer; the outline
+            secondary sends the visitor to the full Buildmart catalogue. */}
         <div className={styles.cta}>
           <button
             type="button"
@@ -98,6 +100,17 @@ const ProductsSection = () => {
             <span>Request Product Pricing</span>
             <Icon icon="mdi:arrow-right" aria-hidden="true" />
           </button>
+
+          <a
+            href={buildmartProductsHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.ctaBtnSecondary}
+            aria-label="View all our products on North East Buildmart (opens in a new tab)"
+          >
+            <span>View All Our Products</span>
+            <Icon icon="mdi:open-in-new" aria-hidden="true" />
+          </a>
         </div>
       </div>
     </section>

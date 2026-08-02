@@ -3,7 +3,8 @@
    Apple-minimal white section: centered eyebrow + big
    headline, a wide feature-image strip, a 10-tile category
    grid (green icon on a tint circle, name, one-line blurb),
-   and a single green pricing CTA. Green used sparingly.
+   and a CTA pair — green pricing pill + outline catalogue link.
+   Green used sparingly.
    ============================================ */
 
 /* ========== Section ========== */
@@ -171,37 +172,71 @@
   transform: scale(1.08);
 }
 
-/* ========== Section CTA ========== */
+/* ========== Section CTAs ==========
+   A pair: the green pricing button and an outline link to the full
+   Buildmart catalogue. They wrap onto two centered rows when the row
+   runs out of width. */
 .cta {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  gap: 1rem;
   margin-top: 3rem;
 }
 
-.ctaBtn {
+.ctaBtn,
+.ctaBtnSecondary {
   appearance: none;
   -webkit-appearance: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   font-family: "Inter", sans-serif;
   font-size: 1rem;
   font-weight: 600;
-  color: #ffffff;
-  background: var(--color-accent, #1e7b45);
-  border: none;
+  text-decoration: none;
   border-radius: 999px;
   padding: 14px 28px;
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: background 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.ctaBtn svg {
+/* Primary — the section's one sparing use of green */
+.ctaBtn {
+  color: #ffffff;
+  background: var(--color-accent, #1e7b45);
+  border: 1px solid transparent;
+}
+
+/* Secondary — ink-on-white outline. It is an <a>, so its label colour is
+   pinned across every interactive state: a bare `a:hover` (0,1,1) outranks
+   a single class, and an unscoped global rule would otherwise repaint it. */
+.ctaBtnSecondary,
+.ctaBtnSecondary:link,
+.ctaBtnSecondary:visited,
+.ctaBtnSecondary:hover,
+.ctaBtnSecondary:focus,
+.ctaBtnSecondary:focus-visible,
+.ctaBtnSecondary:active {
+  color: var(--color-ink, #101c29);
+}
+
+.ctaBtnSecondary {
+  background: var(--color-bg, #ffffff);
+  border: 1px solid var(--color-border, #e5eaf0);
+}
+
+.ctaBtn svg,
+.ctaBtnSecondary svg {
   font-size: 1.15em;
   transition: transform 0.25s ease;
 }
 
+/* Hover treatments only on real pointers — on touch, :hover latches after a
+   tap and leaves the CTA stuck in its hover state. */
 @media (hover: hover) {
   .ctaBtn:hover {
     background: var(--color-accent-dark, #176437);
@@ -212,9 +247,33 @@
   .ctaBtn:hover svg {
     transform: translateX(3px);
   }
+
+  .ctaBtnSecondary:hover {
+    background: var(--color-bg-subtle, #f5f7fa);
+    border-color: rgba(22, 50, 79, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 28, 41, 0.08);
+  }
+
+  .ctaBtnSecondary:hover svg {
+    transform: translate(2px, -2px);
+  }
 }
 
-.ctaBtn:focus-visible {
+/* Press feedback — the touch equivalent of the hover state */
+.ctaBtn:active {
+  background: var(--color-accent-dark, #176437);
+  transform: translateY(0);
+}
+
+.ctaBtnSecondary:active {
+  background: var(--color-bg-subtle, #f5f7fa);
+  border-color: rgba(22, 50, 79, 0.35);
+  transform: translateY(0);
+}
+
+.ctaBtn:focus-visible,
+.ctaBtnSecondary:focus-visible {
   outline: 2px solid var(--color-accent, #1e7b45);
   outline-offset: 3px;
 }
@@ -269,12 +328,33 @@
   }
 }
 
+/* Narrow screens — below ~620px the two pills no longer fit on one line, so
+   stack them full-width instead of leaving a lopsided wrapped row. */
+@media (max-width: 619px) {
+  .cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .ctaBtn,
+  .ctaBtnSecondary {
+    width: 100%;
+  }
+}
+
 /* Small mobile */
 @media (max-width: 374px) {
   .tileIcon {
     width: 48px;
     height: 48px;
     font-size: 24px;
+  }
+
+  .ctaBtn,
+  .ctaBtnSecondary {
+    font-size: 0.9375rem;
+    padding: 13px 20px;
   }
 }
 
@@ -283,11 +363,15 @@
   .tile,
   .tileIcon,
   .ctaBtn,
-  .ctaBtn svg {
+  .ctaBtn svg,
+  .ctaBtnSecondary,
+  .ctaBtnSecondary svg {
     transition: none;
   }
 
-  .tile:hover {
+  .tile:hover,
+  .ctaBtn:hover,
+  .ctaBtnSecondary:hover {
     transform: none;
   }
 }
